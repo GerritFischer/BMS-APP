@@ -3,42 +3,29 @@ package com.example.rubmotorsportgroup2.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rubmotorsportgroup2.R;
+import com.example.rubmotorsportgroup2.RVSegmentAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_segments#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class fragment_segments extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public fragment_segments() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_details.
-     */
-    // TODO: Rename and change types and number of parameters
     public static fragment_segments newInstance(String param1, String param2) {
         fragment_segments fragment = new fragment_segments();
         Bundle args = new Bundle();
@@ -60,7 +47,23 @@ public class fragment_segments extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_segments, container, false);
+        View view = inflater.inflate(R.layout.fragment_segments, container, false);
+
+        //Generating test data in form of Strings, later changed to objects for each segment
+        //TODO: Create class for segment data
+        ArrayList<String> testData = new ArrayList<>();
+        int TEST_DATA_COUNT = 12;
+        for (int i = 0; i < 12; i++){
+            testData.add("TestData " + i);
+
+        }
+        RecyclerView r = (RecyclerView) view.findViewById(R.id.recyclerview_segments);
+        RVSegmentAdapter a = new RVSegmentAdapter(this.getContext(), testData);
+        r.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+        r.setHasFixedSize(true);
+        r.setAdapter(a);
+
+
+        return view;
     }
 }

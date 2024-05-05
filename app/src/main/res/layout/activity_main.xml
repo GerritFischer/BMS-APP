@@ -10,8 +10,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentView"
         android:name="com.example.rubmotorsportgroup2.fragments.fragment_overview"
-        android:layout_width="3dp"
-        android:layout_height="21dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
