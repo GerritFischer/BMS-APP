@@ -26,10 +26,13 @@ import java.util.ArrayList;
 public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.ViewHolder> {
 
     Context context;
-    public ArrayList<String> data;
-    public RVSegmentAdapter(Context context, ArrayList<String> data) {
+    private RecyclerViewEvent listener;
+    private ArrayList<String> data;
+
+    public RVSegmentAdapter(Context context, ArrayList<String> data, RecyclerViewEvent listener) {
         this.context = context;
         this.data = data;
+        this.listener = listener;
     }
 
     @NonNull
@@ -106,11 +109,10 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
     @Override
     public int getItemCount() {
-
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView t;
         CardView c;
@@ -119,8 +121,19 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
             super(itemView);
             t = itemView.findViewById(R.id.tv_segmentID);
             b = itemView.findViewById(R.id.bc_segmentData);
-
-
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            int pos = getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION){
+                listener.onItemClick(pos);
+            }
+        }
+    }
+
+    public interface RecyclerViewEvent{
+        void onItemClick(int pos);
     }
 }
