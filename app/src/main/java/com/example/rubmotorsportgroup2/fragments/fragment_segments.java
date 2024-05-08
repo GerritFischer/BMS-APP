@@ -1,24 +1,16 @@
 package com.example.rubmotorsportgroup2.fragments;
 
-import static android.widget.Toast.makeText;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.RVSegmentAdapter;
 import com.example.rubmotorsportgroup2.SegmentActivity;
-
 import java.util.ArrayList;
 
 public class fragment_segments extends Fragment implements RVSegmentAdapter.RecyclerViewEvent {
@@ -64,6 +56,7 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
 
         }
 
+        //setting up adapter and assigning it to the RecyclerView
         RecyclerView r = (RecyclerView) view.findViewById(R.id.recyclerview_segments);
         RVSegmentAdapter a = new RVSegmentAdapter(this.getContext(), testData, this);
         r.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
@@ -76,7 +69,7 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
 
     @Override
     public void onItemClick(int pos) {
-        Toast.makeText(this.getContext(), (CharSequence) testData.get(pos) , Toast.LENGTH_SHORT).show();
+        //starting new mock activity when clicking on an item
         Intent segmentActivity = new Intent(getActivity(), SegmentActivity.class);
         startActivity(segmentActivity);
 

@@ -5,19 +5,11 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
-import com.example.rubmotorsportgroup2.fragments.fragment_overview;
-import com.example.rubmotorsportgroup2.fragments.fragment_segments;
-import com.example.rubmotorsportgroup2.fragments.fragment_settings;
-
 public class SegmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.segment_activity);
-
-
-
+        setContentView(R.layout.segment_activity); //loading detail layout
     }
 
     public void onClick(View view){
