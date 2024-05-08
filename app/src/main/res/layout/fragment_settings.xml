@@ -4,11 +4,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.fragment_settings">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/menu_settings" />
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/usertitle"
+                android:textColor="@color/black"
+                android:id="@+id/userTitle"
+                android:textStyle="bold|italic"
+                android:textSize="25sp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/userlayout"
+                android:background="@color/lightgray"
+                android:layout_below="@id/userTitle">
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/emailView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/username"
+                    android:layout_marginTop="2dp"
+                    android:text="Tommy.Tran75@gmail.com"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/emailView"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/password"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/passwordView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/password"
+                    android:layout_marginTop="2dp"
+                    android:text="****"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:id="@+id/editButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/password"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/editButton" />
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lightMode"
+                android:textColor="@color/black"
+                android:id="@+id/lightModeTitle"
+                android:textStyle="bold|italic"
+                android:textSize="25sp"
+                android:layout_below="@+id/userlayout"/>
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/lightgray"
+                android:layout_below="@id/lightModeTitle"
+                android:id="@+id/lightModeLayout">
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lightModeSwitch"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sentryMode"
+                android:textColor="@color/black"
+                android:id="@+id/sentryModeTitle"
+                android:textStyle="bold|italic"
+                android:textSize="25sp"
+                android:layout_below="@+id/lightModeLayout"/>
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/lightgray"
+                android:layout_below="@id/sentryModeTitle"
+                android:id="@+id/sentryModeLayout">
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sentryModeSwitch"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </FrameLayout>
