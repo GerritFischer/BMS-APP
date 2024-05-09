@@ -33,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         displayFragment(new fragment_overview());
 
+        Bundle bundle= getIntent().getExtras();
+        if (bundle!= null){ //Check if it was in editUser
+            Bundle newBundle= new Bundle();
+            Fragment frag= new fragment_settings();
+            frag.setArguments(bundle);
+            binding.bottomNavBar.setSelectedItemId(R.id.menu_settings);
+            displayFragment(frag);
+        }
+
         binding.bottomNavBar.setOnItemSelectedListener(item -> {
             int itemID = item.getItemId();
 

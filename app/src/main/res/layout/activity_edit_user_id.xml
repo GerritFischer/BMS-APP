@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditUserID">
-    <RelativeLayout
+
+    <TextView
+        android:id="@+id/login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="50sp"
+        android:text="@string/login"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
-    </RelativeLayout>
+    <EditText
+        android:id="@+id/enterEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_EMail"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:padding="15sp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/telefon"
+        android:id="@+id/telefonnumber"
+        android:layout_below="@+id/enterEmail"
+        android:inputType="numberDecimal"
+        android:layout_centerHorizontal="true"
+        android:padding="15sp"/>
+
+    <EditText
+        android:id="@+id/enterPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/enterpassword"
+        android:layout_below="@id/telefonnumber"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword"
+        android:padding="15sp"/>
+    <EditText
+        android:id="@+id/enterPassAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/enterpassagain"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/enterPassword"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:padding="15sp"/>
+
+    <Button
+        android:id="@+id/btnsubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/enterPassAgain"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30sp"
+        android:onClick="submitbtn"
+        android:text="@string/submit" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

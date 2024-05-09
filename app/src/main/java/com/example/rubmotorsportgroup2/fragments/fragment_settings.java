@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.rubmotorsportgroup2.EditUserID;
 import com.example.rubmotorsportgroup2.R;
@@ -55,7 +56,7 @@ public class fragment_settings extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View inflate=inflater.inflate(R.layout.fragment_settings, container, false);
-        Button btn= inflate.findViewById(R.id.editButton);
+        Button btn= inflate.findViewById(R.id.editBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +64,24 @@ public class fragment_settings extends Fragment{
                 startActivity(intent);
             }
         });
+        Bundle bundle=getArguments();
+        if(bundle!=null) {
+            String getemail = bundle.getString("Email");
+            String getpassword = bundle.getString("Password");
+
+            TextView username =inflate.findViewById(R.id.emailView);
+            TextView password= inflate.findViewById(R.id.passwordView);
+
+            username.setText("");
+            username.setText(getemail);
+            StringBuilder hiddenpass= new StringBuilder();
+            for(int i=0;i<getpassword.length();i++)
+            {
+                hiddenpass.append("*");
+            }
+            password.setText(hiddenpass);
+        }
+
         // Inflate the layout for this fragment
         return inflate;
     }

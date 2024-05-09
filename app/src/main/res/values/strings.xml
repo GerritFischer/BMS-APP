@@ -9,4 +9,11 @@
     <string name="usertitle">Benutzer</string>
     <string name="lightMode">LightMode</string>
     <string name="sentryMode">SentryMode</string>
+    <string name="enter_EMail">Enter your E-Mail</string>
+    <string name="tablettitle">TabletMode</string>
+    <string name="telefon">Enter your Handynumber</string>
+    <string name="login">Login</string>
+    <string name="enterpassword">Enter your Password</string>
+    <string name="enterpassagain">Reenter your Password</string>
+    <string name="submit">Submit</string>
 </resources>
