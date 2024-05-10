@@ -56,7 +56,8 @@ public class fragment_settings extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View inflate=inflater.inflate(R.layout.fragment_settings, container, false);
-        Button btn= inflate.findViewById(R.id.editBtn);
+        // reacts when Button is clicked
+        Button btn= inflate.findViewById(R.id.settings_editBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,14 +65,19 @@ public class fragment_settings extends Fragment{
                 startActivity(intent);
             }
         });
+
         Bundle bundle=getArguments();
+        //check if there is a bundle
         if(bundle!=null) {
+            //get Input from EditUserID
             String getemail = bundle.getString("Email");
             String getpassword = bundle.getString("Password");
+            // store the View
 
-            TextView username =inflate.findViewById(R.id.emailView);
-            TextView password= inflate.findViewById(R.id.passwordView);
+            TextView username =inflate.findViewById(R.id.settings_emailInput);
+            TextView password= inflate.findViewById(R.id.settings_passwordInput);
 
+            //replace setTExt with new Email and number of chars in password
             username.setText("");
             username.setText(getemail);
             StringBuilder hiddenpass= new StringBuilder();

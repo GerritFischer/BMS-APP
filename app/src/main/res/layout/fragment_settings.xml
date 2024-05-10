@@ -13,129 +13,129 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usertitle"
+                android:text="@string/settings_usertitle"
                 android:textColor="@color/black"
-                android:id="@+id/userTitle"
+                android:id="@+id/settings_userTitle"
                 android:textStyle="bold|italic"
                 android:textSize="25sp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/userlayout"
+                android:id="@+id/settings_userlayout"
                 android:background="@color/lightgray"
-                android:layout_below="@id/userTitle">
+                android:layout_below="@id/settings_userTitle">
 
                 <TextView
-                    android:id="@+id/username"
+                    android:id="@+id/settings_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/username"
+                    android:text="@string/settings_usernamesubtitle"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/emailView"
+                    android:id="@+id/settings_emailInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/username"
+                    android:layout_below="@+id/settings_username"
                     android:layout_marginTop="2dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
                 <TextView
-                    android:id="@+id/password"
+                    android:id="@+id/settings_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/emailView"
+                    android:layout_below="@+id/settings_emailInput"
                     android:layout_marginTop="2dp"
-                    android:text="@string/password"
+                    android:text="@string/settings_passwordsubtitle"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <TextView
-                    android:id="@+id/passwordView"
+                    android:id="@+id/settings_passwordInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/password"
+                    android:layout_below="@+id/settings_password"
                     android:layout_marginTop="2dp"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:layout_alignParentStart="true" />
 
                 <Button
-                    android:id="@+id/editBtn"
+                    android:id="@+id/settings_editBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/password"
+                    android:layout_below="@+id/settings_password"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/editButton" />
+                    android:text="@string/settings_editButton" />
             </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lightMode"
+                android:text="@string/settings_lightMode"
                 android:textColor="@color/black"
-                android:id="@+id/lightModeTitle"
+                android:id="@+id/settings_lightModeTitle"
                 android:textStyle="bold|italic"
                 android:textSize="25sp"
-                android:layout_below="@+id/userlayout"/>
+                android:layout_below="@+id/settings_userlayout"/>
             <RelativeLayout
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/lightgray"
-                android:layout_below="@id/lightModeTitle"
-                android:id="@+id/lightModeLayout">
+                android:layout_below="@id/settings_lightModeTitle"
+                android:id="@+id/settings_lightModeLayout">
                 <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/lightModeSwitch"
+                    android:id="@+id/settings_lightModeSwitch"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sentryMode"
+                android:text="@string/settings_sentryMode"
                 android:textColor="@color/black"
-                android:id="@+id/sentryModeTitle"
+                android:id="@+id/settings_sentryModeTitle"
                 android:textStyle="bold|italic"
                 android:textSize="25sp"
-                android:layout_below="@+id/lightModeLayout"/>
+                android:layout_below="@+id/settings_lightModeLayout"/>
             <RelativeLayout
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/lightgray"
-                android:layout_below="@id/sentryModeTitle"
-                android:id="@+id/sentryModeLayout">
+                android:layout_below="@id/settings_sentryModeTitle"
+                android:id="@+id/settings_sentryModeLayout">
                 <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/sentryModeSwitch"
+                    android:id="@+id/settings_sentryModeSwitch"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tablettitle"
+                android:text="@string/settings_tablettitle"
                 android:textColor="@color/black"
-                android:id="@+id/tabletModeTitle"
+                android:id="@+id/settings_tabletModeTitle"
                 android:textStyle="bold|italic"
                 android:textSize="25sp"
-                android:layout_below="@+id/sentryModeLayout"/>
+                android:layout_below="@+id/settings_sentryModeLayout"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/lightgray"
-                android:layout_below="@id/tabletModeTitle"
-                android:id="@+id/tabletModeLayout">
+                android:layout_below="@id/settings_tabletModeTitle"
+                android:id="@+id/settings_tabletModeLayout">
                 <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tabletModeSwitch"
+                    android:id="@+id/settings_tabletModeSwitch"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>

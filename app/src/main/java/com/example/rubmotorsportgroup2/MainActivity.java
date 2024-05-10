@@ -32,14 +32,17 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         displayFragment(new fragment_overview());
-
+        //check if Bundle is there and if it comes from EditUserID
         Bundle bundle= getIntent().getExtras();
-        if (bundle!= null){ //Check if it was in editUser
-            Bundle newBundle= new Bundle();
-            Fragment frag= new fragment_settings();
-            frag.setArguments(bundle);
-            binding.bottomNavBar.setSelectedItemId(R.id.menu_settings);
-            displayFragment(frag);
+        if (bundle!= null){ //Check if it there is a bundle
+            if (bundle.getBoolean("settings")==true){ //Check if it was in EditUserID
+                //will condition is fullfilled go to fragment_settings
+                Bundle newBundle= new Bundle();
+                Fragment frag= new fragment_settings();
+                frag.setArguments(bundle);
+                binding.bottomNavBar.setSelectedItemId(R.id.menu_settings);
+                displayFragment(frag);
+            }
         }
 
         binding.bottomNavBar.setOnItemSelectedListener(item -> {

@@ -6,25 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditUserID">
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editUser_finBtn"
+        android:layout_margin="30sp"
+        android:onClick="finishBtn"/>
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/editUser_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="50sp"
-        android:text="@string/login"
+        android:layout_below="@+id/editUser_finBtn"
+        android:text="@string/editUser_login"
         android:textColor="@color/black"
         android:textSize="35sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/enterEmail"
+        android:id="@+id/editUser_enterEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_EMail"
+        android:hint="@string/editUser_enter_EMail"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:layout_below="@+id/login"
+        android:layout_below="@+id/editUser_login"
         android:layout_centerHorizontal="true"
         android:padding="15sp"/>
 
@@ -32,43 +38,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/telefon"
-        android:id="@+id/telefonnumber"
-        android:layout_below="@+id/enterEmail"
+        android:hint="@string/editUser_telefon"
+        android:id="@+id/editUser_telefonnumber"
+        android:layout_below="@+id/editUser_enterEmail"
         android:inputType="numberDecimal"
         android:layout_centerHorizontal="true"
         android:padding="15sp"/>
 
     <EditText
-        android:id="@+id/enterPassword"
+        android:id="@+id/editUser_enterPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/enterpassword"
-        android:layout_below="@id/telefonnumber"
+        android:hint="@string/editUser_enterpassword"
+        android:layout_below="@id/editUser_telefonnumber"
         android:layout_centerHorizontal="true"
         android:inputType="textPassword"
         android:padding="15sp"/>
     <EditText
-        android:id="@+id/enterPassAgain"
+        android:id="@+id/editUser_enterPassAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/enterpassagain"
+        android:hint="@string/editUser_enterpassagain"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/enterPassword"
+        android:layout_below="@id/editUser_enterPassword"
         android:ems="10"
         android:inputType="textPassword"
         android:padding="15sp"/>
 
     <Button
-        android:id="@+id/btnsubmit"
+        android:id="@+id/editUser_btnsubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/enterPassAgain"
+        android:layout_below="@id/editUser_enterPassAgain"
         android:layout_centerHorizontal="true"
         android:layout_margin="30sp"
         android:onClick="submitbtn"
-        android:text="@string/submit" />
+        android:text="@string/editUser_submit" />
 
 
 </RelativeLayout>
