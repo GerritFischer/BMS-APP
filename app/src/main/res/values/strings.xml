@@ -3,6 +3,7 @@
     <string name="menu_overview">Overview</string>
     <string name="menu_segments">Segments</string>
     <string name="menu_settings">Settings</string>
+    <string name="FailPassViewText">Status: \nCell balancing:\nAverage Voltage:\nAverage Temperature\n</string>
     <string name="status_ok">OK</string>
     <string name="status_tmp">TMP</string>
     <string name="status_vlt">VLT</string>
