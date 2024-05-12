@@ -16,4 +16,8 @@
     <string name="editUser_enterpassword">Enter your Password</string>
     <string name="editUser_enterpassagain">Reenter your Password</string>
     <string name="editUser_submit">Submit</string>
+    <string name="FailPassViewText">Status: \nCell balancing:\nAverage Voltage:\nAverage Temperature\n</string>
+    <string name="status_ok">OK</string>
+    <string name="status_tmp">TMP</string>
+    <string name="status_vlt">VLT</string>
 </resources>

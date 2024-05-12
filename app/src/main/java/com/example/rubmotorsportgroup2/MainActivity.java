@@ -2,32 +2,24 @@ package com.example.rubmotorsportgroup2;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
 import com.example.rubmotorsportgroup2.fragments.fragment_overview;
 import com.example.rubmotorsportgroup2.fragments.fragment_segments;
 import com.example.rubmotorsportgroup2.fragments.fragment_settings;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
-
-
 
 public class MainActivity extends AppCompatActivity {
 
-
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityMainBinding binding;
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
