@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.androidApplication)
 }
@@ -5,6 +7,7 @@ plugins {
 android {
     namespace = "com.example.rubmotorsportgroup2"
     compileSdk = 34
+
 
     defaultConfig {
         applicationId = "com.example.rubmotorsportgroup2"
@@ -14,6 +17,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+        val prop = gradleLocalProperties(rootDir, providers)
+        buildConfigField("String", "USERNAME", "\"${prop.getProperty("USERNAME")}\"")
+        buildConfigField("String", "PASSWORD", "\"${prop.getProperty("PASSWORD")}\"")
     }
 
     buildTypes {
@@ -31,6 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true //needed for readout of username and pw for websocket
     }
 }
 
