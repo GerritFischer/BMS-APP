@@ -7,6 +7,4 @@ public class SegmentData {
     ArrayList<Float> temperature;
 
     //TODO: add faults
-
-
 }
