@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 public class DataManager {
     private DataSet dataSet;
+    private DataRetriever dataRetriever;
 
     public DataManager() {
         dataSet = new DataSet();
-        DataRetriever dataRetriever = new DataRetriever(this);
+        dataRetriever = new DataRetriever(this);
         dataRetriever.start();
     }
     public void updateDataSet(String dataString){
@@ -41,8 +42,4 @@ public class DataManager {
         //TODO: return if there is an error in the segment
         return false;
     }
-
-
-
-
 }

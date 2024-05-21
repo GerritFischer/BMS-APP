@@ -15,7 +15,7 @@ import com.example.rubmotorsportgroup2.fragments.fragment_settings;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    DataManager dm = new DataManager();
+    DataManager dm;
 
 
     @Override
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-
+        dm = new DataManager();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
