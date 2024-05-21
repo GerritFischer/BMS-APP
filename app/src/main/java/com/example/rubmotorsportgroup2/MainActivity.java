@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
+import com.example.rubmotorsportgroup2.datamanager.DataManager;
 import com.example.rubmotorsportgroup2.fragments.fragment_overview;
 import com.example.rubmotorsportgroup2.fragments.fragment_segments;
 import com.example.rubmotorsportgroup2.fragments.fragment_settings;
@@ -14,12 +15,15 @@ import com.example.rubmotorsportgroup2.fragments.fragment_settings;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    DataManager dm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
+        dm = new DataManager();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
