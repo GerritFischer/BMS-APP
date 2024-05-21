@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.util.Patterns;
 import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,6 +69,28 @@ public class EditUserID extends AppCompatActivity {
         TextView passwordAgain= (TextView) findViewById(R.id.editUser_enterPassAgain);
         if(password.getText().toString().trim().isEmpty() ||passwordAgain.getText().toString().trim().isEmpty())
         {
+            return false;
+        }
+        int minLength = 8;
+        Pattern upperCasePattern = Pattern.compile("[A-Z]");
+        Pattern lowerCasePattern = Pattern.compile("[a-z]");
+        Pattern digitPattern = Pattern.compile("[0-9]");
+        Pattern specialCharPattern = Pattern.compile("[!@#$%^&*(),.?\":{}|<>]");
+
+        // Check Password Criteria
+        if (password.length() < minLength) {
+            return false;
+        }
+        if (!upperCasePattern.matcher(password.getText().toString().trim()).find()) {
+            return false;
+        }
+        if (!lowerCasePattern.matcher(password.getText().toString().trim()).find()) {
+            return false;
+        }
+        if (!digitPattern.matcher(password.getText().toString().trim()).find()) {
+            return false;
+        }
+        if (!specialCharPattern.matcher(password.getText().toString().trim()).find()) {
             return false;
         }
         if (password.getText().toString().trim().equals(passwordAgain.getText().toString().trim())){
