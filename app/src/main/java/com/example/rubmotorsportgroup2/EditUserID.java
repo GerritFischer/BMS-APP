@@ -79,7 +79,6 @@ public class EditUserID extends AppCompatActivity {
 
         // Check Password Criteria
         if (password.length() < minLength) {
-
             return false;
         }
         if (!upperCasePattern.matcher(password.getText().toString().trim()).find()) {
