@@ -15,7 +15,7 @@ import com.example.rubmotorsportgroup2.fragments.fragment_settings;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    DataManager dm;
+    public DataManager dm;
 
 
     @Override

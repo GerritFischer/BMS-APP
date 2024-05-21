@@ -52,6 +52,8 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
         holder.t.setText(data.get(position));
 
+
+
         //creating mock data
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0f, (float) Math.random() * 3));
