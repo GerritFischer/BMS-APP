@@ -57,9 +57,9 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
         //creating mock data
         ArrayList<BarEntry> entries = new ArrayList<>();
-        for(int i = 0; i < 22; i++){
+        for(int i = 0; i < 14; i++){
             System.out.println(position + " " + i);
-            entries.add(new BarEntry((float)i, data.get(position).voltage.get(i)));
+            entries.add(new BarEntry((float)i, data.get(position).temperature.get(i)));
         }
 
 
@@ -84,8 +84,8 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         holder.b.getDescription().setEnabled(false);
         holder.b.setBackgroundColor(Color.GRAY);
         holder.b.setFocusableInTouchMode(false);
-        holder.b.getAxisLeft().setAxisMaximum(3.8f);
-        holder.b.getAxisLeft().setAxisMinimum(3.6f);
+        holder.b.getAxisLeft().setAxisMaximum(30f);
+        holder.b.getAxisLeft().setAxisMinimum(0f);
 
         holder.b.setData(data);
 

@@ -3,6 +3,7 @@ package com.example.rubmotorsportgroup2.datamanager;
 import android.util.Base64;
 
 import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,8 +21,10 @@ public class DataManager {
 
     }
     public void updateDataSet(String dataString){
+
         int[] decodedData= decodeDataString(dataString); //decode incoming data string
         dataSet = generateDataSet(decodedData); //generate new dataset
+
 
         ArrayList<Float> testing = getSegmentVoltage(0);
         for(int j = 0; j < 22; j++){
@@ -42,11 +45,16 @@ public class DataManager {
 
         int[] intArray = new int[length];
         intArray[0] = length;
+
         for(int i = 1; i < length; i++){
-            for(int j = 0; j < 4; j++){
-                intArray[i] = (intArray[i] << 8) + byteData[i*4+(3-j)] ;
-            }
+                 //System.out.format("0x%x ", byteData[i*4+3]);
+            intArray[i] = (byteData[i*4+3]);
+            intArray[i] = (intArray[i]  << 8)+  ((int) byteData[i*4+2] & 0xFF) ;
+            intArray[i] = (intArray[i]  << 8)+  ((int) byteData[i*4+1] & 0xFF) ;
+            intArray[i] = (intArray[i] << 8) +  ((int) byteData[i*4] & 0xFF) ;
         }
+
+
         return intArray;
     }
     public DataSet generateDataSet(int[] data){
@@ -54,15 +62,12 @@ public class DataManager {
         int segmentCount = (data[0] - 1) / 50; //50 fields per segment, 4 bytes per field, -4 because length is included
         ArrayList<SegmentData> segments = new ArrayList<SegmentData>();
 
-        System.out.println("SEGMENT COUNT: " + segmentCount);
-        /*
-        System.out.println("DATA SET 50: ");
-        for(int i = 1; i < 51; i++){
-            System.out.print(Float.intBitsToFloat(data[i]) + " ");
-        }
 
 
-         */
+
+
+
+
 
         for(int i = 0; i < segmentCount; i++){
 
@@ -83,6 +88,7 @@ public class DataManager {
                     segment.addTemperature(intToFloatByte(d));
                 }
             }
+
             offset += 14;
             for(int j = 0; j < 11; j++){
                 int d  = data[1+50*i+j+offset];
@@ -100,8 +106,19 @@ public class DataManager {
             segments.add(segment);
         }
 
-        System.out.println("added segments: " + segments.size());
-        return new DataSet(segments);
+
+
+
+        DataSet testSet = new DataSet(segments);
+        System.out.println("DATA SET 1: ");
+        for(int i = 0; i < 14; i++){
+            System.out.print(testSet.segmentDataArrayList.get(0).temperature.get(i));
+        }
+        System.out.println("DATA SET 2: ");
+        for(int i = 0; i < 14; i++){
+            System.out.print(testSet.segmentDataArrayList.get(1).temperature.get(i));
+        }
+        return testSet;
     }
 
     public float intToFloatByte(int d){
@@ -111,7 +128,7 @@ public class DataManager {
         return null;
     }
     public SegmentData getSegmentData(int segID) {
-        return dataSet.segmentDataArrayList.get(0);
+        return dataSet.segmentDataArrayList.get(segID);
         //TODO: check if id is valid, get corresponding segment from dataset and return
     }
 

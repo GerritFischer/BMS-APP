@@ -60,7 +60,6 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
 
         for (int i = 0; i < 12; i++){
             testData.add(dm.getSegmentData(i));
-
         }
 
         //setting up adapter and assigning it to the RecyclerView
