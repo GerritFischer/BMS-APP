@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 displayFragment(new fragment_overview());
             }
             else if (itemID == R.id.menu_segments){
-                displayFragment(new fragment_segments());
+                displayFragment(new fragment_segments(dm));
             }
             else if (itemID == R.id.menu_settings){
                 displayFragment(new fragment_settings());

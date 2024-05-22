@@ -36,7 +36,6 @@ public class DataRetriever {
 
         public void onMessage(@NonNull WebSocket webSocket, String string){
             if(!string.equals("pong") && !string.equals("ok Group2") && !string.equals("ok") ){
-                System.out.println("RECEIVED FRAME");
                 dm.updateDataSet(string); //check if message is real data, call update with new data
             }
         }

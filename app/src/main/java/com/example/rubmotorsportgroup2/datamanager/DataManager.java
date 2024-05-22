@@ -4,6 +4,7 @@ import android.util.Base64;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DataManager {
 
@@ -23,7 +24,6 @@ public class DataManager {
         dataSet = generateDataSet(decodedData); //generate new dataset
 
         ArrayList<Float> testing = getSegmentVoltage(0);
-        System.out.println("Still alive");
         for(int j = 0; j < 22; j++){
             System.out.print(testing.get(j) + " ");
         }
@@ -36,23 +36,33 @@ public class DataManager {
 
         int length = 0;
         for(int i = 0; i < 4; i++){
-            length = (length + byteData[3-i]) << 8*(3-i);
+            length = (length << 8 ) + byteData[3-i];
         }
+
 
         int[] intArray = new int[length];
         intArray[0] = length;
-        for(int i = 4; i < length * 4; i+=4){
+        for(int i = 1; i < length; i++){
             for(int j = 0; j < 4; j++){
-                intArray[i/4] = (intArray[i/4] + byteData[i+(3-j)]) << 8*(3-j);
+                intArray[i] = (intArray[i] << 8) + byteData[i*4+(3-j)] ;
             }
         }
-
         return intArray;
     }
     public DataSet generateDataSet(int[] data){
+        System.out.println(data[0] - 1);
         int segmentCount = (data[0] - 1) / 50; //50 fields per segment, 4 bytes per field, -4 because length is included
         ArrayList<SegmentData> segments = new ArrayList<SegmentData>();
 
+        System.out.println("SEGMENT COUNT: " + segmentCount);
+        /*
+        System.out.println("DATA SET 50: ");
+        for(int i = 1; i < 51; i++){
+            System.out.print(Float.intBitsToFloat(data[i]) + " ");
+        }
+
+
+         */
 
         for(int i = 0; i < segmentCount; i++){
 
@@ -60,50 +70,49 @@ public class DataManager {
             int offset = 0;
 
             for(int j = 0; j < 11; j++){
+                int d  = data[1+50*i+j+offset];
+                if (d != 0){
+                    segment.addVoltage(intToFloatByte(d));
+                }
 
-                segment.addVoltage(intToFloatByte(data[1+50*i+j+offset]));
             }
-
-
             offset += 11;
             for(int j = 0; j < 7; j++){
-                segment.addTemperature(intToFloatByte(data[1+50*i+j+offset]));
+                int d  = data[1+50*i+j+offset];
+                if (d != 0){
+                    segment.addTemperature(intToFloatByte(d));
+                }
             }
-            offset += 7+6;
+            offset += 14;
             for(int j = 0; j < 11; j++){
-                segment.addVoltage(intToFloatByte(data[1+50*i+j+offset]));
+                int d  = data[1+50*i+j+offset];
+                if (d != 0){
+                    segment.addVoltage(intToFloatByte(d));
+                }
             }
             offset += 11;
             for(int j = 0; j < 7; j++){
-                segment.addTemperature(intToFloatByte(data[1+50*i+j+offset]));
+                int d  = data[1+50*i+j+offset];
+                if (d != 0){
+                    segment.addTemperature(intToFloatByte(d));
+                }
             }
             segments.add(segment);
-            //System.out.println(1+50*i+j+offset);
-
-            System.out.println(i);
         }
 
+        System.out.println("added segments: " + segments.size());
         return new DataSet(segments);
     }
 
     public float intToFloatByte(int d){
-        byte[] byteArray = new byte[]{
-                (byte)(d >> 24),
-                (byte)(d >> 16),
-                (byte)(d >> 8),
-                (byte)d
-        };
-        int n = 0;
-        float foo = Float.intBitsToFloat( byteArray[n] ^ byteArray[n+1]<<8 ^ byteArray[n+2]<<16 ^ byteArray[n+3]<<24 );
-        return foo;
-
+        return Float.intBitsToFloat(d);
     }
     public int[] intToDoubleInt16(){
         return null;
     }
-    private SegmentData getSegmentData(int segID) {
+    public SegmentData getSegmentData(int segID) {
+        return dataSet.segmentDataArrayList.get(0);
         //TODO: check if id is valid, get corresponding segment from dataset and return
-        return new SegmentData();
     }
 
     public ArrayList<Float> getSegmentVoltage(int segID){
