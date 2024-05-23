@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-
-
     }
 
     private void displayFragment(Fragment fragment){

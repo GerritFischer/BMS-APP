@@ -59,7 +59,7 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i = 0; i < 14; i++){
             System.out.println(position + " " + i);
-            entries.add(new BarEntry((float)i, data.get(position).temperature.get(i)));
+            entries.add(new BarEntry((float)i, data.get(position).temperature_combined.get(i)));
         }
 
 
