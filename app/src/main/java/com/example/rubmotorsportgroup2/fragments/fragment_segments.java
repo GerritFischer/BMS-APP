@@ -59,7 +59,6 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
         int TEST_DATA_COUNT = 12;
 
         for (int i = 0; i < 12; i++){
-            System.out.println(i);
             testData.add(dm.getSegmentData(i));
         }
 

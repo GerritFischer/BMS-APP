@@ -4,23 +4,19 @@ import java.util.ArrayList;
 
 public class CIDData {
 
-    public ArrayList<Float> voltage = new ArrayList<Float>(); //11
-    public ArrayList<Float> temperature = new ArrayList<Float>(); //7
-    public float stack_voltage;
-    public float IC_temp;
-
-    public ArrayList<Boolean> eot_cb = new ArrayList<Boolean>();
-    public ArrayList<Boolean> an_ot = new ArrayList<Boolean>();
-    public ArrayList<Boolean> an_ut = new ArrayList<Boolean>();
-
-    public ArrayList<Boolean> ct_ov = new ArrayList<Boolean>();
-
-    public ArrayList<Boolean> ct_uv = new ArrayList<Boolean>();
-
-
-    public ArrayList<Boolean> ct_open = new ArrayList<Boolean>();
-
-    public ArrayList<Boolean> ct_short = new ArrayList<Boolean>();
+    private ArrayList<Float> voltage = new ArrayList<Float>(); //11
+    private ArrayList<Float> temperature = new ArrayList<Float>(); //7
+    private float stack_voltage;
+    private float IC_temp;
+    private ArrayList<Boolean> eot_cb = new ArrayList<Boolean>();
+    private ArrayList<Boolean> an_ot = new ArrayList<Boolean>();
+    private ArrayList<Boolean> an_ut = new ArrayList<Boolean>();
+    private ArrayList<Boolean> ct_ov = new ArrayList<Boolean>();
+    private ArrayList<Boolean> ct_uv = new ArrayList<Boolean>();
+    private ArrayList<Boolean> ct_open = new ArrayList<Boolean>();
+    private ArrayList<Boolean> ct_short = new ArrayList<Boolean>();
+    private ArrayList<String> faults = new ArrayList<String>();
+    short COM_ERR_COUNT;
 
 
     public void addVoltage(float f){
@@ -28,14 +24,14 @@ public class CIDData {
 
     }
     public void addTemperature(float f){
-        this.temperature.add(f);
+        temperature.add(f);
     }
 
     public void setIC_temp(float temp){
-        this.IC_temp = temp;
+        IC_temp = temp;
     }
     public void setStack_voltage(float voltage){
-        this.stack_voltage = voltage;
+        stack_voltage = voltage;
     }
 
     public void addEot_cb(boolean state){
@@ -55,10 +51,7 @@ public class CIDData {
 
     public void addCT_short(boolean state){ct_short.add(state);}
 
-    //faults:
-    ArrayList<String> faults = new ArrayList<String>();
-    short COM_ERR_COUNT;
-
+    //faults
     public void setCOM_ERR_COUNT(short error_count){
         COM_ERR_COUNT = error_count;
     }
