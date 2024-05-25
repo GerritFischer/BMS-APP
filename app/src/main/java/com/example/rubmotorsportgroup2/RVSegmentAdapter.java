@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 
 
@@ -14,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.rubmotorsportgroup2.datamanager.SegmentData;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.BarData;
@@ -26,13 +26,14 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
     Context context;
     private RecyclerViewEvent listener;
-    private ArrayList<String> data;
+    private ArrayList<SegmentData> data;
 
-    public RVSegmentAdapter(Context context, ArrayList<String> data, RecyclerViewEvent listener) {
+    public RVSegmentAdapter(Context context, ArrayList<SegmentData> data, RecyclerViewEvent listener) {
         this.context = context;
         this.data = data;
         this.listener = listener;
     }
+
 
     @NonNull
     @Override
@@ -50,32 +51,16 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
     public void onBindViewHolder(@NonNull RVSegmentAdapter.ViewHolder holder, int position) {
 
 
-        holder.t.setText(data.get(position));
+        holder.t.setText("Test" + position);
+
+
 
         //creating mock data
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0f, (float) Math.random() * 3));
-        entries.add(new BarEntry(1f, (float) Math.random() * 3));
-        entries.add(new BarEntry(2f, (float) Math.random() * 3));
-        entries.add(new BarEntry(3f, (float) Math.random() * 3));
-        entries.add(new BarEntry(4f, (float) Math.random() * 3));
-        entries.add(new BarEntry(5f, (float) Math.random() * 3));
-        entries.add(new BarEntry(6f, (float) Math.random() * 3));
-        entries.add(new BarEntry(7f, (float) Math.random() * 3));
-        entries.add(new BarEntry(8f, (float) Math.random() * 3));
-        entries.add(new BarEntry(9f, (float) Math.random() * 3));
-        entries.add(new BarEntry(10f, (float) Math.random() * 3));
-        entries.add(new BarEntry(11f, (float) Math.random() * 3));
-        entries.add(new BarEntry(12f, (float) Math.random() * 3));
-        entries.add(new BarEntry(13f, (float) Math.random() * 3));
-        entries.add(new BarEntry(14f, (float) Math.random() * 3));
-        entries.add(new BarEntry(15f, (float) Math.random() * 3));
-        entries.add(new BarEntry(16f, (float) Math.random() * 3));
-        entries.add(new BarEntry(17f, (float) Math.random() * 3));
-        entries.add(new BarEntry(18f, (float) Math.random() * 3));
-        entries.add(new BarEntry(19f, (float) Math.random() * 3));
-        entries.add(new BarEntry(20f, (float) Math.random() * 3));
-        entries.add(new BarEntry(21f, (float) Math.random() * 3));
+        for(int i = 0; i < 14; i++){
+            entries.add(new BarEntry((float)i, data.get(position).voltage_combined.get(i)));
+        }
+
 
         //setting up properties of barchart
         BarDataSet barDataSet = new BarDataSet(entries, "data");
@@ -98,8 +83,8 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         holder.b.getDescription().setEnabled(false);
         holder.b.setBackgroundColor(Color.GRAY);
         holder.b.setFocusableInTouchMode(false);
-        holder.b.getAxisLeft().setAxisMaximum(5);
-        holder.b.getAxisLeft().setAxisMinimum(0);
+        holder.b.getAxisLeft().setAxisMaximum(3.8f);
+        holder.b.getAxisLeft().setAxisMinimum(3.65f);
 
         holder.b.setData(data);
 

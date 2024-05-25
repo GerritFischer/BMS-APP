@@ -15,7 +15,7 @@ import com.example.rubmotorsportgroup2.fragments.fragment_settings;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    DataManager dm;
+    public DataManager dm;
 
 
     @Override
@@ -48,15 +48,13 @@ public class MainActivity extends AppCompatActivity {
                 displayFragment(new fragment_overview());
             }
             else if (itemID == R.id.menu_segments){
-                displayFragment(new fragment_segments());
+                displayFragment(new fragment_segments(dm));
             }
             else if (itemID == R.id.menu_settings){
                 displayFragment(new fragment_settings());
             }
             return true;
         });
-
-
 
     }
 
