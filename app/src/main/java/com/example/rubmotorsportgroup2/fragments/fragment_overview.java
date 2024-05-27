@@ -1,21 +1,21 @@
 package com.example.rubmotorsportgroup2.fragments;
 
+import static com.example.rubmotorsportgroup2.MainActivity.dm;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rubmotorsportgroup2.R;
+import com.example.rubmotorsportgroup2.datamanager.DataManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_overview#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class fragment_overview extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -26,28 +26,13 @@ public class fragment_overview extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private DataManager datam;
 
     public fragment_overview() {
-        // Required empty public constructor
+
+        //this.dm = dm;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_overview.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static fragment_overview newInstance(String param1, String param2) {
-        fragment_overview fragment = new fragment_overview();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,5 +52,30 @@ public class fragment_overview extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView t = (TextView) view.findViewById(R.id.FailPassTextView);
+        t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String testvolt = "";
+                 for(int k = 0; k < dm.CELL_COUNT; k++)
+                 {
+                     testvolt = testvolt + dm.getSegmentVoltage(1).get(2*k)+" V   "+ dm.getSegmentVoltage(1).get(2*k+1)+ " V\n";
+                 }
+                t.setText(testvolt);
+            }
+        });
+
+        ImageView v = view.findViewById(R.id.imageView2);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                String testtemp = "";
+                for(int k = 0; k < dm.getSegmentTemperature(1).size(); k++)
+                {
+                    testtemp = testtemp + dm.getSegmentTemperature(1).get(k)+ " C°\n";
+                }
+                t.setText(testtemp);
+            }
+        });
     }
 }

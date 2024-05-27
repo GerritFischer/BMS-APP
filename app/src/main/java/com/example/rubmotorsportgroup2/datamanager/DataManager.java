@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DataManager {
 
-    private final int CELL_COUNT = 11;
+    public final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
     private DataRetriever dataRetriever;
@@ -268,6 +268,7 @@ public class DataManager {
 
 
     public SegmentData getSegmentData(int segID) {
+        if(segID <0 || segID > CELL_COUNT) return null;
         return dataSet.segmentDataArrayList.get(segID);
         //TODO: check if id is valid, get corresponding segment from dataset and return
     }
@@ -275,11 +276,11 @@ public class DataManager {
     public ArrayList<Float> getSegmentVoltage(int segID){
         //TODO: return voltage list, use getSegmentData here
 
-        return dataSet.segmentDataArrayList.get(segID).voltage_combined;
+        return getSegmentData(segID).voltage_combined;
     }
     public ArrayList<Float> getSegmentTemperature(int segID){
         //TODO: return temperature list, use getSegmentData here
-        return new ArrayList<Float>();
+        return getSegmentData(segID).temperature_combined;
     }
 
     public boolean getError(int segID, int errorID){
