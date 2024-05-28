@@ -58,4 +58,15 @@ public class CIDData {
     public void addFault(String fault){
         faults.add(fault);
     }
+
+    public ArrayList<Boolean> getEot_cb(){return eot_cb;}
+    public ArrayList<Boolean> getAn_ot(){return an_ot;}
+    public ArrayList<Boolean> getAn_ut(){return an_ut;}
+    public ArrayList<Boolean> getCt_ov(){return ct_ov;}
+    public ArrayList<Boolean> getCt_uv(){return ct_uv;}
+    public ArrayList<Boolean> getCt_open(){return ct_open;}
+    public ArrayList<Boolean> getCt_short(){return ct_short;}
+
+
+
 }
