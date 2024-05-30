@@ -41,17 +41,25 @@ public class EditUserID extends AppCompatActivity {
         }
         // try to get to fragments_settings
         Intent intent=new Intent(this, MainActivity.class );
-       // Toast.makeText(this,"Hey",Toast.LENGTH_SHORT).show();
+
         // creates Bundle and store some parameters there
         Bundle bundle= new Bundle();
 
+        // get Input
         TextView email=(TextView)findViewById(R.id.editUser_enterEmail);
-        bundle.putString("Email",email.getText().toString());
-
         TextView password =(TextView)findViewById(R.id.editUser_enterPassword);
-        bundle.putString("Password",password.getText().toString());
 
+        // create JSON
+        Json j= new Json(email.getText().toString(),password.getText().toString(),this);
+        j.createJson();
+
+        //stores JSON Data into bundle
+        bundle.putString("Email",j.getUsername());
+        bundle.putString("Password",j.getPassword());
+
+        // we were at settings
         bundle.putBoolean("settings",true);
+
         // put stores Bundle in Intent and starts activity
         intent.putExtras(bundle);
         startActivity(intent);

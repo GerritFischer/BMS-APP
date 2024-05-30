@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rubmotorsportgroup2.EditUserID;
+import com.example.rubmotorsportgroup2.Json;
 import com.example.rubmotorsportgroup2.R;
 
 public class fragment_settings extends Fragment{
@@ -66,22 +68,19 @@ public class fragment_settings extends Fragment{
             }
         });
 
-        Bundle bundle=getArguments();
-        //check if there is a bundle
-        if(bundle!=null) {
-            //get Input from EditUserID
-            String getemail = bundle.getString("Email");
-            String getpassword = bundle.getString("Password");
+        Json json=new Json(getActivity());
+        //check if there is a none Empty Json File
+        if(!json.isEmpty()) {
             // store the View
-
             TextView username =inflate.findViewById(R.id.settings_emailInput);
             TextView password= inflate.findViewById(R.id.settings_passwordInput);
 
-            //replace setTExt with new Email and number of chars in password
-            username.setText("");
-            username.setText(getemail);
+            //replace setText with new Email from Json
+            username.setText(json.getUsername());
+
+            //replace new Password from Json
             StringBuilder hiddenpass= new StringBuilder();
-            for(int i=0;i<getpassword.length();i++)
+            for(int i=0;i<json.getPassword().length();i++)
             {
                 hiddenpass.append("*");
             }
