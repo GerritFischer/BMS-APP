@@ -53,9 +53,6 @@ public class EditUserID extends AppCompatActivity {
         Json j= new Json(email.getText().toString(),password.getText().toString(),this);
         j.createJson();
 
-        //stores JSON Data into bundle
-        bundle.putString("Email",j.getUsername());
-        bundle.putString("Password",j.getPassword());
 
         // we were at settings
         bundle.putBoolean("settings",true);

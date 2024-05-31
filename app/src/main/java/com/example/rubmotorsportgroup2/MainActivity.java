@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         if (bundle!= null){ //Check if it there is a bundle
             if (bundle.getBoolean("settings")==true){ //Check if it was in EditUserID
                 //if condition is fullfilled go to fragment_settings
-                Bundle newBundle= new Bundle();
                 Fragment frag= new fragment_settings();
                 frag.setArguments(bundle);
                 binding.bottomNavBar.setSelectedItemId(R.id.menu_settings);
