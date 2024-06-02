@@ -108,4 +108,13 @@ public class Json {
         return true;
     }
 
+    public void deleteJson(){
+        File file=new File(context.getFilesDir(), "credentials.json");
+        try{
+            file.delete();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
