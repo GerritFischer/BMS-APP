@@ -75,9 +75,6 @@ public class fragment_settings extends Fragment{
             TextView username =inflate.findViewById(R.id.settings_emailInput);
             TextView password= inflate.findViewById(R.id.settings_passwordInput);
 
-            //replace setText with new Email from Json
-            username.setText(json.getUsername());
-
             //replace new Password from Json
             StringBuilder hiddenpass= new StringBuilder();
             for(int i=0;i<json.getPassword().length();i++)

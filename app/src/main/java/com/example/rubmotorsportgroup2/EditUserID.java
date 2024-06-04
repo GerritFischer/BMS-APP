@@ -29,11 +29,6 @@ public class EditUserID extends AppCompatActivity {
 
     }
     public void submitbtn(View view){
-        // makes sure that Email is valid
-        if (!isValidEmail()){
-            Toast.makeText(this,"Invalid E-Mail",Toast.LENGTH_SHORT).show();
-            return;
-        }
         //makes sure that Password is valid
         if(!isValidPassword()){
             Toast.makeText(this,"Invalid Password",Toast.LENGTH_SHORT).show();
@@ -46,13 +41,11 @@ public class EditUserID extends AppCompatActivity {
         Bundle bundle= new Bundle();
 
         // get Input
-        TextView email=(TextView)findViewById(R.id.editUser_enterEmail);
         TextView password =(TextView)findViewById(R.id.editUser_enterPassword);
 
         // create JSON
-        Json j= new Json(email.getText().toString(),password.getText().toString(),this);
+        Json j= new Json(password.getText().toString(),this);
         j.createJson();
-
 
         // we were at settings
         bundle.putBoolean("settings",true);
@@ -61,47 +54,21 @@ public class EditUserID extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
-    public boolean isValidEmail() {
-        TextView email = (TextView) findViewById(R.id.editUser_enterEmail);
-        if(email.getText().toString().trim().isEmpty())
-        {
-            return false;
-        }
-        return true;
-    }
     public boolean isValidPassword(){
         TextView password= (TextView) findViewById(R.id.editUser_enterPassword);
-        TextView passwordAgain= (TextView) findViewById(R.id.editUser_enterPassAgain);
-        if(password.getText().toString().trim().isEmpty() ||passwordAgain.getText().toString().trim().isEmpty())
+
+        if(password.getText().toString().trim().isEmpty()) //check empty password
         {
             return false;
         }
-        int minLength = 8;
-        Pattern upperCasePattern = Pattern.compile("[A-Z]");
-        Pattern lowerCasePattern = Pattern.compile("[a-z]");
-        Pattern digitPattern = Pattern.compile("[0-9]");
-        Pattern specialCharPattern = Pattern.compile("[!@#$%^&*(),.?\":{}|<>]");
+        int minLength = 4;
 
         // Check Password Criteria
         if (password.length() < minLength) {
             return false;
         }
-        if (!upperCasePattern.matcher(password.getText().toString().trim()).find()) {
-            return false;
-        }
-        if (!lowerCasePattern.matcher(password.getText().toString().trim()).find()) {
-            return false;
-        }
-        if (!digitPattern.matcher(password.getText().toString().trim()).find()) {
-            return false;
-        }
-        if (!specialCharPattern.matcher(password.getText().toString().trim()).find()) {
-            return false;
-        }
-        if (password.getText().toString().trim().equals(passwordAgain.getText().toString().trim())){
-            return true;
-        }
-        return false;
+
+        return true;
     }
     //goes Back to fragment settings (Back button)
     public void finishBtn(View view)

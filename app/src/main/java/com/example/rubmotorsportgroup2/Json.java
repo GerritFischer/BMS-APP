@@ -14,16 +14,14 @@ import java.io.FileWriter;
 
 
 public class Json {
-    private String username;
     private String password;
     private Context context;
     public Json(Context context)
     {
         this.context=context;
     }
-    public Json(String username, String password, Context context)
+    public Json(String password, Context context)
     {
-        this.username=username;
         this.password=password;
         this.context=context;
     }
@@ -31,7 +29,6 @@ public class Json {
         //create JSON Object with keys and value
         JSONObject json= new JSONObject();
         try{
-            json.put("Username",this.username);
             json.put("Password",this.password);
         }
         catch(Exception e){
@@ -85,18 +82,6 @@ public class Json {
             e.printStackTrace();
         }
         return password;
-    }
-    public String getUsername(){
-        String jsonOutput = readJson();
-        String username = null;
-        try {
-            //try if inside the JSON data is Username
-            JSONObject jsonObject = new JSONObject(jsonOutput);
-            username = jsonObject.getString("Username");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return username;
     }
     public boolean isEmpty(){
         File file = new File(context.getFilesDir(),"credentials.json");

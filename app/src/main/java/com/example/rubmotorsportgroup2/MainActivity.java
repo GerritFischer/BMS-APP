@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         //check if Bundle is there and if it comes from EditUserID
         Bundle bundle= getIntent().getExtras();
         if (bundle!= null){ //Check if it there is a bundle
-            if (bundle.getBoolean("settings")==true){ //Check if it was in EditUserID
+            if (bundle.getBoolean("settings")){ //Check if it was in EditUserID
                 //if condition is fullfilled go to fragment_settings
                 Fragment frag= new fragment_settings();
                 frag.setArguments(bundle);
