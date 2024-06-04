@@ -284,7 +284,8 @@ public class DataManager {
         return getSegmentData(segID).temperature_combined;
     }
 
-    public boolean getErrors(int segID, String fault,int errid) {
+    public boolean getErrors(int segID, String fault,int errid) //returns the value of the selected segment with the selected fault and id
+    {
         for (int l = 0; l < 2; l++) {
             CIDData cid1 = getSegmentData(segID).cids.get(l);
            if(fault.equals("eot_cb"))
@@ -321,7 +322,7 @@ public class DataManager {
 
     }
 
-    public boolean hasError() {
+    public boolean hasError() {//returns if there is a true value in any fault{
         for (int i = 0; i < CELL_COUNT; i++) {
             SegmentData segment = getSegmentData(i);
             for (int l = 0; l < 2; l++) {
