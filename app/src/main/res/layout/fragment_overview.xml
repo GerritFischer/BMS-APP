@@ -45,7 +45,7 @@
         android:trackTint="@color/RubColorBlue" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/ErrorLogTestxView"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_marginLeft="40dp"
