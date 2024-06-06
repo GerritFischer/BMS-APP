@@ -17,6 +17,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:fontFamily="@font/roboto"
         android:gravity="center"
         android:text="Fail/Pass View"
         android:textSize="24sp"
@@ -28,21 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:fontFamily="@font/roboto"
         android:text="@string/FailPassViewText"
         android:textSize="20sp" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:text="Set Sentry Mode"
-        android:textOff="Setry Mode Off"
-        android:textOn="Sentry Mode On"
-        android:textSize="20sp"
-        android:thumbTint="@color/RubColorBlue"
-        android:trackTint="@color/RubColorBlue" />
 
     <TextView
         android:id="@+id/ErrorLogTestxView"
@@ -50,6 +39,7 @@
         android:layout_height="46dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:fontFamily="@font/roboto"
         android:gravity="center|start"
         android:text="Errorr Log:"
         android:textSize="24sp"
@@ -85,6 +75,7 @@
                 android:id="@+id/textView20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
                 android:text="Error: Receiving Out of bounce Values/ 12:49"
                 android:textColor="@color/design_default_color_error" />
 
@@ -100,13 +91,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Error: Cell Balancing failed/ 22:59"
-                android:textColor="@color/design_default_color_error" />
-
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Warning: Rapid Voltage loss in segemt 1/ 20:44"
                 android:textColor="@color/design_default_color_error" />
 
             <TextView
@@ -135,6 +119,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Error: Heat Sensor Malfunction/ 15:55"
+                android:textColor="@color/design_default_color_error" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Warning: Rapid Voltage loss in segemt 1/ 20:44"
                 android:textColor="@color/design_default_color_error" />
 
             <TextView
