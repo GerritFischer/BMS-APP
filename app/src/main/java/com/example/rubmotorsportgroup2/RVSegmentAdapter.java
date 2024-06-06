@@ -87,10 +87,6 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         holder.b.getAxisLeft().setAxisMinimum(3.65f);
 
         holder.b.setData(data);
-
-
-
-
     }
 
     @Override
