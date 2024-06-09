@@ -4,6 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lightgray">#CCCCCC</color>
     <color name="RubColorBlue">#003560</color>
-    <color name="BackgroundColor">040404</color>
-    <color name="ElementColor">0a0a0a</color>
+    <color name="BackgroundColor">#040404</color>
+    <color name="ElementColor">#0a0a0a</color>
 </resources>
