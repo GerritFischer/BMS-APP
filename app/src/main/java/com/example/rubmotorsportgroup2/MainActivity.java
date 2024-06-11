@@ -1,6 +1,7 @@
 package com.example.rubmotorsportgroup2;
-
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     public DataManager dm;
+    public SettingsManager sm;
+
 
 
     @Override
@@ -24,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         dm = new DataManager();
+        sm= new SettingsManager();
+        sm.loadSettings(this);
+        sm.saveSettings(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -60,4 +66,5 @@ public class MainActivity extends AppCompatActivity {
     private void displayFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentView, fragment).commit();
     }
+
 }

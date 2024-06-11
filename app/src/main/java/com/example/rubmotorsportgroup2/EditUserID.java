@@ -5,21 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.rubmotorsportgroup2.fragments.fragment_settings;
-
-import org.w3c.dom.Text;
-
-import java.util.regex.Pattern;
 
 public class EditUserID extends AppCompatActivity {
     @Override
@@ -42,16 +29,25 @@ public class EditUserID extends AppCompatActivity {
 
         // get Input
         TextView password =(TextView)findViewById(R.id.editUser_enterPassword);
+        TextView mail= (TextView) findViewById(R.id.editUser_enterEmail);
 
         // create JSON
-        Json j= new Json(password.getText().toString(),this);
-        j.createJson();
+        SettingsManager sm= new SettingsManager();
+        sm.loadSettings(this);
+        sm.setPassword(password.getText().toString());
+        sm.addMail(mail.getText().toString());
+        //test
+        TextView  test =(TextView)findViewById(R.id.editUser_enterPassAgain);
+        String test1 = test.getText().toString();
+        sm.removeMail(test1);
+
 
         // we were at settings
         bundle.putBoolean("settings",true);
 
         // put stores Bundle in Intent and starts activity
         intent.putExtras(bundle);
+        sm.saveSettings(this);
         startActivity(intent);
     }
     public boolean isValidPassword(){
@@ -73,6 +69,8 @@ public class EditUserID extends AppCompatActivity {
     //goes Back to fragment settings (Back button)
     public void finishBtn(View view)
     {
+        JsonConfig jsonConfig = new JsonConfig(this);
+        jsonConfig.deleteJson();
         finish();
     }
 }

@@ -3,18 +3,21 @@ package com.example.rubmotorsportgroup2.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rubmotorsportgroup2.EditUserID;
-import com.example.rubmotorsportgroup2.Json;
+import com.example.rubmotorsportgroup2.JsonConfig;
 import com.example.rubmotorsportgroup2.R;
+import com.example.rubmotorsportgroup2.SettingsManager;
 
 public class fragment_settings extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
@@ -68,21 +71,72 @@ public class fragment_settings extends Fragment{
             }
         });
 
-        Json json=new Json(getActivity());
+        SettingsManager sm = new SettingsManager();
+        sm.loadSettings(getActivity());
         //check if there is a none Empty Json File
-        if(!json.isEmpty()) {
             // store the View
-            TextView username =inflate.findViewById(R.id.settings_emailInput);
-            TextView password= inflate.findViewById(R.id.settings_passwordInput);
+        TextView username =inflate.findViewById(R.id.settings_emailInput);
+        username.setText(new JsonConfig(getActivity()).readJson());
+        TextView password= inflate.findViewById(R.id.settings_passwordInput);
 
-            //replace new Password from Json
-            StringBuilder hiddenpass= new StringBuilder();
-            for(int i=0;i<json.getPassword().length();i++)
-            {
-                hiddenpass.append("*");
-            }
-            password.setText(hiddenpass);
+        //replace new Password from Json
+        StringBuilder hiddenpass= new StringBuilder();
+        for(int i = 0; i< sm.getPassword().length(); i++)
+        {
+            hiddenpass.append("*");
         }
+        password.setText(hiddenpass);
+
+        SwitchCompat darkModeSwitch=inflate.findViewById(R.id.settings_lightModeSwitch);
+        darkModeSwitch.setChecked(sm.isDarkMode());
+        darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sm.setDarkMode(true);
+                    sm.saveSettings(getActivity());
+                    Toast.makeText(getActivity(), "Der Darkmodeswitch wurde eingeschaltet", Toast.LENGTH_SHORT).show();
+                } else {
+                    sm.setDarkMode(false);
+                    sm.saveSettings(getActivity());
+                    Toast.makeText(getActivity(), "Der Switch Darkmodeswitch ausgeschaltet", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        SwitchCompat sentryModeSwitch=inflate.findViewById(R.id.settings_sentryModeSwitch);
+        sentryModeSwitch.setChecked(sm.isSentryMode());
+        sentryModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sm.setSentryMode(isChecked);
+                    sm.saveSettings(getActivity());
+                    Toast.makeText(getActivity(), "Der Sentrymode wurde eingeschaltet", Toast.LENGTH_SHORT).show();
+                } else {
+                    sm.setSentryMode(isChecked);
+                    sm.saveSettings(getActivity());
+                    Toast.makeText(getActivity(), "Der Sentrymode wurde ausgeschaltet", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        SwitchCompat tabletModeSwitch=inflate.findViewById(R.id.settings_tabletModeSwitch);
+        tabletModeSwitch.setChecked(sm.isTabletMode());
+        tabletModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sm.setTabletMode(isChecked);
+                    sm.saveSettings(getActivity());
+                    Toast.makeText(getActivity(), "Der Tabletswitch wurde eingeschaltet", Toast.LENGTH_SHORT).show();
+                } else {
+                    sm.setTabletMode(isChecked);
+                    sm.saveSettings(getActivity());
+                    Toast.makeText(getActivity(), "Der Tablet wurde ausgeschaltet", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         // Inflate the layout for this fragment
         return inflate;
