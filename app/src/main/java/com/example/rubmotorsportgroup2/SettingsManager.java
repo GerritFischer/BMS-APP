@@ -59,7 +59,6 @@ public class SettingsManager {
             json.createJson();
         }
         //save the JSON with the current settings
-        Toast.makeText(context,"Hey",Toast.LENGTH_SHORT).show();
         json.setPassword(password);
         json.setDarkmode(darkmode);
         json.setSentryMode(sentrymode);

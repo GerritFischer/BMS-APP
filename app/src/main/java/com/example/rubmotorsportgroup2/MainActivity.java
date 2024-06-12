@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     public DataManager dm;
-    public SettingsManager sm;
 
 
 
@@ -27,9 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         dm = new DataManager();
-        sm= new SettingsManager();
-        sm.loadSettings(this);
-        sm.saveSettings(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

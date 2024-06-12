@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.rubmotorsportgroup2.EditUserID;
 import com.example.rubmotorsportgroup2.JsonConfig;
+import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.SettingsManager;
 
@@ -71,10 +72,9 @@ public class fragment_settings extends Fragment{
             }
         });
 
-        SettingsManager sm = new SettingsManager();
+        SettingsManager sm= new SettingsManager();
         sm.loadSettings(getActivity());
-        //check if there is a none Empty Json File
-            // store the View
+        // store the View
         TextView username =inflate.findViewById(R.id.settings_emailInput);
         username.setText(new JsonConfig(getActivity()).readJson());
         TextView password= inflate.findViewById(R.id.settings_passwordInput);
@@ -92,14 +92,13 @@ public class fragment_settings extends Fragment{
         darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // if Darkmodeswitch is changed it change the json accordingly
                 if (isChecked) {
                     sm.setDarkMode(true);
                     sm.saveSettings(getActivity());
-                    Toast.makeText(getActivity(), "Der Darkmodeswitch wurde eingeschaltet", Toast.LENGTH_SHORT).show();
                 } else {
                     sm.setDarkMode(false);
                     sm.saveSettings(getActivity());
-                    Toast.makeText(getActivity(), "Der Switch Darkmodeswitch ausgeschaltet", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -109,14 +108,13 @@ public class fragment_settings extends Fragment{
         sentryModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // if Sentrymodeswitch is changed it change the json accordingly
                 if (isChecked) {
                     sm.setSentryMode(isChecked);
                     sm.saveSettings(getActivity());
-                    Toast.makeText(getActivity(), "Der Sentrymode wurde eingeschaltet", Toast.LENGTH_SHORT).show();
                 } else {
                     sm.setSentryMode(isChecked);
                     sm.saveSettings(getActivity());
-                    Toast.makeText(getActivity(), "Der Sentrymode wurde ausgeschaltet", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -127,13 +125,12 @@ public class fragment_settings extends Fragment{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    // if Tabletmodeswitch is changed it change the json file accordingly
                     sm.setTabletMode(isChecked);
                     sm.saveSettings(getActivity());
-                    Toast.makeText(getActivity(), "Der Tabletswitch wurde eingeschaltet", Toast.LENGTH_SHORT).show();
                 } else {
                     sm.setTabletMode(isChecked);
                     sm.saveSettings(getActivity());
-                    Toast.makeText(getActivity(), "Der Tablet wurde ausgeschaltet", Toast.LENGTH_SHORT).show();
                 }
             }
         });

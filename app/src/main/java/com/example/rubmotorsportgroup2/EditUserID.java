@@ -36,7 +36,7 @@ public class EditUserID extends AppCompatActivity {
         sm.loadSettings(this);
         sm.setPassword(password.getText().toString());
         sm.addMail(mail.getText().toString());
-        //test
+        //test can be deleted
         TextView  test =(TextView)findViewById(R.id.editUser_enterPassAgain);
         String test1 = test.getText().toString();
         sm.removeMail(test1);
