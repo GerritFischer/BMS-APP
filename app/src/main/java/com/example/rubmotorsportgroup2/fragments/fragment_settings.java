@@ -72,8 +72,9 @@ public class fragment_settings extends Fragment{
             }
         });
 
-        SettingsManager sm= new SettingsManager();
+        SettingsManager sm= MainActivity.sm;
         sm.loadSettings(getActivity());
+        sm.saveSettings(getActivity());
         // store the View
         TextView username =inflate.findViewById(R.id.settings_emailInput);
         username.setText(new JsonConfig(getActivity()).readJson());

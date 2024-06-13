@@ -53,6 +53,9 @@ public class JsonConfig {
         try {
             // try to get the file
             File file = new File(context.getFilesDir(), "credentials.json");
+            if(!file.exists()){
+                return"";
+            }
             FileReader reader = new FileReader(file);
             // get ASCII therefore int
             int character;

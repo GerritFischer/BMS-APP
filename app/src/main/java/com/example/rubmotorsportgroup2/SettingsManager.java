@@ -51,6 +51,7 @@ public class SettingsManager {
             //create a List to store Email since we got none
             mail=new ArrayList<>();
         }
+        saveSettings(context);
     }
     public void saveSettings(Context context){
         JsonConfig json= new JsonConfig(context);

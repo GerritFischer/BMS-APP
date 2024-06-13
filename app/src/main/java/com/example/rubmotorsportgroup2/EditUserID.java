@@ -32,7 +32,7 @@ public class EditUserID extends AppCompatActivity {
         TextView mail= (TextView) findViewById(R.id.editUser_enterEmail);
 
         // create JSON
-        SettingsManager sm= new SettingsManager();
+        SettingsManager sm= MainActivity.sm;
         sm.loadSettings(this);
         sm.setPassword(password.getText().toString());
         sm.addMail(mail.getText().toString());
