@@ -77,6 +77,7 @@ public class fragment_settings extends Fragment{
         sm.saveSettings(getActivity());
         // store the View
         TextView username =inflate.findViewById(R.id.settings_emailInput);
+        //test for correctness of Json
         username.setText(new JsonConfig(getActivity()).readJson());
         TextView password= inflate.findViewById(R.id.settings_passwordInput);
 

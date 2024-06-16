@@ -36,11 +36,6 @@ public class EditUserID extends AppCompatActivity {
         sm.loadSettings(this);
         sm.setPassword(password.getText().toString());
         sm.addMail(mail.getText().toString());
-        //test can be deleted
-        TextView  test =(TextView)findViewById(R.id.editUser_enterPassAgain);
-        String test1 = test.getText().toString();
-        sm.removeMail(test1);
-
 
         // we were at settings
         bundle.putBoolean("settings",true);
@@ -70,7 +65,6 @@ public class EditUserID extends AppCompatActivity {
     public void finishBtn(View view)
     {
         JsonConfig jsonConfig = new JsonConfig(this);
-        jsonConfig.deleteJson();
         finish();
     }
 }

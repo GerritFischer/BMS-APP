@@ -120,4 +120,7 @@ public class SettingsManager {
             }
         }
     }
+    public ArrayList<String> getMails(){
+        return mail;
+    }
 }
