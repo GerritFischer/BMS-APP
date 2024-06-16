@@ -16,8 +16,12 @@ import com.example.rubmotorsportgroup2.fragments.fragment_settings;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+
     public DataManager dm;
     public static SettingsManager sm;
+
+
+    public static DataManager dm;
 
 
 
