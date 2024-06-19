@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static DataManager dm;
 
-    private boolean isLogged= false;
+    private boolean isLogged;
 
 
 
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         }
         binding.bottomNavBar.setOnItemSelectedListener(item -> {
             int itemID = item.getItemId();
+            isLogged=!sm.isSentryMode();
 
             if (itemID == R.id.menu_overview){
                 if(isLogged) {
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             }
-            return true;
+            return false;
         });
         }
     private void displayFragment(Fragment fragment){
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Toast.makeText(MainActivity.this, "du hast es",Toast.LENGTH_SHORT).show();
-                isLogged=true;
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 if(pass.equals(sm.getPassword())){
                     Toast.makeText(MainActivity.this, "du hast es",Toast.LENGTH_SHORT).show();
                     isLogged=true;
+                    sm.setSentryMode(false);
+                    sm.saveSettings(MainActivity.this);
                     alertDialog.dismiss();
                 }
                 else{
