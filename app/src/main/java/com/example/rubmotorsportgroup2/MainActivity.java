@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Toast.makeText(MainActivity.this, "du hast es",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Canceled",Toast.LENGTH_SHORT).show();
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView password= view.findViewById(R.id.pop_up_passwordInput);
                 String pass= password.getText().toString();
                 if(pass.equals(sm.getPassword())){
-                    Toast.makeText(MainActivity.this, "du hast es",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Access",Toast.LENGTH_SHORT).show();
                     isLogged=true;
                     sm.setSentryMode(false);
                     sm.saveSettings(MainActivity.this);
@@ -131,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        Toast.makeText(MainActivity.this,"hey",Toast.LENGTH_SHORT).show();
         alertDialog.show();
     }
-
 
 }

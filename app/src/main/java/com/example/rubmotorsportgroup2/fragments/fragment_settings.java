@@ -3,8 +3,11 @@ package com.example.rubmotorsportgroup2.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.example.rubmotorsportgroup2.JsonConfig;
 import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.SettingsManager;
+import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
 
 public class fragment_settings extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +33,7 @@ public class fragment_settings extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String setSen="";
     public fragment_settings(){
         // Required empty public constructor
     }
@@ -112,8 +117,23 @@ public class fragment_settings extends Fragment{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // if Sentrymodeswitch is changed it change the json accordingly
                 if (isChecked) {
-                    sm.setSentryMode(isChecked);
-                    sm.saveSettings(getActivity());
+                    displayPopUp();
+                    while(setSen.equals("")){
+                        continue;
+                    }
+                    if(setSen.equals("false")){
+                        sm.setSentryMode(false);
+                        sm.saveSettings(getActivity());
+                        sentryModeSwitch.setChecked(false);
+                    }
+                    else{
+                        sm.setSentryMode(true);
+                        sm.saveSettings(getActivity());
+                        Intent intent =new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                    }
+
+
                 } else {
                     sm.setSentryMode(isChecked);
                     sm.saveSettings(getActivity());
@@ -140,6 +160,40 @@ public class fragment_settings extends Fragment{
         // Inflate the layout for this fragment
         return inflate;
     }
+    public void switchFrag(){
+        Fragment fragment= new fragment_overview();
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragmentView,fragment).commit();
 
+    }
+    private void displayPopUp(){
+        ConstraintLayout pop_up_wind=getView().findViewById(R.id.confirm_pop_up);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.confirm_pop_up,pop_up_wind,false);
+
+        TextView cancel = view.findViewById(R.id.pop_up_cancelInput);
+        TextView confirm = view.findViewById(R.id.pop_up_confirmInput);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
+        final AlertDialog alertDialog= builder.create();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
+                setSen="false";
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Toast.makeText(getActivity(),"Sentry Mode setted",Toast.LENGTH_SHORT).show();
+                setSen="true";
+            }
+        });
+
+        alertDialog.show();
+    }
 
 }
