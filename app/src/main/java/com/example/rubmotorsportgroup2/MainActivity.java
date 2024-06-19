@@ -1,10 +1,18 @@
 package com.example.rubmotorsportgroup2;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
@@ -16,8 +24,14 @@ import com.example.rubmotorsportgroup2.fragments.fragment_settings;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    public DataManager dm;
+
+    public static SettingsManager sm;
+
+
+    public static DataManager dm;
+
     private boolean isLogged= false;
+
 
 
     @Override
@@ -26,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         dm = new DataManager();
+        sm=new SettingsManager();
+        sm.loadSettings(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -33,53 +49,89 @@ public class MainActivity extends AppCompatActivity {
         //check if Bundle is there and if it comes from EditUserID
         Bundle bundle= getIntent().getExtras();
         if (bundle!= null){ //Check if it there is a bundle
-            if (bundle.getBoolean("settings")==true){ //Check if it was in EditUserID
+            if (bundle.getBoolean("settings")){ //Check if it was in EditUserID
                 //if condition is fullfilled go to fragment_settings
-                Bundle newBundle= new Bundle();
                 Fragment frag= new fragment_settings();
                 frag.setArguments(bundle);
                 binding.bottomNavBar.setSelectedItemId(R.id.menu_settings);
                 displayFragment(frag);
             }
-            if(bundle.getBoolean("logged")==true)
-            {
-                isLogged=true;
-            }
         }
-        //check if there are login data
-        if (isLogged) {
-            //  is able to use the bottom navigation bar
-            binding.bottomNavBar.setOnItemSelectedListener(item -> {
-                int itemID = item.getItemId();
+        binding.bottomNavBar.setOnItemSelectedListener(item -> {
+            int itemID = item.getItemId();
 
-                if (itemID == R.id.menu_overview) {
+            if (itemID == R.id.menu_overview){
+                if(isLogged) {
                     displayFragment(new fragment_overview());
-                } else if (itemID == R.id.menu_segments) {
+                    return true;
+                }
+                else{
+                    displayPopUp();
+                    return false;
+                }
+            }
+            else if (itemID == R.id.menu_segments){
+                if(isLogged){
                     displayFragment(new fragment_segments(dm));
-                } else if (itemID == R.id.menu_settings) {
+                    return true;
+                }
+                else{
+                    displayPopUp();
+                    return false;
+                }
+            }
+            else if (itemID == R.id.menu_settings){
+                if(isLogged){
                     displayFragment(new fragment_settings());
+                    return true;
                 }
-                return true;
-            });
-        }
-        else{
-            //if user use the bottom navigation bar he is forced to log in
-            binding.bottomNavBar.setOnItemSelectedListener(item -> {
-                int itemID = item.getItemId();
-                if (itemID == R.id.menu_segments) {
-                    Intent intent =new Intent(this, Login.class);
-                    startActivity(intent);
-                } else if (itemID == R.id.menu_settings) {
-                    Intent intent =new Intent(this, Login.class);
-                    startActivity(intent);
+                else{
+                    displayPopUp();
+                    return false;
                 }
-                return false;
-            });
+            }
+            return true;
+        });
         }
-    }
-
-
     private void displayFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentView, fragment).commit();
     }
+    private void displayPopUp(){
+        ConstraintLayout pop_up_wind=findViewById(R.id.pop_up_window);
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.pop_up_window,pop_up_wind,false);
+
+        TextView cancel = view.findViewById(R.id.pop_up_cancelInput);
+        TextView confirm = view.findViewById(R.id.pop_up_confirmInput);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(view);
+        final AlertDialog alertDialog= builder.create();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Toast.makeText(MainActivity.this, "du hast es",Toast.LENGTH_SHORT).show();
+                isLogged=true;
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView password= view.findViewById(R.id.pop_up_passwordInput);
+                String pass= password.getText().toString();
+                if(pass.equals(sm.getPassword())){
+                    Toast.makeText(MainActivity.this, "du hast es",Toast.LENGTH_SHORT).show();
+                    isLogged=true;
+                    alertDialog.dismiss();
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"Wrong Password",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Toast.makeText(MainActivity.this,"hey",Toast.LENGTH_SHORT).show();
+        alertDialog.show();
+    }
+
+
 }
