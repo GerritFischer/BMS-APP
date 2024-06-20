@@ -1,6 +1,8 @@
 package com.example.rubmotorsportgroup2.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -23,17 +25,18 @@ import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.SettingsManager;
 import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
+import com.example.rubmotorsportgroup2.databinding.FragmentSettingsBinding;
 
 public class fragment_settings extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private FragmentSettingsBinding binding;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String setSen="";
     public fragment_settings(){
         // Required empty public constructor
     }
@@ -67,6 +70,7 @@ public class fragment_settings extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View inflate=inflater.inflate(R.layout.fragment_settings, container, false);
+
         // reacts when Button is clicked
         Button btn= inflate.findViewById(R.id.settings_editBtn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -117,22 +121,7 @@ public class fragment_settings extends Fragment{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // if Sentrymodeswitch is changed it change the json accordingly
                 if (isChecked) {
-                    displayPopUp();
-                    while(setSen.equals("")){
-                        continue;
-                    }
-                    if(setSen.equals("false")){
-                        sm.setSentryMode(false);
-                        sm.saveSettings(getActivity());
-                        sentryModeSwitch.setChecked(false);
-                    }
-                    else{
-                        sm.setSentryMode(true);
-                        sm.saveSettings(getActivity());
-                        Intent intent =new Intent(getActivity(), MainActivity.class);
-                        startActivity(intent);
-                    }
-
+                    displayPopUp(sentryModeSwitch);
 
                 } else {
                     sm.setSentryMode(isChecked);
@@ -166,22 +155,27 @@ public class fragment_settings extends Fragment{
         fragmentManager.beginTransaction().replace(R.id.fragmentView,fragment).commit();
 
     }
-    private void displayPopUp(){
+    private void displayPopUp(SwitchCompat senSwitch){
         ConstraintLayout pop_up_wind=getView().findViewById(R.id.confirm_pop_up);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.confirm_pop_up,pop_up_wind,false);
 
         TextView cancel = view.findViewById(R.id.pop_up_cancelInput);
         TextView confirm = view.findViewById(R.id.pop_up_confirmInput);
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
         final AlertDialog alertDialog= builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
-                setSen="false";
+                senSwitch.setChecked(false);
+                SettingsManager sm =MainActivity.sm;
+                sm.setSentryMode(false);
+                sm.saveSettings(getActivity());
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +183,14 @@ public class fragment_settings extends Fragment{
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Toast.makeText(getActivity(),"Sentry Mode setted",Toast.LENGTH_SHORT).show();
-                setSen="true";
+                senSwitch.setChecked(true);
+                SettingsManager sm =MainActivity.sm;
+                sm.setSentryMode(true);
+                sm.saveSettings(getActivity());
+                Intent intent=new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(getActivity(),"hey",Toast.LENGTH_SHORT).show();
+
             }
         });
 

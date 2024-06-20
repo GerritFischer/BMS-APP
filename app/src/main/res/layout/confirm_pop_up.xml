@@ -6,15 +6,22 @@
     android:id="@+id/confirm_pop_up"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/BackgroundColor"
+    android:background="@drawable/pop_up_rounded"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/pop_up_guideline"
+        android:id="@+id/pop_up_guideline_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.49"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/pop_up_guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.51"/>
 
     <TextView
         android:id="@+id/confirm_pop_up_text"
@@ -30,16 +37,16 @@
         android:layout_height="25dp"
         android:text="@string/pop_up_cancel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/pop_up_guideline"
+        app:layout_constraintEnd_toStartOf="@id/pop_up_guideline_right"
         app:layout_constraintTop_toBottomOf="@+id/confirm_pop_up_text"
         android:gravity="center"
-        android:background="@color/ElementColor"/>
+        android:background="@color/ElementColor" />
     <TextView
         android:id="@+id/pop_up_confirmInput"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:text="@string/pop_up_confirm"
-        app:layout_constraintStart_toStartOf="@id/pop_up_guideline"
+        app:layout_constraintStart_toStartOf="@id/pop_up_guideline_left"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_pop_up_text"
         android:gravity="center"

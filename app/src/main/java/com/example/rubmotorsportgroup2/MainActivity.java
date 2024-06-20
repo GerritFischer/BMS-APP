@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setView(view);
         final AlertDialog alertDialog= builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
