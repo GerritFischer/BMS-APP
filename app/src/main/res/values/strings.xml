@@ -24,4 +24,8 @@
     <string name="voltage">Voltage</string>
     <string name="temperature">Temperature</string>
     <string name="segment">Segment</string>
+    <string name="pop_up_confirm">Confirm</string>
+    <string name="pop_up_cancel">Cancel</string>
+    <string name="pop_up_password">Password</string>
+    <string name="pop_up_setSentry">Do you want to set the Sentry Mode?</string>
 </resources>

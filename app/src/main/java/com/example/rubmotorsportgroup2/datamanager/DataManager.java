@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DataManager {
 
-    public final int CELL_COUNT = 11;
+    private final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
     private DataRetriever dataRetriever;
@@ -353,6 +353,14 @@ public class DataManager {
             }
         }
         return false;
+    }
+    public int getCellCount()
+    {
+        return  CELL_COUNT;
+    }
+    public int getTempCount()
+    {
+        return TEMP_COUNT;
     }
 
 }
