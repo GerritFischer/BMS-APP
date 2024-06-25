@@ -2,17 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Overview"
         android:id="@+id/menu_overview"
-        android:icon="@drawable/icon_overview" />
+        android:icon="@drawable/icon_overview"
+        android:title="@string/menu_overview" />
     <item
-        android:title="Segments"
         android:id="@+id/menu_segments"
-        android:icon="@drawable/baseline_bar_chart_24"/>
+        android:icon="@drawable/icon_segments"
+        android:title="@string/menu_segments" />
     <item
-        android:title="Settings"
         android:id="@+id/menu_settings"
+        android:icon="@drawable/icon_settings"
 
-        android:icon="@drawable/baseline_app_settings_alt_24"
-         />
+        android:title="@string/menu_settings" />
 </menu>

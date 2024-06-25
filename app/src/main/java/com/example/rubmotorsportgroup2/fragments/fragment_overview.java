@@ -171,6 +171,7 @@ public class fragment_overview extends Fragment {
         //tempbar.getAxisLeft().setDrawGridLines(false);
         tempbar.getAxisRight().setDrawGridLines(false);
         //tempbar.getAxisLeft().setEnabled(false);
+        tempbar.getAxisLeft().setTextColor(Color.WHITE);
         tempbar.getAxisRight().setEnabled(false);
         tempbar.getXAxis().setEnabled(false);
         tempbar.getDescription().setEnabled(false);
@@ -178,12 +179,12 @@ public class fragment_overview extends Fragment {
         tempbar.getAxisLeft().setAxisMaximum(50f);
         tempbar.getAxisLeft().setAxisMinimum(10f);
         tempbar.invalidate();
-        System.out.println(avgtemp);
-        temptext.setText("Temperature:\n" +avgtemp+"C°");
+        System.out.println(avgtemp * 100);
+        temptext.setText("Temperature:\n" + (Math.round(avgtemp * 100.0) / 100.0) +"C°");
 
         voltchart.add(new BarEntry(2f,avgvoltage));
-         barDataSet = new BarDataSet(voltchart,"Voltage");
-         barData = new BarData(barDataSet);
+        barDataSet = new BarDataSet(voltchart,"Voltage");
+        barData = new BarData(barDataSet);
         voltbar.setData(barData);
         barDataSet.setDrawValues(false);
         voltbar.setDrawGridBackground(true);
@@ -197,6 +198,7 @@ public class fragment_overview extends Fragment {
         //voltbar.getAxisLeft().setDrawGridLines(false);
         voltbar.getAxisRight().setDrawGridLines(false);
         //voltbar.getAxisLeft().setEnabled(false);
+        voltbar.getAxisLeft().setTextColor(Color.WHITE);
         voltbar.getAxisRight().setEnabled(false);
         voltbar.getXAxis().setEnabled(false);
         voltbar.getDescription().setEnabled(false);
@@ -204,7 +206,7 @@ public class fragment_overview extends Fragment {
         voltbar.getAxisLeft().setAxisMaximum(4.5f);
         voltbar.getAxisLeft().setAxisMinimum(3.1f);
         voltbar.invalidate();
-        volttext.setText("Voltage:\n" +avgvoltage+"V");
+        volttext.setText("Voltage:\n" + Math.round(avgvoltage * 1000.0) / 1000.0 +"V");
 
 
 
