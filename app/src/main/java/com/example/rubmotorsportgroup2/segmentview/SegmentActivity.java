@@ -1,9 +1,7 @@
-package com.example.rubmotorsportgroup2;
+package com.example.rubmotorsportgroup2.segmentview;
 
 import static com.example.rubmotorsportgroup2.MainActivity.dm;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.rubmotorsportgroup2.R;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.BarData;

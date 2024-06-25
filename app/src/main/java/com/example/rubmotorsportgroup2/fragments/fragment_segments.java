@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rubmotorsportgroup2.R;
-import com.example.rubmotorsportgroup2.RVSegmentAdapter;
-import com.example.rubmotorsportgroup2.SegmentActivity;
+import com.example.rubmotorsportgroup2.segmentview.RVSegmentAdapter;
+import com.example.rubmotorsportgroup2.segmentview.SegmentActivity;
 import com.example.rubmotorsportgroup2.datamanager.DataManager;
 import com.example.rubmotorsportgroup2.datamanager.SegmentData;
 

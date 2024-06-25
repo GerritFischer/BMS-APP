@@ -16,7 +16,7 @@
         android:theme="@style/Theme.RUBMotorsportGroup2"
         tools:targetApi="31">
         <activity
-            android:name=".EditUserID"
+            android:name=".settingsmanager.EditUserID"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SegmentActivity" />
+        <activity android:name=".segmentview.SegmentActivity" />
     </application>
 
 </manifest>

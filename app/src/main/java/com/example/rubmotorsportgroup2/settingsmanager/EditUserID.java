@@ -1,4 +1,4 @@
-package com.example.rubmotorsportgroup2;
+package com.example.rubmotorsportgroup2.settingsmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.rubmotorsportgroup2.MainActivity;
+import com.example.rubmotorsportgroup2.R;
 
 public class EditUserID extends AppCompatActivity {
     @Override

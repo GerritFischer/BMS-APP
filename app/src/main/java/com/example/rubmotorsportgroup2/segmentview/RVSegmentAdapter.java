@@ -1,7 +1,6 @@
-package com.example.rubmotorsportgroup2;
+package com.example.rubmotorsportgroup2.segmentview;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.datamanager.SegmentData;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.Debug;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,11 @@ public class fragment_overview extends Fragment {
     private TextView volttext;
     private TextView temptext;
     private BarChart tempbar;
+    private boolean running = true;
+    private final int tickTime = 1000;
+    private UpdaterX updater;
+
+
 
     public fragment_overview() {
 
@@ -63,7 +70,11 @@ public class fragment_overview extends Fragment {
 
         voltchart.add(new BarEntry(2f,4));
 
-        ImageView refreshview = view.findViewById(R.id.RefreshDataView);
+        getNewData();
+        updater = new UpdaterX();
+        updater.start();
+
+        /*ImageView refreshview = view.findViewById(R.id.RefreshDataView);
         getNewData();
 
         refreshview.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +84,33 @@ public class fragment_overview extends Fragment {
             }
         });
 
+         */
+
+    }
+    private class UpdaterX extends Thread {
+        @Override
+        public void run() {
+            int timer = 0;
+            while(running) {
+                try {
+
+                    if(timer < 1000){
+                        timer++;
+                    }
+                    // Sleeping
+                    else{
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            getNewData();
+                        });
+                    }
+                    Thread.sleep(tickTime);
+                    timer += tickTime;
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
     }
     public void getNewData()//Get the data form the Data manager and formats them in the string used by the fail pass view
     {
@@ -181,6 +219,16 @@ public class fragment_overview extends Fragment {
                 /*
         */
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        running = false; // Stop the thread when fragment is destroyed
+        try {
+            updater.join(); // Wait for the thread to finish
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
