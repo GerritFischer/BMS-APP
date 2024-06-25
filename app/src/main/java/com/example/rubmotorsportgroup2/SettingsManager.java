@@ -17,7 +17,7 @@ public class SettingsManager {
         //default Set Up if no JSON is found
         if(json.isEmpty()){
             darkmode= true;
-            sentrymode=true;
+            sentrymode=false;
             tabletmode=false;
             password="";
             mail=new ArrayList<>();
@@ -32,7 +32,7 @@ public class SettingsManager {
         else{
             //no Settings found so default settings
             darkmode= true;
-            sentrymode=true;
+            sentrymode=false;
             tabletmode=false;
         }
         if(json.hasPassword()){
