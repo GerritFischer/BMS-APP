@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -27,6 +28,8 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
     Context context;
     private RecyclerViewEvent listener;
     private ArrayList<SegmentData> data;
+
+    private ArrayList<RVSegmentAdapter.ViewHolder> viewHolders = new ArrayList<RVSegmentAdapter.ViewHolder>();
 
     public RVSegmentAdapter(Context context, ArrayList<SegmentData> data, RecyclerViewEvent listener) {
         this.context = context;
@@ -46,27 +49,33 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
                         false)
         );
     }
-
-    @Override
-    public void onBindViewHolder(@NonNull RVSegmentAdapter.ViewHolder holder, int position) {
-
-
-        holder.t.setText("Test" + position);
-
-
-
-        //creating mock data
+    public void updateDataSet(int position){
+        viewHolders.get(position).t.setText("Segment " + position);
         ArrayList<BarEntry> entries = new ArrayList<>();
-        for(int i = 0; i < 14; i++){
+        for(int i = 0; i < 22; i++){
             entries.add(new BarEntry((float)i, data.get(position).voltage_combined.get(i)));
         }
 
 
         //setting up properties of barchart
         BarDataSet barDataSet = new BarDataSet(entries, "data");
-        barDataSet.setColor(Color.GREEN);
+        barDataSet.setColor(ContextCompat.getColor(context, R.color.RubColorBlue));
         barDataSet.setDrawValues(false);
         BarData data = new BarData(barDataSet);
+        viewHolders.get(position).b.setData(data);
+        viewHolders.get(position).b.notifyDataSetChanged();
+        viewHolders.get(position).b.invalidate();
+    }
+    @Override
+    public void onBindViewHolder(@NonNull RVSegmentAdapter.ViewHolder holder, int position) {
+
+        viewHolders.add(holder);
+        //holder.t.setText("Test" + data.get(position).voltage_combined.get(2));
+
+
+
+        //creating mock data
+
         holder.b.setDrawGridBackground(false);
         Legend l = holder.b.getLegend();
         l.setEnabled(false);
@@ -81,12 +90,12 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         holder.b.getAxisRight().setEnabled(false);
         holder.b.getXAxis().setEnabled(false);
         holder.b.getDescription().setEnabled(false);
-        holder.b.setBackgroundColor(Color.GRAY);
+        holder.b.setBackgroundColor(ContextCompat.getColor(context, R.color.ElementColor));
         holder.b.setFocusableInTouchMode(false);
-        holder.b.getAxisLeft().setAxisMaximum(3.8f);
-        holder.b.getAxisLeft().setAxisMinimum(3.65f);
+        holder.b.getAxisLeft().setAxisMaximum(3.73f);
+        holder.b.getAxisLeft().setAxisMinimum(3.72f);
+        updateDataSet(position);
 
-        holder.b.setData(data);
     }
 
     @Override

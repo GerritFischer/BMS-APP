@@ -6,4 +6,5 @@
     <color name="RubColorBlue">#003560</color>
     <color name="BackgroundColor">#040404</color>
     <color name="ElementColor">#0a0a0a</color>
+    <color name="OKColor">#3dc03c</color>
 </resources>

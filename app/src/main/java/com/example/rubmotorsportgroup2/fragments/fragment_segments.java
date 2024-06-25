@@ -2,14 +2,18 @@ package com.example.rubmotorsportgroup2.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.RVSegmentAdapter;
 import com.example.rubmotorsportgroup2.SegmentActivity;
@@ -23,10 +27,42 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private final int tickTime = 1000;
+
     private String mParam1;
     private String mParam2;
-
+    private UpdaterX u;
     DataManager dm;
+    boolean running = true;
+    private RVSegmentAdapter a;
+    private class UpdaterX extends Thread {
+        @Override
+        public void run() {
+            int timer = 0;
+            while(running) {
+                try {
+
+                    if(timer < 1000){
+                        timer++;
+                    }
+                    // Sleeping
+                    else{
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            for(int i = 0; i < 12; i++){
+                                testData.set(i, dm.getSegmentData(i));
+                                a.updateDataSet(i);
+                            }
+                        });
+                    }
+                    Thread.sleep(tickTime);
+                    timer += tickTime;
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
     public fragment_segments(DataManager dm) {
         this.dm = dm;
     }
@@ -48,12 +84,16 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
         }
     }
 
+
+
+
     private ArrayList<SegmentData> testData = new ArrayList<SegmentData>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_segments, container, false);
-
+        u = new UpdaterX();
+        u.start();
         //Generating test data in form of Strings, later changed to objects for each segment
         //TODO: Create class for segment data
         int TEST_DATA_COUNT = 12;
@@ -64,7 +104,7 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
 
         //setting up adapter and assigning it to the RecyclerView
         RecyclerView r = (RecyclerView) view.findViewById(R.id.recyclerview_segments);
-        RVSegmentAdapter a = new RVSegmentAdapter(this.getContext(), testData, this);
+        a = new RVSegmentAdapter(this.getContext(), testData, this);
         r.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
         r.setHasFixedSize(true);
         r.setAdapter(a);
@@ -77,7 +117,23 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
     public void onItemClick(int pos) {
         //starting new mock activity when clicking on an item
         Intent segmentActivity = new Intent(getActivity(), SegmentActivity.class);
+        segmentActivity.putExtra("pos", pos);
+        segmentActivity.putExtra("barColor", ContextCompat.getColor(this.getContext(), R.color.RubColorBlue));
         startActivity(segmentActivity);
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        running = false; // Stop the thread when fragment is destroyed
+        try {
+            u.join(); // Wait for the thread to finish
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
 }
