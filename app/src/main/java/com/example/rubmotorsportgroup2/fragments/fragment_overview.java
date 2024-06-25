@@ -74,7 +74,7 @@ public class fragment_overview extends Fragment {
         });
 
     }
-    private void getNewData()//Get the data form the Data manager and formats them in the string used by the fail pass view
+    public void getNewData()//Get the data form the Data manager and formats them in the string used by the fail pass view
     {
         voltchart=  new ArrayList<>();
         tempchart = new ArrayList<>();
@@ -122,15 +122,17 @@ public class fragment_overview extends Fragment {
         BarData barData= new BarData(barDataSet);
         tempbar.setData(barData);
         barDataSet.setDrawValues(false);
-        tempbar.setDrawGridBackground(false);
+        tempbar.setDrawGridBackground(true);
+        Legend l = tempbar.getLegend();
+        l.setEnabled(false);
         tempbar.setTouchEnabled(false);
         tempbar.setScaleEnabled(false);
         tempbar.setDragEnabled(false);
         tempbar.setPinchZoom(false);
         tempbar.getXAxis().setDrawGridLines(false);
-        tempbar.getAxisLeft().setDrawGridLines(false);
+        //tempbar.getAxisLeft().setDrawGridLines(false);
         tempbar.getAxisRight().setDrawGridLines(false);
-        tempbar.getAxisLeft().setEnabled(false);
+        //tempbar.getAxisLeft().setEnabled(false);
         tempbar.getAxisRight().setEnabled(false);
         tempbar.getXAxis().setEnabled(false);
         tempbar.getDescription().setEnabled(false);
@@ -146,21 +148,23 @@ public class fragment_overview extends Fragment {
          barData = new BarData(barDataSet);
         voltbar.setData(barData);
         barDataSet.setDrawValues(false);
-        voltbar.setDrawGridBackground(false);
+        voltbar.setDrawGridBackground(true);
         voltbar.setTouchEnabled(false);
         voltbar.setScaleEnabled(false);
+        l = voltbar.getLegend();
+        l.setEnabled(false);
         voltbar.setDragEnabled(false);
         voltbar.setPinchZoom(false);
-        voltbar.getXAxis().setDrawGridLines(false);
-        voltbar.getAxisLeft().setDrawGridLines(false);
+        //voltbar.getXAxis().setDrawGridLines(false);
+        //voltbar.getAxisLeft().setDrawGridLines(false);
         voltbar.getAxisRight().setDrawGridLines(false);
-        voltbar.getAxisLeft().setEnabled(false);
+        //voltbar.getAxisLeft().setEnabled(false);
         voltbar.getAxisRight().setEnabled(false);
         voltbar.getXAxis().setEnabled(false);
         voltbar.getDescription().setEnabled(false);
         barDataSet.setColor(Color.GREEN);
-        voltbar.getAxisLeft().setAxisMaximum(3.73f);
-        voltbar.getAxisLeft().setAxisMinimum(3.72f);
+        voltbar.getAxisLeft().setAxisMaximum(4.5f);
+        voltbar.getAxisLeft().setAxisMinimum(3.1f);
         voltbar.invalidate();
         volttext.setText("Voltage:\n" +avgvoltage+"V");
 
