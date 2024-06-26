@@ -213,6 +213,35 @@ public class JsonConfig {
             return false;
         }
     }
+    public boolean isPassPro(){
+        try{
+            JSONObject json = new JSONObject(readJson());
+            // get JSONObject Settings
+            JSONObject jsettings=  json.getJSONObject("Settings");
+            //get Tabletmode bool
+            boolean isPassPro = jsettings.getBoolean("PasswordProtection");
+            return isPassPro;
+        }
+        catch(Exception e){
+            Toast.makeText(context, "Something went wrong isPassPro", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+    public void setPassPro(boolean isPassPro){
+        try{
+            setSettingsObject();
+            JSONObject json = new JSONObject(readJson());
+            //get JSONObject Settings
+            JSONObject jsettings=  json.getJSONObject("Settings");
+            //stores new value inside from key Tabletmode
+            jsettings.put("PasswordProtection",isPassPro);
+            json.put("Settings",jsettings);
+            saveJson(json.toString());
+        }
+        catch(Exception e){
+            Toast.makeText(context, "Something went wrong setPassPro", Toast.LENGTH_SHORT).show();
+        }
+    }
     public boolean hasSettings(){
         try{
             JSONObject json= new JSONObject(readJson());

@@ -33,7 +33,8 @@
             android:textColor="@color/white"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/roboto"/>
 
         <EditText
             android:id="@+id/pop_up_passwordInput"
@@ -46,6 +47,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pop_up_passwordEnterText"
             android:layout_margin="10dp"
+            android:fontFamily="@font/roboto"
             />
 
         <TextView
@@ -58,7 +60,8 @@
             app:layout_constraintTop_toBottomOf="@+id/pop_up_passwordInput"
             android:gravity="center"
             android:background="@color/ElementColor"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto"/>
 
         <TextView
             android:id="@+id/pop_up_confirmInput"
@@ -70,5 +73,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pop_up_passwordInput"
             android:gravity="center"
-            android:background="@color/ElementColor" />
+            android:background="@color/ElementColor"
+            android:fontFamily="@font/roboto"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
