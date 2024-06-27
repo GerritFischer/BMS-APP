@@ -118,7 +118,14 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
         //starting new mock activity when clicking on an item
         Intent segmentActivity = new Intent(getActivity(), SegmentActivity.class);
         segmentActivity.putExtra("pos", pos);
-        segmentActivity.putExtra("barColor", ContextCompat.getColor(this.getContext(), R.color.RubColorBlue));
+        segmentActivity.putExtra("barColors", new int[]{
+                        ContextCompat.getColor(this.getContext(), R.color.VeryLowColor),
+                        ContextCompat.getColor(this.getContext(), R.color.LowColor),
+                        ContextCompat.getColor(this.getContext(), R.color.OKColor),
+                        ContextCompat.getColor(this.getContext(), R.color.WarningColor),
+                        ContextCompat.getColor(this.getContext(), R.color.AlertColor)
+                }
+        );
         startActivity(segmentActivity);
 
     }
