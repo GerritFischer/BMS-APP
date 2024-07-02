@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rubmotorsportgroup2.R;
-import com.example.rubmotorsportgroup2.RVSegmentAdapter;
-import com.example.rubmotorsportgroup2.SegmentActivity;
+import com.example.rubmotorsportgroup2.segmentview.RVSegmentAdapter;
+import com.example.rubmotorsportgroup2.segmentview.SegmentActivity;
 import com.example.rubmotorsportgroup2.datamanager.DataManager;
 import com.example.rubmotorsportgroup2.datamanager.SegmentData;
 
@@ -118,7 +118,14 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
         //starting new mock activity when clicking on an item
         Intent segmentActivity = new Intent(getActivity(), SegmentActivity.class);
         segmentActivity.putExtra("pos", pos);
-        segmentActivity.putExtra("barColor", ContextCompat.getColor(this.getContext(), R.color.RubColorBlue));
+        segmentActivity.putExtra("barColors", new int[]{
+                        ContextCompat.getColor(this.getContext(), R.color.VeryLowColor),
+                        ContextCompat.getColor(this.getContext(), R.color.LowColor),
+                        ContextCompat.getColor(this.getContext(), R.color.OKColor),
+                        ContextCompat.getColor(this.getContext(), R.color.WarningColor),
+                        ContextCompat.getColor(this.getContext(), R.color.AlertColor)
+                }
+        );
         startActivity(segmentActivity);
 
     }
