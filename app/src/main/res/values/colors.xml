@@ -9,6 +9,7 @@
     <color name="VeryLowColor">#310077</color>
     <color name="LowColor">#3f66fb</color>
     <color name="OKColor">#3dc03c</color>
-    <color name="WarningColor">#f3bb1b</color>
-    <color name="AlertColor">#f03637</color>
+    <color name="WarningColorbutwithadifferentname">#FFEB3B</color>
+    <color name="DoubleWarningColor">#FF7700</color>
+    <color name="ErrorColor">#FF1100</color>
 </resources>

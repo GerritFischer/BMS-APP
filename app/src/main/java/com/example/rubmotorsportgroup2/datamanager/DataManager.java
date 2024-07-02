@@ -268,7 +268,9 @@ public class DataManager {
 
 
     public SegmentData getSegmentData(int segID) {
-        if (segID < 0 || segID > CELL_COUNT) return null;
+        if(dataSet.segmentDataArrayList == null)
+            return new SegmentData();
+        else if ((segID < 0 || segID > CELL_COUNT) ) return null;
         return dataSet.segmentDataArrayList.get(segID);
         //TODO: check if id is valid, get corresponding segment from dataset and return
     }
@@ -322,37 +324,48 @@ public class DataManager {
 
     }
 
-    public boolean hasError() {//returns if there is a true value in any fault{
+    public int hasError() {//returns how many errors are found
+
+        int counterrors = 0;
         for (int i = 0; i < CELL_COUNT; i++) {
+
             SegmentData segment = getSegmentData(i);
+            if(segment.cids.size() == 0) continue;
             for (int l = 0; l < 2; l++) {
                 CIDData cid1 = segment.cids.get(l);
-                for (int k = 0; k < cid1.getEot_cb().size(); k++) {
-                    if(cid1.getEot_cb().get(k)) return true;
-                }
+
+                //Over/under temperature
                 for (int k = 0; k < cid1.getAn_ot().size(); k++) {
-                    if(cid1.getAn_ot().get(k)) return true;
+                    if(cid1.getAn_ot().get(k))
+                        counterrors++;
                 }
                 for (int k = 0; k < cid1.getAn_ut().size(); k++) {
-                    if(cid1.getAn_ut().get(k)) return true;
+                    if(cid1.getAn_ut().get(k))
+                        counterrors++;
                 }
+                // Over/Undervoltage
                 for (int k = 0; k < cid1.getCt_ov().size(); k++) {
-                    if(cid1.getCt_ov().get(k)) return true;
+                    if(cid1.getCt_ov().get(k))
+                        counterrors++;
                 }
-
                 for (int k = 0; k < cid1.getCt_uv().size(); k++) {
-                    if(cid1.getCt_uv().get(k)) return true;
+                    if(cid1.getCt_uv().get(k))
+                        counterrors++;
                 }
+                //openload
                 for (int k = 0; k < cid1.getCt_open().size(); k++) {
-                    if(cid1.getCt_open().get(k)) return true;
+                    if(cid1.getCt_open().get(k))
+                        counterrors++;
                 }
+                //shortcircuit
                 for (int k = 0; k < cid1.getCt_short().size(); k++) {
-                    if(cid1.getCt_short().get(k)) return true;
+                    if(cid1.getCt_short().get(k))
+                        counterrors++;
                 }
 
             }
         }
-        return false;
+        return counterrors;
     }
     public int getCellCount()
     {
