@@ -1,4 +1,4 @@
-package com.example.rubmotorsportgroup2;
+package com.example.rubmotorsportgroup2.settingsmanager;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class JsonConfig {

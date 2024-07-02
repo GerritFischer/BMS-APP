@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.Debug;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,11 @@ public class fragment_overview extends Fragment {
     private TextView volttext;
     private TextView temptext;
     private BarChart tempbar;
+    private boolean running = true;
+    private final int tickTime = 1000;
+    private UpdaterX updater;
+
+
 
     public fragment_overview() {
 
@@ -63,7 +70,11 @@ public class fragment_overview extends Fragment {
 
         voltchart.add(new BarEntry(2f,4));
 
-        ImageView refreshview = view.findViewById(R.id.RefreshDataView);
+        getNewData();
+        updater = new UpdaterX();
+        updater.start();
+
+        /*ImageView refreshview = view.findViewById(R.id.RefreshDataView);
         getNewData();
 
         refreshview.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +84,33 @@ public class fragment_overview extends Fragment {
             }
         });
 
+         */
+
+    }
+    private class UpdaterX extends Thread {
+        @Override
+        public void run() {
+            int timer = 0;
+            while(running) {
+                try {
+
+                    if(timer < 1000){
+                        timer++;
+                    }
+                    // Sleeping
+                    else{
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            getNewData();
+                        });
+                    }
+                    Thread.sleep(tickTime);
+                    timer += tickTime;
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
     }
     public void getNewData()//Get the data form the Data manager and formats them in the string used by the fail pass view
     {
@@ -133,6 +171,7 @@ public class fragment_overview extends Fragment {
         //tempbar.getAxisLeft().setDrawGridLines(false);
         tempbar.getAxisRight().setDrawGridLines(false);
         //tempbar.getAxisLeft().setEnabled(false);
+        tempbar.getAxisLeft().setTextColor(Color.WHITE);
         tempbar.getAxisRight().setEnabled(false);
         tempbar.getXAxis().setEnabled(false);
         tempbar.getDescription().setEnabled(false);
@@ -140,12 +179,12 @@ public class fragment_overview extends Fragment {
         tempbar.getAxisLeft().setAxisMaximum(50f);
         tempbar.getAxisLeft().setAxisMinimum(10f);
         tempbar.invalidate();
-        System.out.println(avgtemp);
-        temptext.setText("Temperature:\n" +avgtemp+"C°");
+        System.out.println(avgtemp * 100);
+        temptext.setText("Temperature:\n" + (Math.round(avgtemp * 100.0) / 100.0) +"C°");
 
         voltchart.add(new BarEntry(2f,avgvoltage));
-         barDataSet = new BarDataSet(voltchart,"Voltage");
-         barData = new BarData(barDataSet);
+        barDataSet = new BarDataSet(voltchart,"Voltage");
+        barData = new BarData(barDataSet);
         voltbar.setData(barData);
         barDataSet.setDrawValues(false);
         voltbar.setDrawGridBackground(true);
@@ -159,6 +198,7 @@ public class fragment_overview extends Fragment {
         //voltbar.getAxisLeft().setDrawGridLines(false);
         voltbar.getAxisRight().setDrawGridLines(false);
         //voltbar.getAxisLeft().setEnabled(false);
+        voltbar.getAxisLeft().setTextColor(Color.WHITE);
         voltbar.getAxisRight().setEnabled(false);
         voltbar.getXAxis().setEnabled(false);
         voltbar.getDescription().setEnabled(false);
@@ -166,7 +206,7 @@ public class fragment_overview extends Fragment {
         voltbar.getAxisLeft().setAxisMaximum(4.5f);
         voltbar.getAxisLeft().setAxisMinimum(3.1f);
         voltbar.invalidate();
-        volttext.setText("Voltage:\n" +avgvoltage+"V");
+        volttext.setText("Voltage:\n" + Math.round(avgvoltage * 1000.0) / 1000.0 +"V");
 
 
 
@@ -181,6 +221,16 @@ public class fragment_overview extends Fragment {
                 /*
         */
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        running = false; // Stop the thread when fragment is destroyed
+        try {
+            updater.join(); // Wait for the thread to finish
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

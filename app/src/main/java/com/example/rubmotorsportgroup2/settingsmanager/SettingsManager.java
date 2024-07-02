@@ -1,7 +1,6 @@
-package com.example.rubmotorsportgroup2;
+package com.example.rubmotorsportgroup2.settingsmanager;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 

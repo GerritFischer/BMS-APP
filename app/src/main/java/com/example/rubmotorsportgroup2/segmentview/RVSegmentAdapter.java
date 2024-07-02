@@ -1,7 +1,6 @@
-package com.example.rubmotorsportgroup2;
+package com.example.rubmotorsportgroup2.segmentview;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.rubmotorsportgroup2.CustomBarDataset;
+import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.datamanager.SegmentData;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -58,8 +59,20 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
 
         //setting up properties of barchart
-        BarDataSet barDataSet = new BarDataSet(entries, "data");
-        barDataSet.setColor(ContextCompat.getColor(context, R.color.RubColorBlue));
+        ArrayList<Float> intervals = new ArrayList<Float>();
+        intervals.add(3.1f);
+        intervals.add(3.4f);
+        intervals.add(3.8f);
+        intervals.add(4.0f);
+        intervals.add(4.1f);
+
+        CustomBarDataset barDataSet = new CustomBarDataset(entries, "data", intervals);
+        barDataSet.setColors(ContextCompat.getColor(context, R.color.VeryLowColor),
+                             ContextCompat.getColor(context, R.color.LowColor),
+                             ContextCompat.getColor(context, R.color.OKColor),
+                             ContextCompat.getColor(context, R.color.WarningColor),
+                             ContextCompat.getColor(context, R.color.AlertColor)
+                            );
         barDataSet.setDrawValues(false);
         BarData data = new BarData(barDataSet);
         viewHolders.get(position).b.setData(data);
@@ -92,8 +105,8 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         holder.b.getDescription().setEnabled(false);
         holder.b.setBackgroundColor(ContextCompat.getColor(context, R.color.ElementColor));
         holder.b.setFocusableInTouchMode(false);
-        holder.b.getAxisLeft().setAxisMaximum(3.73f);
-        holder.b.getAxisLeft().setAxisMinimum(3.72f);
+        holder.b.getAxisLeft().setAxisMaximum(4.3f);
+        holder.b.getAxisLeft().setAxisMinimum(2.9f);
         updateDataSet(position);
 
     }
