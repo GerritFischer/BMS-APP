@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
-import com.example.rubmotorsportgroup2.SettingsManager;
+import com.example.rubmotorsportgroup2.settingsmanager.SettingsManager;
 
 public class fragment_settings extends Fragment{
     // TODO: Rename parameter arguments, choose names that match

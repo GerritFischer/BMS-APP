@@ -54,7 +54,14 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         viewHolders.get(position).t.setText("Segment " + position);
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i = 0; i < 22; i++){
-            entries.add(new BarEntry((float)i, data.get(position).voltage_combined.get(i)));
+            try{
+                entries.add(new BarEntry((float)i, data.get(position).voltage_combined.get(i)));
+            }
+            catch(Exception e){
+                System.out.println("NO DATA FOR SEGMENT " + i);
+            }
+
+
         }
 
 
