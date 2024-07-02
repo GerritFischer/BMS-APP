@@ -7,7 +7,7 @@
     <color name="BackgroundColor">#040404</color>
     <color name="ElementColor">#0a0a0a</color>
     <color name="OKColor">#3dc03c</color>
-    <color name="WarningColor">#FFEB3B</color>
+    <color name="WarningColorbutwithadifferentname">#FFEB3B</color>
     <color name="DoubleWarningColor">#FF7700</color>
     <color name="ErrorColor">#FF1100</color>
 </resources>
