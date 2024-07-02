@@ -19,12 +19,11 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rubmotorsportgroup2.EditUserID;
-import com.example.rubmotorsportgroup2.JsonConfig;
+import com.example.rubmotorsportgroup2.settingsmanager.EditUserID;
+import com.example.rubmotorsportgroup2.settingsmanager.JsonConfig;
 import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
-import com.example.rubmotorsportgroup2.SettingsManager;
-import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
+import com.example.rubmotorsportgroup2.settingsmanager.SettingsManager;
 import com.example.rubmotorsportgroup2.databinding.FragmentSettingsBinding;
 
 public class fragment_settings extends Fragment{
