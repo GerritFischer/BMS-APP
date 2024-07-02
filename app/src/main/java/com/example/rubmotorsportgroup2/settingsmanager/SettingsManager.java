@@ -11,6 +11,7 @@ public class SettingsManager {
     private boolean sentrymode;
     private boolean tabletmode;
     private String password;
+    private boolean passwordPro;
     public void loadSettings(Context context){
         JsonConfig json= new JsonConfig(context);
         //default Set Up if no JSON is found
@@ -18,6 +19,7 @@ public class SettingsManager {
             darkmode= true;
             sentrymode=false;
             tabletmode=false;
+            passwordPro=false;
             password="";
             mail=new ArrayList<>();
             return;
@@ -27,9 +29,11 @@ public class SettingsManager {
             darkmode= json.isDarkmode();
             sentrymode=json.isSentrymode();
             tabletmode=json.isTabletmode();
+            passwordPro= json.isPassPro();
         }
         else{
             //no Settings found so default settings
+            passwordPro=false;
             darkmode= true;
             sentrymode=false;
             tabletmode=false;
@@ -64,6 +68,7 @@ public class SettingsManager {
         json.setSentryMode(sentrymode);
         json.setTabletMode(tabletmode);
         json.setEmailList(mail);
+        json.setPassPro(passwordPro);
     }
 
     public void setSentryMode(boolean isSentry){
@@ -121,5 +126,11 @@ public class SettingsManager {
     }
     public ArrayList<String> getMails(){
         return mail;
+    }
+    public void setPasswordPro(boolean isPasswordPro){
+        passwordPro=isPasswordPro;
+    }
+    public boolean isPassPro(){
+        return passwordPro;
     }
 }

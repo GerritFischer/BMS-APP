@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/confirm_pop_up"
+    android:id="@+id/confirm_sentry_pop_up"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pop_up_rounded"
@@ -31,7 +31,8 @@
         android:textColor="@color/white"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/roboto"/>
     <TextView
         android:id="@+id/pop_up_cancelInput"
         android:layout_width="0dp"
@@ -42,7 +43,8 @@
         app:layout_constraintEnd_toStartOf="@id/pop_up_guideline_right"
         app:layout_constraintTop_toBottomOf="@+id/confirm_pop_up_text"
         android:gravity="center"
-        android:background="@color/ElementColor" />
+        android:background="@color/ElementColor"
+        android:fontFamily="@font/roboto"/>
     <TextView
         android:id="@+id/pop_up_confirmInput"
         android:layout_width="0dp"
@@ -53,6 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_pop_up_text"
         android:gravity="center"
-        android:background="@color/ElementColor"/>
+        android:background="@color/ElementColor"
+        android:fontFamily="@font/roboto"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

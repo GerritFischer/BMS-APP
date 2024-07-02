@@ -19,19 +19,15 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rubmotorsportgroup2.settingsmanager.EditUserID;
-import com.example.rubmotorsportgroup2.settingsmanager.JsonConfig;
 import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
-import com.example.rubmotorsportgroup2.settingsmanager.SettingsManager;
-import com.example.rubmotorsportgroup2.databinding.FragmentSettingsBinding;
+import com.example.rubmotorsportgroup2.SettingsManager;
 
 public class fragment_settings extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private FragmentSettingsBinding binding;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -71,31 +67,34 @@ public class fragment_settings extends Fragment{
         View inflate=inflater.inflate(R.layout.fragment_settings, container, false);
 
         // reacts when Button is clicked
-        Button btn= inflate.findViewById(R.id.settings_editBtn);
+        Button btn= inflate.findViewById(R.id.settings_editPassBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(getActivity(), EditUserID.class);
-                startActivity(intent);
+                displayPasChangePop();
             }
         });
 
         SettingsManager sm= MainActivity.sm;
         sm.loadSettings(getActivity());
         sm.saveSettings(getActivity());
-        // store the View
-        TextView username =inflate.findViewById(R.id.settings_emailInput);
-        //test for correctness of Json
-        username.setText(new JsonConfig(getActivity()).readJson());
-        TextView password= inflate.findViewById(R.id.settings_passwordInput);
 
-        //replace new Password from Json
-        StringBuilder hiddenpass= new StringBuilder();
-        for(int i = 0; i< sm.getPassword().length(); i++)
-        {
-            hiddenpass.append("*");
-        }
-        password.setText(hiddenpass);
+        SwitchCompat passwordProSwitch=inflate.findViewById(R.id.settings_password_pro_switch);
+        passwordProSwitch.setChecked(sm.isPassPro());
+        passwordProSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // if Password Protection Switch is changed it change the json accordingly
+                if (isChecked) {
+                    displayPasProPop(passwordProSwitch);
+
+                } else {
+                    sm.setSentryMode(isChecked);
+                    sm.saveSettings(getActivity());
+                }
+            }
+        });
+
 
         SwitchCompat darkModeSwitch=inflate.findViewById(R.id.settings_lightModeSwitch);
         darkModeSwitch.setChecked(sm.isDarkMode());
@@ -155,8 +154,8 @@ public class fragment_settings extends Fragment{
 
     }
     private void displayPopUp(SwitchCompat senSwitch){
-        ConstraintLayout pop_up_wind=getView().findViewById(R.id.confirm_pop_up);
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.confirm_pop_up,pop_up_wind,false);
+        ConstraintLayout pop_up_wind=getView().findViewById(R.id.confirm_sentry_pop_up);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.confirm_sentry_pop_up,pop_up_wind,false);
 
         TextView cancel = view.findViewById(R.id.pop_up_cancelInput);
         TextView confirm = view.findViewById(R.id.pop_up_confirmInput);
@@ -172,9 +171,6 @@ public class fragment_settings extends Fragment{
                 alertDialog.dismiss();
                 Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
                 senSwitch.setChecked(false);
-                SettingsManager sm =MainActivity.sm;
-                sm.setSentryMode(false);
-                sm.saveSettings(getActivity());
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -186,9 +182,86 @@ public class fragment_settings extends Fragment{
                 SettingsManager sm =MainActivity.sm;
                 sm.setSentryMode(true);
                 sm.saveSettings(getActivity());
-                Intent intent=new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(getActivity(),"hey",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        alertDialog.show();
+    }
+    private void displayPasChangePop(){
+        ConstraintLayout pop_up_wind=getView().findViewById(R.id.pop_change_password);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_change_password,pop_up_wind,false);
+
+        TextView cancel = view.findViewById(R.id.pop_up_cancelInput);
+        TextView confirm = view.findViewById(R.id.pop_up_confirmInput);
+        TextView password=view.findViewById(R.id.pop_up_passwordInput);
+        TextView newpass=view.findViewById(R.id.edit_user_newpassword);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
+        final AlertDialog alertDialog= builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                SettingsManager sm=MainActivity.sm;
+                sm.loadSettings(getActivity());
+                if(sm.getPassword().equals(password.getText().toString())){
+                    Toast.makeText(getActivity(),"confirm",Toast.LENGTH_SHORT).show();
+                    if(newpass.getText().toString().length()>=4) {
+                        sm.setPassword(newpass.getText().toString());
+                        sm.saveSettings(getActivity());
+                        Toast.makeText(getActivity(),sm.getPassword(),Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(getActivity(),"new Password is to short",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getActivity(),sm.getPassword(),Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        alertDialog.show();
+    }
+    private void displayPasProPop(SwitchCompat passProSwitch){
+        ConstraintLayout pop_up_wind=getView().findViewById(R.id.confirm_passwordpro_pop_up);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.confirm_passwordpro_pop_up,pop_up_wind,false);
+
+        TextView cancel = view.findViewById(R.id.pop_up_cancelInput);
+        TextView confirm = view.findViewById(R.id.pop_up_confirmInput);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
+        final AlertDialog alertDialog= builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
+                passProSwitch.setChecked(false);
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                SettingsManager sm=MainActivity.sm;
+                sm.loadSettings(getActivity());
+                sm.setPasswordPro(true);
 
             }
         });
