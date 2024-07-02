@@ -92,14 +92,14 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/StatusMessage"
+        android:id="@+id/StatusMessageView"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginEnd="30dp"
         android:fontFamily="@font/roboto"
         android:gravity="center"
         android:text="OK"
-        android:textColor="#00FE00"
+        android:textColor="@color/OKColor"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/StatusText" />
@@ -114,5 +114,18 @@
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ShowErrorView"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="0 Errors"
+        android:textColor="@color/OKColor"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StatusMessageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

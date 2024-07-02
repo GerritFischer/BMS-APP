@@ -50,21 +50,25 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         );
     }
     public void updateDataSet(int position){
-        viewHolders.get(position).t.setText("Segment " + position);
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        for(int i = 0; i < 22; i++){
-            entries.add(new BarEntry((float)i, data.get(position).voltage_combined.get(i)));
-        }
+
+            viewHolders.get(position).t.setText("Segment " + position);
+            ArrayList<BarEntry> entries = new ArrayList<>();
+            for(int i = 0; i < data.get(position).voltage_combined.size(); i++){
+                System.out.println(i);
+                entries.add(new BarEntry((float)i, data.get(position).voltage_combined.get(i)));
+            }
 
 
-        //setting up properties of barchart
-        BarDataSet barDataSet = new BarDataSet(entries, "data");
-        barDataSet.setColor(ContextCompat.getColor(context, R.color.RubColorBlue));
-        barDataSet.setDrawValues(false);
-        BarData data = new BarData(barDataSet);
-        viewHolders.get(position).b.setData(data);
-        viewHolders.get(position).b.notifyDataSetChanged();
-        viewHolders.get(position).b.invalidate();
+            //setting up properties of barchart
+            BarDataSet barDataSet = new BarDataSet(entries, "data");
+            barDataSet.setColor(ContextCompat.getColor(context, R.color.RubColorBlue));
+            barDataSet.setDrawValues(false);
+            BarData data = new BarData(barDataSet);
+            viewHolders.get(position).b.setData(data);
+            viewHolders.get(position).b.notifyDataSetChanged();
+            viewHolders.get(position).b.invalidate();
+
+
     }
     @Override
     public void onBindViewHolder(@NonNull RVSegmentAdapter.ViewHolder holder, int position) {

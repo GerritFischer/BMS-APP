@@ -8,14 +8,14 @@ public class CIDData {
     private ArrayList<Float> temperature = new ArrayList<Float>(); //7
     private float stack_voltage;
     private float IC_temp;
-    private ArrayList<Boolean> eot_cb = new ArrayList<Boolean>();
-    private ArrayList<Boolean> an_ot = new ArrayList<Boolean>();
-    private ArrayList<Boolean> an_ut = new ArrayList<Boolean>();
-    private ArrayList<Boolean> ct_ov = new ArrayList<Boolean>();
-    private ArrayList<Boolean> ct_uv = new ArrayList<Boolean>();
-    private ArrayList<Boolean> ct_open = new ArrayList<Boolean>();
-    private ArrayList<Boolean> ct_short = new ArrayList<Boolean>();
-    private ArrayList<String> faults = new ArrayList<String>();
+    private ArrayList<Boolean> eot_cb = new ArrayList<Boolean>();// Only relevant for Cell balancing
+    private ArrayList<Boolean> an_ot = new ArrayList<Boolean>();//Error
+    private ArrayList<Boolean> an_ut = new ArrayList<Boolean>();//Error
+    private ArrayList<Boolean> ct_ov = new ArrayList<Boolean>();//Error
+    private ArrayList<Boolean> ct_uv = new ArrayList<Boolean>();//Error
+    private ArrayList<Boolean> ct_open = new ArrayList<Boolean>();//Error
+    private ArrayList<Boolean> ct_short = new ArrayList<Boolean>();//Error
+    private ArrayList<String> faults = new ArrayList<String>();//Error, but depends on which fault
     short COM_ERR_COUNT;
 
 
@@ -67,6 +67,22 @@ public class CIDData {
     public ArrayList<Boolean> getCt_open(){return ct_open;}
     public ArrayList<Boolean> getCt_short(){return ct_short;}
 
+    public int getImportantFaults()
+    {
+        int geterrors = 0;
+
+        for(int i = 0; i<faults.size();i++)
+        {
+            if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") || faults.get(i).equals("CB_OPEN_FLT") || faults.get(i).equals("CB_SHORT_FLT"))
+                geterrors++;
+            else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
+                geterrors++;
+            else if(faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT"))
+                geterrors++;
+        }
+        System.out.println(faults.size());
+        return geterrors;
+    }
 
 
 }
