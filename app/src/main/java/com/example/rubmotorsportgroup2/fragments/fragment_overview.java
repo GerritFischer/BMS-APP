@@ -38,7 +38,7 @@ public class fragment_overview extends Fragment {
     private TextView volttext;
     private TextView temptext;
     private BarChart tempbar;
-    private TextView status;
+    private TextView statusmessageview;
     private TextView errormessage;
     private int errorcount = 0;
     private boolean running = true;
@@ -73,6 +73,7 @@ public class fragment_overview extends Fragment {
         temptext = (TextView) view.findViewById(R.id.TemperatureText);
 
         voltchart.add(new BarEntry(2f,4));
+        statusmessageview = (TextView) view.findViewById(R.id.StatusMessage);
 
         getNewData();
         updater = new UpdaterX();
@@ -183,7 +184,6 @@ public class fragment_overview extends Fragment {
         tempbar.getAxisLeft().setAxisMaximum(50f);
         tempbar.getAxisLeft().setAxisMinimum(10f);
         tempbar.invalidate();
-        System.out.println(avgtemp * 100);
         temptext.setText("Temperature:\n" + (Math.round(avgtemp * 100.0) / 100.0) +"C°");
 
         voltchart.add(new BarEntry(2f,avgvoltage));
@@ -212,37 +212,38 @@ public class fragment_overview extends Fragment {
         voltbar.invalidate();
         volttext.setText("Voltage:\n" + Math.round(avgvoltage * 1000.0) / 1000.0 +"V");
 
-        /*
+
         errorcount=dm.hasError();
+        dm.checkforUV();
 
         if (errorcount == 0) {
-            status.setText("OK");
-            status.setTextColor(0xff3dc03c);
-            errormessage.setText("0 Errors");
-            errormessage.setTextColor(0xff3dc03c);
+            statusmessageview.setText("OK");
+            statusmessageview.setBackground(getResources().getDrawable(R.drawable.tv_segment_status_drawable,null));
+            //errormessage.setText("0 Errors");
+            //errormessage.setTextColor(0xff3dc03c);
         }
         else if(errorcount == 1){
-            status.setText("!");
-            status.setTextColor(0xffFFEB3B);
-            errormessage.setText("1 Error");
-            errormessage.setTextColor(0xffFFEB3B);
+            statusmessageview.setText("!");
+            statusmessageview.setBackground(getResources().getDrawable(R.drawable.warning_background_overview,null));
+            //errormessage.setText("1 Error");
+            //errormessage.setTextColor(0xffFFEB3B);
         }
         else if(errorcount == 2) {
-            status.setText("!!");
-            status.setTextColor(0xffFF7700);
-            errormessage.setText("2 Errors");
-            errormessage.setTextColor(0xffFF7700);
+            statusmessageview.setText("!!");
+            statusmessageview.setBackground(getResources().getDrawable(R.drawable.double_warning_overview,null));
+            //errormessage.setText("2 Errors");
+            //errormessage.setTextColor(0xffFF7700);
         }
         else
         {
-            status.setText("!!!");
-            status.setTextColor(0xffFF1100);
-            errormessage.setText(""+errorcount+" Errors");
-            errormessage.setTextColor(0xffFF1100);
+            statusmessageview.setText("!!!");
+            statusmessageview.setBackground(getResources().getDrawable(R.drawable.error_warning_overview, null));
+            //errormessage.setText(""+errorcount+" Errors");
+            //errormessage.setTextColor(0xffFF1100);
         }
 
 
-        */
+
        /* String ret = "Average Voltage: "+ avgvoltage+"V\n"
                 + "Average Temperature: "+ avgtemp+"C°\n"
                 + "Cell Balancing: "+"sec\n"
