@@ -80,9 +80,11 @@ public class CIDData {
             else if(faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT"))
                 geterrors++;
         }
-        System.out.println(faults.size());
+        //System.out.println(faults.size());
         return geterrors;
     }
 
-
+    public ArrayList<Float> getVoltage() {
+        return voltage;
+    }
 }

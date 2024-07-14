@@ -1,5 +1,6 @@
 package com.example.rubmotorsportgroup2.datamanager;
 
+import android.service.autofill.CharSequenceTransformation;
 import android.util.Base64;
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ public class DataManager {
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
     private DataRetriever dataRetriever;
+    private long checksum = 0;
 
     public DataManager() {
         dataSet = new DataSet(null);
@@ -24,21 +26,36 @@ public class DataManager {
     public int[] decodeDataString(String dataString) {
 
         byte[] byteData = Base64.decode(dataString, Base64.DEFAULT);
-
         int length = 0;
         for (int i = 0; i < 4; i++) {
             length = (length << 8) + byteData[3 - i];
+
         }
 
-        int[] intArray = new int[length];
+        int[] intArray = new int[length+1];//
         intArray[0] = length;
 
-        for (int i = 1; i < length; i++) {
+        for (int i = 1; i < length+1; i++) {
             intArray[i] = (byteData[i * 4 + 3]);
             intArray[i] = (intArray[i] << 8) + ((int) byteData[i * 4 + 2] & 0xFF);
             intArray[i] = (intArray[i] << 8) + ((int) byteData[i * 4 + 1] & 0xFF);
             intArray[i] = (intArray[i] << 8) + ((int) byteData[i * 4] & 0xFF);
         }
+
+        //Test for Checksum
+        long sendedChecksum = 0;
+        for(int i = 0;  i<4;i++)//gets the last 4 bits of the data streams(the sended checksum)
+            sendedChecksum = (sendedChecksum <<8 ) + byteData[byteData.length-1-i];
+
+        long calculatedChecksum = 0;
+        for(int i = 0;i<length*4;i++)
+        {
+            long shift = Byte.toUnsignedInt(byteData[i]);
+            calculatedChecksum = calculatedChecksum^(shift << (i%24));//calculates the checksum with the given data
+        }
+        //System.out.println("-------------------\n"+Long.toHexString(calculatedChecksum));
+        //System.out.println(Long.toHexString(sendedChecksum));
+        checksum = calculatedChecksum;
         return intArray;
     }
 
@@ -262,6 +279,9 @@ public class DataManager {
             segment.addCID(cid2);
             segments.add(segment);
         }
+        //System.out.println(Integer.toHexString(data[data.length-1]));
+        if(checksum != data[data.length-1] )
+            System.out.println("hä");
         //generate and return new data set
         return new DataSet(segments);
     }
@@ -327,44 +347,78 @@ public class DataManager {
     public int hasError() {//returns how many errors are found
 
         int counterrors = 0;
-        for (int i = 0; i < CELL_COUNT; i++) {
+        int OT = 0;
+        int UT = 0;
+        int OV = 0;
+        int UV = 0;
+        int CTO = 0;
+        int CTS = 0;
+        int otherfaults=0;
+        for (int segmentcount = 0; segmentcount < CELL_COUNT; segmentcount++) {
 
-            SegmentData segment = getSegmentData(i);
+            SegmentData segment = getSegmentData(segmentcount);
             if(segment.cids.size() == 0) continue;
-            for (int l = 0; l < 2; l++) {
-                CIDData cid1 = segment.cids.get(l);
+            for (int cidcount = 0; cidcount < 2; cidcount++) {
+                CIDData cid = segment.cids.get(cidcount);
 
                 //Over/under temperature
-                for (int k = 0; k < cid1.getAn_ot().size(); k++) {
-                    if(cid1.getAn_ot().get(k))
+                for (int k = 0; k < cid.getAn_ot().size(); k++) {
+                    if(cid.getAn_ot().get(k)) {
                         counterrors++;
+                        OT++;
+                    }
                 }
-                for (int k = 0; k < cid1.getAn_ut().size(); k++) {
-                    if(cid1.getAn_ut().get(k))
+                for (int k = 0; k < cid.getAn_ut().size(); k++) {
+                    if(cid.getAn_ut().get(k)) {
                         counterrors++;
+                        UT++;
+                    }
                 }
                 // Over/Undervoltage
-                for (int k = 0; k < cid1.getCt_ov().size(); k++) {
-                    if(cid1.getCt_ov().get(k))
+                for (int k = 0; k < cid.getCt_ov().size(); k++) {
+                    if(cid.getCt_ov().get(k)) {
                         counterrors++;
+                        OV++;
+                    }
                 }
-                for (int k = 0; k < cid1.getCt_uv().size(); k++) {
-                    if(cid1.getCt_uv().get(k))
+                for (int k = 0; k < cid.getCt_uv().size(); k++) {
+                    if(cid.getCt_uv().get(k)) {
                         counterrors++;
+                        UV++;
+                        //System.out.println("UV at Segment "+ segmentcount +" in CID "+ cidcount +" in cell "+k + " with voltage of "+ cid.getVoltage().get(k));
+                    }
                 }
                 //openload
-                for (int k = 0; k < cid1.getCt_open().size(); k++) {
-                    if(cid1.getCt_open().get(k))
+                for (int k = 0; k < cid.getCt_open().size(); k++) {
+                    if(cid.getCt_open().get(k)) {
                         counterrors++;
+                        CTO++;
+                    }
                 }
                 //shortcircuit
-                for (int k = 0; k < cid1.getCt_short().size(); k++) {
-                    if(cid1.getCt_short().get(k))
+                for (int k = 0; k < cid.getCt_short().size(); k++) {
+                    if(cid.getCt_short().get(k)) {
                         counterrors++;
+                        CTS++;
+                    }
                 }
+                counterrors = counterrors+ cid.getImportantFaults();
+                otherfaults = otherfaults+ cid.getImportantFaults();
 
             }
+
         }
+
+            /*
+            System.out.println("Total "+ counterrors);
+            System.out.println("OT "+OT);
+            System.out.println("UT "+UT);
+            System.out.println("OV "+OV);
+            System.out.println("UV "+UV);
+            System.out.println("CSO "+ CTO);
+            System.out.println("CTS "+CTS);
+             System.out.println("Other faults "+ otherfaults);
+*/
         return counterrors;
     }
     public int getCellCount()
@@ -374,6 +428,36 @@ public class DataManager {
     public int getTempCount()
     {
         return TEMP_COUNT;
+    }
+    public void checkforUV()
+    {
+        int uv = 0;
+        for (int segmentcount = 0; segmentcount < CELL_COUNT; segmentcount++) {
+
+            ArrayList<Float> voltagelist= getSegmentVoltage(segmentcount);
+           for(int voltagecount = 0;voltagecount < voltagelist.size();voltagecount++ )
+               if(voltagelist.get(voltagecount)< 3.6f)
+               {
+                   System.out.println(voltagelist.get(voltagecount));
+                   /*
+                   if (voltagecount<voltagelist.size()/2)
+                        System.out.println("UV at Segment "+ segmentcount +" in CID "+0 +" in cell "+voltagecount + " with voltage of "+voltagelist.get(voltagecount));
+                   else
+                       System.out.println("UV at Segment "+ segmentcount +" in CID "+1 +" in cell "+(voltagecount- (voltagelist.size()/2))+ " with voltage of "+voltagelist.get(voltagecount));
+               */
+               }
+
+        }
+    }
+    public long calculateChecksum(Byte[] data)
+    {
+            long ret = 0;
+            for(int i = 0; i< data.length;i++)
+            {
+                ret = ret^(data[i]<<(i%24));
+            }
+            System.out.println("ret");
+            return ret;
     }
 
 }
