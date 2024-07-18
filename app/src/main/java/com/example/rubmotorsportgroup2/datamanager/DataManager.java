@@ -132,7 +132,7 @@ public class DataManager {
             //eot_cid1
             for (int j = 0; j < 14; j++) {
                 if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                    boolean cb_state = false; //(((register_fault3_cellov >> 16) >> j) & 1) == 1;
                     if(!cb_state && !cbData.hasStarted(j)){
                         cbData.setStart(j);
                     }
@@ -482,6 +482,10 @@ public class DataManager {
             }
             System.out.println("ret");
             return ret;
+    }
+
+    public CBData getCbData(){
+        return cbData;
     }
 
 }

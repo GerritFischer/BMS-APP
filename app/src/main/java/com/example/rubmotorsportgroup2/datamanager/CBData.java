@@ -27,4 +27,7 @@ public class CBData {
         cbTimes.set(index, Duration.between(cbStarts.get(index), Instant.now()));
         cbStarts.set(index, Instant.ofEpochSecond(0));
     }
+    public Duration getTime(int index){
+        return cbTimes.get(index);
+    }
 }
