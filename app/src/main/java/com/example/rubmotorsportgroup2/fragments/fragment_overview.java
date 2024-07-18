@@ -3,26 +3,21 @@ package com.example.rubmotorsportgroup2.fragments;
 import static com.example.rubmotorsportgroup2.MainActivity.dm;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.datamanager.DataManager;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -43,8 +38,8 @@ public class fragment_overview extends Fragment {
     private TextView errormessage;
     private int errorcount = 0;
     private boolean running = true;
-    private final int tickTime = 1000;
-    private UpdaterX updater;
+    private final int tickTime = 10;
+    private OverviewUpdateThread overviewUpdateThread;
 
 
 
@@ -76,9 +71,8 @@ public class fragment_overview extends Fragment {
         voltchart.add(new BarEntry(2f,4));
         statusmessageview = (TextView) view.findViewById(R.id.StatusMessage);
 
-        getNewData();
-        updater = new UpdaterX();
-        updater.start();
+        overviewUpdateThread = new OverviewUpdateThread();
+        overviewUpdateThread.start();
 
         /*ImageView refreshview = view.findViewById(R.id.RefreshDataView);
         getNewData();
@@ -93,25 +87,25 @@ public class fragment_overview extends Fragment {
          */
 
     }
-    private class UpdaterX extends Thread {
+    private class OverviewUpdateThread extends Thread {
         @Override
         public void run() {
-            int timer = 0;
+            int timer = 1000;
             while(running) {
                 try {
 
-                    if(timer < 1000){
-                        timer++;
+                    if(timer >= 1000){
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            getNewData();
+
+                        });
+                        timer = 0;
                     }
                     // Sleeping
                     else{
-                        new Handler(Looper.getMainLooper()).post(() -> {
-                            getNewData();
-                        });
+                        Thread.sleep(tickTime);
+                        timer += tickTime;
                     }
-                    Thread.sleep(tickTime);
-                    timer += tickTime;
-
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -216,31 +210,31 @@ public class fragment_overview extends Fragment {
 
         errorcount=dm.hasError();
         dm.checkforUV();
-
-        if (errorcount == 0) {
-            statusmessageview.setText("OK");
-            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(),R.drawable.tv_segment_status_drawable,null));
-            //errormessage.setText("0 Errors");
-            //errormessage.setTextColor(0xff3dc03c);
+        try {
+            if (errorcount == 0) {
+                statusmessageview.setText("OK");
+                statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.tv_segment_status_drawable, null));
+                //errormessage.setText("0 Errors");
+                //errormessage.setTextColor(0xff3dc03c);
+            } else if (errorcount == 1) {
+                statusmessageview.setText("!");
+                statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.warning_background_overview, null));
+                //errormessage.setText("1 Error");
+                //errormessage.setTextColor(0xffFFEB3B);
+            } else if (errorcount == 2) {
+                statusmessageview.setText("!!");
+                statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.double_warning_overview, null));
+                //errormessage.setText("2 Errors");
+                //errormessage.setTextColor(0xffFF7700);
+            } else {
+                statusmessageview.setText("!!!");
+                statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.error_warning_overview, null));
+                //errormessage.setText(""+errorcount+" Errors");
+                //errormessage.setTextColor(0xffFF1100);
+            }
         }
-        else if(errorcount == 1){
-            statusmessageview.setText("!");
-            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(),R.drawable.warning_background_overview,null));
-            //errormessage.setText("1 Error");
-            //errormessage.setTextColor(0xffFFEB3B);
-        }
-        else if(errorcount == 2) {
-            statusmessageview.setText("!!");
-            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.double_warning_overview,null));
-            //errormessage.setText("2 Errors");
-            //errormessage.setTextColor(0xffFF7700);
-        }
-        else
-        {
-            statusmessageview.setText("!!!");
-            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.error_warning_overview, null));
-            //errormessage.setText(""+errorcount+" Errors");
-            //errormessage.setTextColor(0xffFF1100);
+        catch(Exception e){
+            System.out.println(e.getMessage());
         }
 
 
@@ -258,7 +252,7 @@ public class fragment_overview extends Fragment {
         super.onDestroy();
         running = false; // Stop the thread when fragment is destroyed
         try {
-            updater.join(); // Wait for the thread to finish
+            overviewUpdateThread.join(); // Wait for the thread to finish
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
