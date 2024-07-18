@@ -1,5 +1,6 @@
 package com.example.rubmotorsportgroup2.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -262,6 +263,10 @@ public class fragment_settings extends Fragment{
                 SettingsManager sm=MainActivity.sm;
                 sm.loadSettings(getActivity());
                 sm.setPasswordPro(true);
+                sm.saveSettings(getActivity());
+                Intent intent=new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
 
             }
         });
