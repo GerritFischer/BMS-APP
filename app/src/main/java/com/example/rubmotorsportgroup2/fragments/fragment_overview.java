@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Debug;
@@ -218,26 +219,26 @@ public class fragment_overview extends Fragment {
 
         if (errorcount == 0) {
             statusmessageview.setText("OK");
-            statusmessageview.setBackground(getResources().getDrawable(R.drawable.tv_segment_status_drawable,null));
+            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(),R.drawable.tv_segment_status_drawable,null));
             //errormessage.setText("0 Errors");
             //errormessage.setTextColor(0xff3dc03c);
         }
         else if(errorcount == 1){
             statusmessageview.setText("!");
-            statusmessageview.setBackground(getResources().getDrawable(R.drawable.warning_background_overview,null));
+            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(),R.drawable.warning_background_overview,null));
             //errormessage.setText("1 Error");
             //errormessage.setTextColor(0xffFFEB3B);
         }
         else if(errorcount == 2) {
             statusmessageview.setText("!!");
-            statusmessageview.setBackground(getResources().getDrawable(R.drawable.double_warning_overview,null));
+            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.double_warning_overview,null));
             //errormessage.setText("2 Errors");
             //errormessage.setTextColor(0xffFF7700);
         }
         else
         {
             statusmessageview.setText("!!!");
-            statusmessageview.setBackground(getResources().getDrawable(R.drawable.error_warning_overview, null));
+            statusmessageview.setBackground(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.error_warning_overview, null));
             //errormessage.setText(""+errorcount+" Errors");
             //errormessage.setTextColor(0xffFF1100);
         }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -184,6 +187,27 @@ public class SegmentActivity extends AppCompatActivity {
         bc_temperature.getAxisLeft().setAxisMaximum(90f);
         bc_temperature.getAxisLeft().setAxisMinimum(0f);
         updateBarCharts();
+
+        LinearLayout cb_table = (LinearLayout)findViewById(R.id.ll_cbtimers);
+        for(int i = 0; i < dm.getCellCount() * 2; i++){
+            LinearLayout l = new LinearLayout(getBaseContext());
+
+            TextView t1 = new TextView(getBaseContext());
+            t1.setText("Not balancing");
+            l.addView(t1);
+            TextView t2 = new TextView(getBaseContext());
+            t2.setText("Not balanced yet");
+            t2.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+            l.addView(t2);
+
+        }
+
+
+
+
+
+
+
 
         u = new UpdaterX();
         u.start();
