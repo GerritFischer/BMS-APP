@@ -15,47 +15,56 @@ public class SettingsManager {
     public void loadSettings(Context context){
         JsonConfig json= new JsonConfig(context);
         //default Set Up if no JSON is found
-        if(json.isEmpty()){
-            darkmode= true;
-            sentrymode=false;
-            tabletmode=false;
-            passwordPro=false;
-            password="";
-            mail=new ArrayList<>();
-            return;
+        try {
+            if (json.isEmpty()) {
+                darkmode = true;
+                sentrymode = false;
+                tabletmode = false;
+                passwordPro = false;
+                password = "";
+                mail = new ArrayList<>();
+                saveSettings(context);
+                return;
+            }
+            //if settings found stores the right
+            if (json.hasSettings()) {
+                darkmode = json.isDarkmode();
+                sentrymode = json.isSentrymode();
+                tabletmode = json.isTabletmode();
+                passwordPro = json.isPassPro();
+            } else {
+                //no Settings found so default settings
+                passwordPro = false;
+                darkmode = true;
+                sentrymode = false;
+                tabletmode = false;
+            }
+            if (json.hasPassword()) {
+                //if Password is stored get password from JSON
+                password = json.getPassword();
+            } else {
+                //no password so empty
+                password = "";
+            }
+            if (json.hasEmailArray()) {
+                //get all the Email if JSON stores any Email
+                mail = json.getMailArray();
+            } else {
+                //create a List to store Email since we got none
+                mail = new ArrayList<>();
+            }
+            saveSettings(context);
+        }catch (Exception e){
+            darkmode = true;
+            sentrymode = false;
+            tabletmode = false;
+            passwordPro = false;
+            password = "";
+            mail = new ArrayList<>();
+            saveSettings(context);
         }
-        //if settings found stores the right
-        if(json.hasSettings()){
-            darkmode= json.isDarkmode();
-            sentrymode=json.isSentrymode();
-            tabletmode=json.isTabletmode();
-            passwordPro= json.isPassPro();
-        }
-        else{
-            //no Settings found so default settings
-            passwordPro=false;
-            darkmode= true;
-            sentrymode=false;
-            tabletmode=false;
-        }
-        if(json.hasPassword()){
-            //if Password is stored get password from JSON
-            password=json.getPassword();
-        }
-        else{
-            //no password so empty
-            password="";
-        }
-        if(json.hasEmailArray()){
-            //get all the Email if JSON stores any Email
-            mail=json.getMailArray();
-        }
-        else{
-            //create a List to store Email since we got none
-            mail=new ArrayList<>();
-        }
-        saveSettings(context);
     }
+
     public void saveSettings(Context context){
         JsonConfig json= new JsonConfig(context);
         if (json.isEmpty()){
