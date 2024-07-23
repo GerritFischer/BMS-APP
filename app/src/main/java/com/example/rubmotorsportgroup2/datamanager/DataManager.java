@@ -1,5 +1,7 @@
 package com.example.rubmotorsportgroup2.datamanager;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.service.autofill.CharSequenceTransformation;
 import android.util.Base64;
 import java.util.ArrayList;
@@ -10,12 +12,14 @@ public class DataManager {
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
     private DataRetriever dataRetriever;
+    private CBData cbData;
     private long checksum = 0;
 
     public DataManager() {
         dataSet = new DataSet(null);
         dataRetriever = new DataRetriever(this);
         dataRetriever.start();
+        cbData = new CBData(CELL_COUNT*2+6); //TODO: +6 is needed for ignoring unused terminals, edit later maybe
     }
 
     public void updateDataSet(String dataString) {
@@ -23,6 +27,11 @@ public class DataManager {
         dataSet = generateDataSet(decodedData); //generate new dataset
     }
 
+
+    public void updateCellBalancingTimer(){
+        //update the timers
+        System.out.println("updated cell balance");
+    }
     public int[] decodeDataString(String dataString) {
 
         byte[] byteData = Base64.decode(dataString, Base64.DEFAULT);
@@ -123,7 +132,14 @@ public class DataManager {
             //eot_cid1
             for (int j = 0; j < 14; j++) {
                 if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid1.addEot_cb((((register_fault3_cellov >> 16) >> j) & 1) == 1);
+                    boolean cb_state = false; //(((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                    if(!cb_state && !cbData.hasStarted(j)){
+                        cbData.setStart(j);
+                    }
+                    else if(cb_state && cbData.hasStarted(j)){
+                        cbData.setTime(j);
+                    }
+                    cid1.addEot_cb(cb_state);
                 }
             }
             //cell over voltage
@@ -223,7 +239,14 @@ public class DataManager {
             //eot_cid2
             for (int j = 0; j < 14; j++) {
                 if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid2.addEot_cb((((register_fault3_cellov >> 16) >> j) & 1) == 1);
+                    boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                    if(!cb_state && !cbData.hasStarted(14+j)){
+                        cbData.setStart(14+j);
+                    }
+                    else if(cb_state && cbData.hasStarted(14+j)){
+                        cbData.setTime(14+j);
+                    }
+                    cid2.addEot_cb(cb_state);
                 }
             }
             //cell over voltage
@@ -278,6 +301,7 @@ public class DataManager {
             //--------------------------------------------------------------------------------------
             segment.addCID(cid2);
             segments.add(segment);
+            //System.out.println("CB 0 START: " + cbData.hasStarted(0));
         }
         //System.out.println(Integer.toHexString(data[data.length-1]));
         if(checksum != data[data.length-1] )
@@ -458,6 +482,10 @@ public class DataManager {
             }
             System.out.println("ret");
             return ret;
+    }
+
+    public CBData getCbData(){
+        return cbData;
     }
 
 }

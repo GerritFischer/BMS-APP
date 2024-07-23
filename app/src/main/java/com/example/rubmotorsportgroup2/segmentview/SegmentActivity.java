@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +27,10 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import org.w3c.dom.Text;
+
 import java.text.DecimalFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 
 
@@ -38,6 +42,9 @@ public class SegmentActivity extends AppCompatActivity {
     HorizontalBarChart bc_voltage;
     HorizontalBarChart bc_temperature;
     UpdaterX u;
+
+    private ArrayList<TextView> cbstates = new ArrayList<TextView>();
+    private ArrayList<TextView> cbtimes = new ArrayList<TextView>();
 
 
 
@@ -119,12 +126,30 @@ public class SegmentActivity extends AppCompatActivity {
         bc_temperature.setData(dataTemperature);
         bc_temperature.notifyDataSetChanged();
         bc_temperature.invalidate();
-        
-        
-        
-        
-        
+
     }
+
+    private void updateCellBalancing(){
+        for(int i = 0; i < (dm.getCellCount() * 2); i++){
+            if (dm.getCbData().hasStarted(i)){
+                cbstates.get(i).setText("Balancing...");
+                cbtimes.get(i).setText(formatDuration(dm.getCbData().getTime(i)));
+            }
+        }
+
+    }
+
+    private String formatDuration(Duration duration) {
+        long seconds = duration.getSeconds();
+        long absSeconds = Math.abs(seconds);
+        String positive = String.format(
+                "%d:%02d:%02d",
+                absSeconds / 3600,
+                (absSeconds % 3600) / 60,
+                absSeconds % 60);
+        return seconds < 0 ? "-" + positive : positive;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,6 +210,28 @@ public class SegmentActivity extends AppCompatActivity {
         bc_temperature.getAxisLeft().setAxisMinimum(0f);
         updateBarCharts();
 
+        LinearLayout cb_table = (LinearLayout)findViewById(R.id.ll_cbtimers);
+        for(int i = 0; i < dm.getCellCount() * 2; i++){
+            LinearLayout l = new LinearLayout(getBaseContext());
+            TextView t1 = new TextView(getBaseContext());
+            t1.setText("Not balancing");
+            l.addView(t1);
+            cbstates.add(t1);
+            TextView t2 = new TextView(getBaseContext());
+            t2.setText("Not balanced yet");
+            t2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            l.addView(t2);
+            cbtimes.add(t2);
+            cb_table.addView(l);
+        }
+
+
+
+
+
+
+
+
         u = new UpdaterX();
         u.start();
 
@@ -211,6 +258,7 @@ public class SegmentActivity extends AppCompatActivity {
 
                         new Handler(Looper.getMainLooper()).post(() -> {
                             updateBarCharts();
+                            updateCellBalancing();
 
                         });
                     }

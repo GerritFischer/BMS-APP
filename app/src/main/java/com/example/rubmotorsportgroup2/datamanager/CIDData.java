@@ -1,6 +1,7 @@
 package com.example.rubmotorsportgroup2.datamanager;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CIDData {
 
@@ -83,6 +84,7 @@ public class CIDData {
         //System.out.println(faults.size());
         return geterrors;
     }
+
 
     public ArrayList<Float> getVoltage() {
         return voltage;

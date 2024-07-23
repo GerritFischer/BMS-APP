@@ -22,6 +22,9 @@
     <string name="status_vlt">VLT</string>
     <string name="status">Status</string>
     <string name="voltage">Voltage</string>
+    <string name="cell_balancing">Cell Balancing</string>
+    <string name="cell_balancing_current">Current</string>
+    <string name="cell_balancing_last">Balancing Time</string>
     <string name="temperature">Temperature</string>
     <string name="segment">Segment</string>
     <string name="pop_up_confirm">Confirm</string>
