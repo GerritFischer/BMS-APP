@@ -131,12 +131,11 @@ public class SegmentActivity extends AppCompatActivity {
 
     private void updateCellBalancing(){
         for(int i = 0; i < (dm.getCellCount() * 2); i++){
-            if (dm.getCbData().hasStarted(i)){
-                cbstates.get(i).setText("Balancing...");
-                cbtimes.get(i).setText(formatDuration(dm.getCbData().getTime(i)));
+                if (dm.getCbData().hasStarted(i)) {
+                    cbstates.get(i).setText("Balancing...");
+                    cbtimes.get(i).setText(formatDuration(dm.getCbData().getTime(i)));
+                }
             }
-        }
-
     }
 
     private String formatDuration(Duration duration) {
