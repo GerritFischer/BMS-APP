@@ -426,14 +426,14 @@ public class DataManager {
                         CTS++;
                     }
                 }
-                counterrors = counterrors+ cid.getImportantFaults();
-                otherfaults = otherfaults+ cid.getImportantFaults();
+                counterrors = counterrors+ cid.getImportantFaultsCount();
+                otherfaults = otherfaults+ cid.getImportantFaultsCount();
 
             }
 
         }
 
-            /*
+/*
             System.out.println("Total "+ counterrors);
             System.out.println("OT "+OT);
             System.out.println("UT "+UT);
@@ -442,7 +442,9 @@ public class DataManager {
             System.out.println("CSO "+ CTO);
             System.out.println("CTS "+CTS);
              System.out.println("Other faults "+ otherfaults);
-*/
+             /*
+ */
+
         return counterrors;
     }
     public int getCellCount()
@@ -473,6 +475,7 @@ public class DataManager {
 
         }
     }
+
     public long calculateChecksum(Byte[] data)
     {
             long ret = 0;
@@ -488,4 +491,58 @@ public class DataManager {
         return cbData;
     }
 
+    public ArrayList<Errorcode>  getErrorsAsList() {
+        ArrayList<Errorcode> retlist = new ArrayList<>();
+        for (int segmentcount = 0; segmentcount < CELL_COUNT; segmentcount++) {
+            SegmentData segment = getSegmentData(segmentcount);
+            if (segment.cids.size() == 0) continue;
+            for (int cidcount = 0; cidcount < 2; cidcount++) {
+                CIDData cid = segment.cids.get(cidcount);
+
+                //Over/under temperature
+                for (int k = 0; k < cid.getAn_ot().size(); k++) {
+                    if (cid.getAn_ot().get(k)) {
+                        retlist.add(new Errorcode("Overtemperature", segmentcount, cidcount, k, false));
+                    }
+                }
+                for (int k = 0; k < cid.getAn_ut().size(); k++) {
+                    if (cid.getAn_ut().get(k)) {
+                        retlist.add(new Errorcode("Undertemperature", segmentcount, cidcount, k, false));
+                    }
+                }
+                // Over/Undervoltage
+                for (int k = 0; k < cid.getCt_ov().size(); k++) {
+                    if (cid.getCt_ov().get(k)) {
+                        retlist.add(new Errorcode("Overvoltage", segmentcount, cidcount, k, false));
+                    }
+                }
+                for (int k = 0; k < cid.getCt_uv().size(); k++) {
+                    if (cid.getCt_uv().get(k)) {
+                        retlist.add(new Errorcode("Undervoltage", segmentcount, cidcount, k, false));
+                    }
+                }
+                //openload
+                for (int k = 0; k < cid.getCt_open().size(); k++) {
+                    if (cid.getCt_open().get(k)) {
+                        retlist.add(new Errorcode("Openload", segmentcount, cidcount, k, false));
+                    }
+                }
+                //shortcircuit
+                for (int k = 0; k < cid.getCt_short().size(); k++) {
+                    if (cid.getCt_short().get(k)) {
+                        retlist.add(new Errorcode("Short Circuit", segmentcount, cidcount, k, false));
+                    }
+                }
+                ArrayList<Errorcode> faulterrors = getSegmentData(segmentcount).cids.get(cidcount).getFaultsAsErrors(segmentcount, cidcount);
+                for (int i = 0; i < faulterrors.size(); i++) {
+                    retlist.add(faulterrors.get(i));
+                }
+            }
+
+
+        }
+
+        return retlist;
+    }
 }
+
