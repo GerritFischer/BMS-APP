@@ -68,7 +68,7 @@ public class CIDData {
     public ArrayList<Boolean> getCt_open(){return ct_open;}
     public ArrayList<Boolean> getCt_short(){return ct_short;}
 
-    public int getImportantFaults()
+    public int getImportantFaultsCount()
     {
         int geterrors = 0;
 
@@ -83,6 +83,23 @@ public class CIDData {
         }
         //System.out.println(faults.size());
         return geterrors;
+    }
+    public ArrayList<Errorcode> getFaultsAsErrors(int seg,  int cid)
+    {
+        ArrayList<Errorcode> faulterrors = new ArrayList<Errorcode>();
+        for(int i = 0; i<faults.size();i++)
+        {
+            if(faults.get(i).equals("VPWR_LV_FLT") || faults.get(i).equals("VPWR_OV_FLT"))
+                faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
+            else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") || faults.get(i).equals("CB_OPEN_FLT") || faults.get(i).equals("CB_SHORT_FLT"))
+                 faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
+            else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
+                faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
+            else if(faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT"))
+                faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
+
+        }
+        return faulterrors;
     }
 
 
