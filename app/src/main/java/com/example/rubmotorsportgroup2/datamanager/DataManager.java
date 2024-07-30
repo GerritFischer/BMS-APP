@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class DataManager {
 
+    private final boolean USE_MOCK_DATA = true;
     private final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
@@ -23,8 +24,14 @@ public class DataManager {
     }
 
     public void updateDataSet(String dataString) {
-        int[] decodedData = decodeDataString(dataString); //decode incoming data string, int because 4 byte
-        dataSet = generateDataSet(decodedData); //generate new dataset
+        int[] decodedData = decodeDataString(dataString);//decode incoming data string, int because 4 byte
+        if(USE_MOCK_DATA){
+            dataSet = new MockDataSet(null, cbData);
+        }
+        else{
+            dataSet = generateDataSet(decodedData); //generate new dataset
+        }
+
     }
 
 
@@ -132,12 +139,14 @@ public class DataManager {
             //eot_cid1
             for (int j = 0; j < 14; j++) {
                 if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    boolean cb_state = false; //(((register_fault3_cellov >> 16) >> j) & 1) == 1;
-                    if(!cb_state && !cbData.hasStarted(j)){
-                        cbData.setStart(j);
+                    int t = j;
+                    if(t >= 4) { t -= 3;}
+                    boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                    if(!cb_state && !cbData.hasStarted(t)){
+                        cbData.setStart(t);
                     }
-                    else if(cb_state && cbData.hasStarted(j)){
-                        cbData.setTime(j);
+                    else if(cb_state && cbData.hasStarted(t)){
+                        cbData.setTime(t);
                     }
                     cid1.addEot_cb(cb_state);
                 }
@@ -239,12 +248,14 @@ public class DataManager {
             //eot_cid2
             for (int j = 0; j < 14; j++) {
                 if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                    int t = j;
+                    if(t >= 4) { t -= 3;}
                     boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
-                    if(!cb_state && !cbData.hasStarted(14+j)){
-                        cbData.setStart(14+j);
+                    if(!cb_state && !cbData.hasStarted(t+11)){
+                        cbData.setStart(t+11);
                     }
-                    else if(cb_state && cbData.hasStarted(14+j)){
-                        cbData.setTime(14+j);
+                    else if(cb_state && cbData.hasStarted(t+11)){
+                        cbData.setTime(t+11);
                     }
                     cid2.addEot_cb(cb_state);
                 }

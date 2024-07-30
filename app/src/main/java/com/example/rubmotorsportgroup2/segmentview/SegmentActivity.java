@@ -2,6 +2,7 @@ package com.example.rubmotorsportgroup2.segmentview;
 
 import static com.example.rubmotorsportgroup2.MainActivity.dm;
 
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.fonts.Font;
 import android.graphics.fonts.FontFamily;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +34,7 @@ import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 
@@ -131,12 +135,20 @@ public class SegmentActivity extends AppCompatActivity {
 
     private void updateCellBalancing(){
         for(int i = 0; i < (dm.getCellCount() * 2); i++){
-            if (dm.getCbData().hasStarted(i)){
-                cbstates.get(i).setText("Balancing...");
-                cbtimes.get(i).setText(formatDuration(dm.getCbData().getTime(i)));
-            }
+                if (dm.getCbData().hasStarted(i)) {
+                    cbstates.get(i).setText("Balancing...");
+                    cbtimes.get(i).setText(formatDuration(Duration.between(dm.getCbData().getStart(i), Instant.now())));
+                }
+                else {
+                    cbstates.get(i).setText("Not balancing");
+                    if(dm.getCbData().getTime(i).equals(Duration.ofSeconds(0))){
+                        cbtimes.get(i).setText("Not balanced yet");
+                    }
+                    else {
+                        cbtimes.get(i).setText(formatDuration(dm.getCbData().getTime(i)));
+                    }
+                }
         }
-
     }
 
     private String formatDuration(Duration duration) {
@@ -210,16 +222,25 @@ public class SegmentActivity extends AppCompatActivity {
         bc_temperature.getAxisLeft().setAxisMinimum(0f);
         updateBarCharts();
 
+        int paddingDp = 10;
+        int paddingPx = (int) (paddingDp * Resources.getSystem().getDisplayMetrics().density);
+        int paddingDpTB = 5;
+        int paddingPxTB = (int) (paddingDpTB * Resources.getSystem().getDisplayMetrics().density);
         LinearLayout cb_table = (LinearLayout)findViewById(R.id.ll_cbtimers);
         for(int i = 0; i < dm.getCellCount() * 2; i++){
             LinearLayout l = new LinearLayout(getBaseContext());
             TextView t1 = new TextView(getBaseContext());
             t1.setText("Not balancing");
+            t1.setPadding(paddingPx, paddingPxTB, paddingPx, paddingPxTB);
             l.addView(t1);
             cbstates.add(t1);
             TextView t2 = new TextView(getBaseContext());
             t2.setText("Not balanced yet");
             t2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            t2.setLayoutParams(params);
+            t2.setPadding(paddingPx, paddingPxTB, paddingPx, paddingPxTB);
+
             l.addView(t2);
             cbtimes.add(t2);
             cb_table.addView(l);
