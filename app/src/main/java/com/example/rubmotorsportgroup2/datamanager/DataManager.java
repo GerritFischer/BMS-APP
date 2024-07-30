@@ -26,7 +26,7 @@ public class DataManager {
     public void updateDataSet(String dataString) {
         int[] decodedData = decodeDataString(dataString);//decode incoming data string, int because 4 byte
         if(USE_MOCK_DATA){
-            dataSet = new MockDataSet(null);
+            dataSet = new MockDataSet(null, cbData);
         }
         else{
             dataSet = generateDataSet(decodedData); //generate new dataset
@@ -141,8 +141,7 @@ public class DataManager {
                 if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
                     int t = j;
                     if(t >= 4) { t -= 3;}
-                    boolean cb_state = false;
-                    if (Math.random() >= 0.999){cb_state = true; System.out.println("stopped");}//(((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                    boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
                     if(!cb_state && !cbData.hasStarted(t)){
                         cbData.setStart(t);
                     }
@@ -251,9 +250,7 @@ public class DataManager {
                 if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
                     int t = j;
                     if(t >= 4) { t -= 3;}
-                    boolean cb_state = false;
-                    if (Math.random() >= 0.999){cb_state = true;}
-                     //(((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                    boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
                     if(!cb_state && !cbData.hasStarted(t+11)){
                         cbData.setStart(t+11);
                     }

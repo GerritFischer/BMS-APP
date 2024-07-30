@@ -3,6 +3,7 @@ package com.example.rubmotorsportgroup2.datamanager;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 
 public class CBData {
     private ArrayList<Instant> cbStarts = new ArrayList<Instant>();
@@ -24,6 +25,9 @@ public class CBData {
 
         cbStarts.set(index, Instant.now());
         //System.out.println("INITIATED DA START");
+    }
+    public Instant getStart(int index){
+        return cbStarts.get(index);
     }
     public void setTime(int index){
         cbTimes.set(index, Duration.between(cbStarts.get(index), Instant.now()));

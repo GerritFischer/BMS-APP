@@ -1,13 +1,18 @@
 package com.example.rubmotorsportgroup2.datamanager;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class MockDataSet extends DataSet{
+
+
+
     //voltage controls
     float VOLT = 3.7f;
     boolean OVERVOLTAGE = false;
     boolean UNDERVOLTAGE = false;
-    boolean CELL_BALANCING = true; //not running when true
+    boolean CELL_BALANCING = false; //not running when true
     boolean SHORT = false;
     boolean OPEN = false;
 
@@ -21,7 +26,7 @@ public class MockDataSet extends DataSet{
 
 
 
-    public MockDataSet(ArrayList<SegmentData> segments) {
+    public MockDataSet(ArrayList<SegmentData> segments, CBData cb) {
         super(segments);
         ArrayList<SegmentData> segs = new ArrayList<SegmentData>();
 
@@ -39,6 +44,16 @@ public class MockDataSet extends DataSet{
                 for(int k = 0; k < 11; k++){
                     cid.addVoltage(VOLT);
                     cid.addEot_cb(CELL_BALANCING);
+
+                    if(!CELL_BALANCING && !cb.hasStarted(k)){
+                        cb.setStart(k);
+                    }
+                    else if(Duration.between(cb.getStart(k), Instant.now()).getSeconds() > 30){
+                        cb.setTime(k);
+                    }
+
+
+
                     cid.addCT_ov(OVERVOLTAGE);
                     cid.addCT_uv(UNDERVOLTAGE);
                     cid.addCT_short(SHORT);
