@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class DataManager {
 
+    private final boolean USE_MOCK_DATA = true;
     private final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
@@ -23,8 +24,14 @@ public class DataManager {
     }
 
     public void updateDataSet(String dataString) {
-        int[] decodedData = decodeDataString(dataString); //decode incoming data string, int because 4 byte
-        dataSet = generateDataSet(decodedData); //generate new dataset
+        int[] decodedData = decodeDataString(dataString);//decode incoming data string, int because 4 byte
+        if(USE_MOCK_DATA){
+            dataSet = new MockDataSet(null);
+        }
+        else{
+            dataSet = generateDataSet(decodedData); //generate new dataset
+        }
+
     }
 
 
