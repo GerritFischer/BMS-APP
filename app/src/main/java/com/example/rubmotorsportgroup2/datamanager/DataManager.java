@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class DataManager {
 
-    private final boolean USE_MOCK_DATA = true;
+    private final boolean USE_MOCK_DATA = false;
     private final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
@@ -329,6 +329,10 @@ public class DataManager {
         return dataSet.segmentDataArrayList.get(segID);
         //TODO: check if id is valid, get corresponding segment from dataset and return
     }
+    public int getSegmentCount()
+    {
+        return dataSet.segmentDataArrayList.size();
+    }
 
     public ArrayList<Float> getSegmentVoltage(int segID) {
         //TODO: return voltage list, use getSegmentData here
@@ -407,6 +411,7 @@ public class DataManager {
                     if(cid.getAn_ut().get(k)) {
                         counterrors++;
                         UT++;
+
                     }
                 }
                 // Over/Undervoltage
@@ -420,7 +425,7 @@ public class DataManager {
                     if(cid.getCt_uv().get(k)) {
                         counterrors++;
                         UV++;
-                        //System.out.println("UV at Segment "+ segmentcount +" in CID "+ cidcount +" in cell "+k + " with voltage of "+ cid.getVoltage().get(k));
+                        System.out.println("UV at Segment "+ segmentcount +" in CID "+ cidcount +" in cell "+k + " with voltage of "+ cid.getVoltage().get(k));
                     }
                 }
                 //openload
@@ -444,7 +449,7 @@ public class DataManager {
 
         }
 
-/*
+            /*
             System.out.println("Total "+ counterrors);
             System.out.println("OT "+OT);
             System.out.println("UT "+UT);
@@ -453,8 +458,8 @@ public class DataManager {
             System.out.println("CSO "+ CTO);
             System.out.println("CTS "+CTS);
              System.out.println("Other faults "+ otherfaults);
-             /*
- */
+*/
+
 
         return counterrors;
     }
@@ -469,7 +474,7 @@ public class DataManager {
     public void checkforUV()
     {
         int uv = 0;
-        for (int segmentcount = 0; segmentcount < CELL_COUNT; segmentcount++) {
+        for (int segmentcount = 0; segmentcount < getSegmentCount(); segmentcount++) {
 
             ArrayList<Float> voltagelist= getSegmentVoltage(segmentcount);
            for(int voltagecount = 0;voltagecount < voltagelist.size();voltagecount++ )
@@ -555,5 +560,56 @@ public class DataManager {
 
         return retlist;
     }
+
+    public ArrayList<Errorcode> getErrorsAsListInSegment(int segmentcount)
+    {
+        SegmentData segment = getSegmentData(segmentcount);
+        ArrayList<Errorcode> retlist = new ArrayList<>();
+        if (segment.cids.size() == 0) return retlist;
+        for (int cidcount = 0; cidcount < 2; cidcount++) {
+            CIDData cid = segment.cids.get(cidcount);
+
+            //Over/under temperature
+            for (int k = 0; k < cid.getAn_ot().size(); k++) {
+                if (cid.getAn_ot().get(k)) {
+                    retlist.add(new Errorcode("Overtemperature", segmentcount, cidcount, k, false));
+                }
+            }
+            for (int k = 0; k < cid.getAn_ut().size(); k++) {
+                if (cid.getAn_ut().get(k)) {
+                    retlist.add(new Errorcode("Undertemperature", segmentcount, cidcount, k, false));
+                }
+            }
+            // Over/Undervoltage
+            for (int k = 0; k < cid.getCt_ov().size(); k++) {
+                if (cid.getCt_ov().get(k)) {
+                    retlist.add(new Errorcode("Overvoltage", segmentcount, cidcount, k, false));
+                }
+            }
+            for (int k = 0; k < cid.getCt_uv().size(); k++) {
+                if (cid.getCt_uv().get(k)) {
+                    retlist.add(new Errorcode("Undervoltage", segmentcount, cidcount, k, false));
+                }
+            }
+            //openload
+            for (int k = 0; k < cid.getCt_open().size(); k++) {
+                if (cid.getCt_open().get(k)) {
+                    retlist.add(new Errorcode("Openload", segmentcount, cidcount, k, false));
+                }
+            }
+            //shortcircuit
+            for (int k = 0; k < cid.getCt_short().size(); k++) {
+                if (cid.getCt_short().get(k)) {
+                    retlist.add(new Errorcode("Short Circuit", segmentcount, cidcount, k, false));
+                }
+            }
+            ArrayList<Errorcode> faulterrors = getSegmentData(segmentcount).cids.get(cidcount).getFaultsAsErrors(segmentcount, cidcount);
+            for (int i = 0; i < faulterrors.size(); i++) {
+                retlist.add(faulterrors.get(i));
+            }
+        }
+        return retlist;
+    }
 }
+
 
