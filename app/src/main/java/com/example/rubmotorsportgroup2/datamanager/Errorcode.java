@@ -37,4 +37,11 @@ public class Errorcode {
         else
             return ""+ errortype +" found in Segment "+ segment+" in CID "+cid+ " in Cell "+ cell;
     }
+    public String toStringIgnoringSegment()
+    {
+        if(iscidfault)
+            return ""+ errortype +" found in CID "+cid;
+        else
+            return ""+ errortype +" found CID "+cid+ " in Cell "+ cell;
+    }
 }
