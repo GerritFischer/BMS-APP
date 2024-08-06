@@ -14,4 +14,5 @@
     <color name="ErrorColor">#FF1100</color>
     <color name="WarningColor">#f3bb1b</color>
     <color name="AlertColor">#f03637</color>
+    <color name="Gray">#5F5F5F</color>
 </resources>

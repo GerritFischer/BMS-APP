@@ -48,7 +48,7 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
                     // Sleeping
                     else{
                         new Handler(Looper.getMainLooper()).post(() -> {
-                            for(int i = 0; i < 12; i++){
+                            for(int i = 0; i < dm.getSegmentCount(); i++){
                                 testData.set(i, dm.getSegmentData(i));
                                 a.updateDataSet(i);
                             }
@@ -98,7 +98,7 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
         //TODO: Create class for segment data
         int TEST_DATA_COUNT = 12;
 
-        for (int i = 0; i < 12; i++){
+        for (int i = 0; i < dm.getSegmentCount(); i++){
             testData.add(dm.getSegmentData(i));
         }
 

@@ -72,6 +72,11 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
             smallstatus.setText("!!!");
             smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error_warning_overview, null));
         }
+        else if(data.get(position).cids.size()==0)
+        {
+            smallstatus.setText("n/a");
+            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.no_data_background, null));
+        }
         else {
             smallstatus.setText("OK");
             smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.tv_segment_status_drawable, null));

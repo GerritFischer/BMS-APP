@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.rubmotorsportgroup2.CustomBarDataset;
 import com.example.rubmotorsportgroup2.R;
@@ -40,6 +41,8 @@ public class SegmentActivity extends AppCompatActivity {
     HorizontalBarChart bc_voltage;
     HorizontalBarChart bc_temperature;
     UpdaterX u;
+
+    private TextView status;
 
     private ArrayList<TextView> cbstates = new ArrayList<TextView>();
     private ArrayList<TextView> cbtimes = new ArrayList<TextView>();
@@ -74,7 +77,7 @@ public class SegmentActivity extends AppCompatActivity {
         xAxisNames.add("B11");
         ArrayList<BarEntry> entriesVoltage = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("#.####");
-        for(int i = 0; i < 22; i++){
+        for(int i = 0; i < dm.getSegmentVoltage(pos).size(); i++){
             xAxisNames.set(i, xAxisNames.get(i) + " " + df.format(dm.getSegmentVoltage(pos).get(i)));
             entriesVoltage.add(new BarEntry((float)i, dm.getSegmentVoltage(pos).get(i), xAxisNames.get(i) + "   " + dm.getSegmentVoltage(pos).get(i)) );
         }
@@ -102,7 +105,7 @@ public class SegmentActivity extends AppCompatActivity {
 
 
         ArrayList<BarEntry> entriesTemperature = new ArrayList<>();
-        for(int i = 1; i < 7; i++){
+        for(int i = 1; i < dm.getSegmentTemperature(pos).size(); i++){
             //added 25 to temp to make it positive values only
             entriesTemperature.add(new BarEntry((float)i, dm.getSegmentTemperature(pos).get(i) + 25f));
         }
@@ -167,6 +170,8 @@ public class SegmentActivity extends AppCompatActivity {
         heading.setText(heading.getText() + " " + pos);
         bc_voltage = (HorizontalBarChart)findViewById(R.id.bc_voltage);
         bc_temperature = (HorizontalBarChart)findViewById(R.id.bc_temperature);
+        status = findViewById(R.id.tv_segmentStatus);
+        updateErrorLog();
 
         bc_voltage.setDrawGridBackground(false);
         Legend l_voltage = bc_voltage.getLegend();
@@ -264,8 +269,15 @@ public class SegmentActivity extends AppCompatActivity {
                 newerror.setText(errorlist.get(i).toStringIgnoringSegment());
                 newerror.setPadding(paddingPx, paddingPxTB, paddingPx, paddingPxTB);
                 newerror.setTextColor(getColor(R.color.AlertColor));
+                status.setText("!!!");
+                status.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.error_warning_overview, null));
                 errorlayout.addView(newerror);
             }
+        }
+        else if(!dm.getvalid())
+        {
+            status.setText("n/a");
+            status.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.no_data_background, null));
         }
         else
         {
@@ -275,6 +287,8 @@ public class SegmentActivity extends AppCompatActivity {
             noerror.setTextSize(16);
             noerror.setPadding(paddingPx, paddingPxTB, paddingPx, paddingPxTB+20);
             noerror.setTextColor(getColor(R.color.OKColor));
+            status.setText("OK");
+            status.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.tv_segment_status_drawable, null));
             errorlayout.addView(noerror);
         }
     }
