@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -64,6 +66,21 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
         }
 
+        TextView smallstatus= viewHolders.get(position).s;
+        if(data.get(position).getErrorsAsListInSegment().size()>0)
+        {
+            smallstatus.setText("!!!");
+            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error_warning_overview, null));
+        }
+        else if(data.get(position).cids.size()==0)
+        {
+            smallstatus.setText("n/a");
+            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.no_data_background, null));
+        }
+        else {
+            smallstatus.setText("OK");
+            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.tv_segment_status_drawable, null));
+        }
 
         //setting up properties of barchart
         ArrayList<Float> intervals = new ArrayList<Float>();
@@ -127,11 +144,14 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
         TextView t;
         BarChart b;
+        TextView s;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             t = itemView.findViewById(R.id.tv_segmentID);
             b = itemView.findViewById(R.id.bc_segmentData);
+            s = itemView.findViewById(R.id.tv_segmentStatus);
             itemView.setOnClickListener(this);
+
         }
 
         @Override

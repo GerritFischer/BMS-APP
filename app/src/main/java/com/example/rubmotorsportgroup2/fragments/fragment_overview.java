@@ -13,10 +13,12 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.datamanager.DataManager;
+import com.example.rubmotorsportgroup2.datamanager.Errorcode;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.BarData;
@@ -39,6 +41,7 @@ public class fragment_overview extends Fragment {
     private int errorcount = 0;
     private boolean running = true;
     private final int tickTime = 10;
+    private boolean first = true;
     private OverviewUpdateThread overviewUpdateThread;
 
 
@@ -91,6 +94,7 @@ public class fragment_overview extends Fragment {
         @Override
         public void run() {
             int timer = 1000;
+            boolean first=true;
             while(running) {
                 try {
 
@@ -120,7 +124,7 @@ public class fragment_overview extends Fragment {
         float avgvoltage = 0f;
         int avgcountertemp = 0;
         float avgtemp = 0f;
-        for( int i = 0; i<  dm.getCellCount(); i++)
+        for( int i = 0; i<  dm.getSegmentCount(); i++)
         {
 
             ArrayList<Float> segvolt = dm.getSegmentVoltage(i);
@@ -210,8 +214,22 @@ public class fragment_overview extends Fragment {
 
         errorcount=dm.hasError();
         dm.checkforUV();
+        ArrayList<Errorcode> test = dm.getErrorsAsList();
+
+       /* for (int i = 0; i<test.size();i++){
+            System.out.println( test.get(i).toString());
+        }*/
+
         try {
-            if (errorcount == 0) {
+            statusmessageview.setTextSize(48);
+            if (!dm.getvalid())
+            {
+                statusmessageview.setText("No\n Data");
+                statusmessageview.setTextSize(20);
+                statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.no_data_background, null));
+
+            }
+            else if (errorcount == 0) {
                 statusmessageview.setText("OK");
                 statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.tv_segment_status_drawable, null));
                 //errormessage.setText("0 Errors");
@@ -237,6 +255,13 @@ public class fragment_overview extends Fragment {
             System.out.println(e.getMessage());
         }
 
+        if(first)
+        {
+            first = false;
+            getNewData();
+        }
+
+
 
 
        /* String ret = "Average Voltage: "+ avgvoltage+"V\n"
@@ -245,6 +270,7 @@ public class fragment_overview extends Fragment {
                 +"Status: " + ":)";
                 /*
         */
+
 
     }
     @Override

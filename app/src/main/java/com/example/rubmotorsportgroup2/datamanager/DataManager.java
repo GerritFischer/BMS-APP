@@ -8,13 +8,14 @@ import java.util.ArrayList;
 
 public class DataManager {
 
-    private final boolean USE_MOCK_DATA = true;
+    private final boolean USE_MOCK_DATA = false;
     private final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
     private DataRetriever dataRetriever;
     private CBData cbData;
     private long checksum = 0;
+    private boolean isvalid = true;
 
     public DataManager() {
         dataSet = new DataSet(null);
@@ -91,234 +92,247 @@ public class DataManager {
         int segmentCount = (data[0] - 1) / 50; //50 fields per segment, -1 because length int
         ArrayList<SegmentData> segments = new ArrayList<SegmentData>();
         int offset = 1; //set to the first relevant entry
-        //for each segment, create segment data
-        for (int i = 0; i < segmentCount; i++) {
-            SegmentData segment = new SegmentData();
-            //add values for cid1
-            CIDData cid1 = new CIDData();
-
-            //add voltage of cid1
-            for (int j = 0; j < CELL_COUNT; j++) {
-                float value = Float.intBitsToFloat(data[offset]);
-                segment.addVoltage_combined(value);
-                cid1.addVoltage(value);
-                offset++;
-            }
-            //add temp of cid1
-            for (int j = 0; j < TEMP_COUNT; j++) {
-                float value = Float.intBitsToFloat(data[offset]);
-                segment.addTemperature_combined(value);
-                cid1.addTemperature(value);
-                offset++;
-            }
-            //set stack voltage of cid1
-            cid1.setStack_voltage(Float.intBitsToFloat(data[offset]));
-            offset++;
-            //set ic temp of cid1
-            cid1.setIC_temp(Float.intBitsToFloat(data[offset]));
-            offset++;
-
-            //save register and extract data out of it
-            //--------------------------------------------------------------------------------------
-            int register_fault1_fault2 = data[offset];
-            //fault1
-            for (int j = 0; j < 16; j++) {
-                if (fault_names1[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
-                    cid1.addFault(fault_names1[j]);
-                }
-            }
-            //fault2
-            for (int j = 0; j < 16; j++) {
-                if (fault_names2[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
-                    cid1.addFault(fault_names2[j]);
-                }
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            int register_fault3_cellov = data[offset];
-            //eot_cid1
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    int t = j;
-                    if(t >= 4) { t -= 3;}
-                    boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
-                    if(!cb_state && !cbData.hasStarted(t)){
-                        cbData.setStart(t);
-                    }
-                    else if(cb_state && cbData.hasStarted(t)){
-                        cbData.setTime(t);
-                    }
-                    cid1.addEot_cb(cb_state);
-                }
-            }
-            //cell over voltage
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid1.addCT_ov(((register_fault3_cellov >> j) & 1) == 1);
-                }
-            }
-
-            offset++;
-            //--------------------------------------------------------------------------------------
-            int register_celluv_anotut = data[offset];
-            //cell under voltage
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid1.addCT_uv((((register_celluv_anotut >> 16) >> j) & 1) == 1);
-                }
-            }
-            //over and under temperature
-            for (int j = 0; j < 7; j++) {
-                cid1.addAN_ut((((register_celluv_anotut >> 1) >> j) & 1) == 1);
-            }
-            for (int j = 0; j < 7; j++) {
-                cid1.addAN_ot((((register_celluv_anotut >> 9) >> j) & 1) == 1);
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            int register_com_open = data[offset];
-
-            //com error count
-            short error_count = (short) ((register_com_open >> 16) & 1);
-            for (int j = 0; j < 7; j++) {
-                error_count = (short) ((error_count << 1) + (short) ((register_com_open >> 17) >> j) & 1);
-            }
-            cid1.setCOM_ERR_COUNT(error_count);
-            //cell open load
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid1.addCT_open((((register_com_open) >> j) & 1) == 1);
-                }
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            int register_short = data[offset];
-            //cell short circuit
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid1.addCT_short((((register_short >> 16) >> j) & 1) == 1);
-                }
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            segment.addCID(cid1);
-
-
-            CIDData cid2 = new CIDData();
-
-            //add voltage of cid2
-            for (int j = 0; j < CELL_COUNT; j++) {
-                float value = Float.intBitsToFloat(data[offset]);
-                segment.addVoltage_combined(value);
-                cid2.addVoltage(value);
-                offset++;
-            }
-            //add temp of cid2
-            for (int j = 0; j < TEMP_COUNT; j++) {
-                float value = Float.intBitsToFloat(data[offset]);
-                segment.addTemperature_combined(value);
-                cid2.addTemperature(value);
-                offset++;
-            }
-            //set stack voltage of cid2
-            cid2.setStack_voltage(Float.intBitsToFloat(data[offset]));
-            offset++;
-            //set ic temp of cid2
-            cid2.setIC_temp(Float.intBitsToFloat(data[offset]));
-            offset++;
-
-            //save register and extract data out of it
-            //--------------------------------------------------------------------------------------
-            register_fault1_fault2 = data[offset];
-            //fault1
-            for (int j = 0; j < 16; j++) {
-                if (fault_names1[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
-                    cid2.addFault(fault_names1[j]);
-                }
-            }
-            //fault2
-            for (int j = 0; j < 16; j++) {
-                if (fault_names2[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
-                    cid2.addFault(fault_names2[j]);
-                }
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            register_fault3_cellov = data[offset];
-            //eot_cid2
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    int t = j;
-                    if(t >= 4) { t -= 3;}
-                    boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
-                    if(!cb_state && !cbData.hasStarted(t+11)){
-                        cbData.setStart(t+11);
-                    }
-                    else if(cb_state && cbData.hasStarted(t+11)){
-                        cbData.setTime(t+11);
-                    }
-                    cid2.addEot_cb(cb_state);
-                }
-            }
-            //cell over voltage
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid2.addCT_ov(((register_fault3_cellov >> j) & 1) == 1);
-                }
-            }
-
-            offset++;
-            //--------------------------------------------------------------------------------------
-            register_celluv_anotut = data[offset];
-            //cell under voltage
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid2.addCT_uv((((register_celluv_anotut >> 16) >> j) & 1) == 1);
-                }
-            }
-            //over and under temperature
-            for (int j = 0; j < 7; j++) {
-                cid2.addAN_ut((((register_celluv_anotut >> 1) >> j) & 1) == 1);
-            }
-            for (int j = 0; j < 7; j++) {
-                cid2.addAN_ot((((register_celluv_anotut >> 9) >> j) & 1) == 1);
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            register_com_open = data[offset];
-
-            //com error count
-            error_count = (short) ((register_com_open >> 16) & 1);
-            for (int j = 0; j < 7; j++) {
-                error_count = (short) ((error_count << 1) + (short) ((register_com_open >> 17) >> j) & 1);
-            }
-            cid2.setCOM_ERR_COUNT(error_count);
-            //cell open load
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid2.addCT_open((((register_com_open) >> j) & 1) == 1);
-                }
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            register_short = data[offset];
-            //cell short circuit
-            for (int j = 0; j < 14; j++) {
-                if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                    cid2.addCT_short((((register_short >> 16) >> j) & 1) == 1);
-                }
-            }
-            offset++;
-            //--------------------------------------------------------------------------------------
-            segment.addCID(cid2);
-            segments.add(segment);
-            //System.out.println("CB 0 START: " + cbData.hasStarted(0));
+        //compare checksum
+        if(checksum != data[data.length-1] || segmentCount < 1)
+        {
+            isvalid = false;
+            segments.add(new SegmentData());
+            return new DataSet(segments);
         }
-        //System.out.println(Integer.toHexString(data[data.length-1]));
+        else {
+            //for each segment, create segment data
+            for (int i = 0; i < segmentCount; i++) {
+                SegmentData segment = new SegmentData();
+                //add values for cid1
+                CIDData cid1 = new CIDData();
+
+                //add voltage of cid1
+                for (int j = 0; j < CELL_COUNT; j++) {
+                    float value = Float.intBitsToFloat(data[offset]);
+                    segment.addVoltage_combined(value);
+                    cid1.addVoltage(value);
+                    offset++;
+                }
+                //add temp of cid1
+                for (int j = 0; j < TEMP_COUNT; j++) {
+                    float value = Float.intBitsToFloat(data[offset]);
+                    segment.addTemperature_combined(value);
+                    cid1.addTemperature(value);
+                    offset++;
+                }
+                //set stack voltage of cid1
+                cid1.setStack_voltage(Float.intBitsToFloat(data[offset]));
+                offset++;
+                //set ic temp of cid1
+                cid1.setIC_temp(Float.intBitsToFloat(data[offset]));
+                offset++;
+
+                //save register and extract data out of it
+                //--------------------------------------------------------------------------------------
+                int register_fault1_fault2 = data[offset];
+                //fault1
+                for (int j = 0; j < 16; j++) {
+                    if (fault_names1[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
+                        cid1.addFault(fault_names1[j]);
+                    }
+                }
+                //fault2
+                for (int j = 0; j < 16; j++) {
+                    if (fault_names2[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
+                        cid1.addFault(fault_names2[j]);
+                    }
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                int register_fault3_cellov = data[offset];
+                //eot_cid1
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        int t = j;
+                        if(t >= 4) { t -= 3;}
+                        boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                        if(!cb_state && !cbData.hasStarted(t)){
+                            cbData.setStart(t);
+                        }
+                        else if(cb_state && cbData.hasStarted(t)){
+                            cbData.setTime(t);
+                        }
+                        cid1.addEot_cb(cb_state);
+                    }
+                }
+                //cell over voltage
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid1.addCT_ov(((register_fault3_cellov >> j) & 1) == 1);
+                    }
+                }
+
+                offset++;
+                //--------------------------------------------------------------------------------------
+                int register_celluv_anotut = data[offset];
+                //cell under voltage
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid1.addCT_uv((((register_celluv_anotut >> 16) >> j) & 1) == 1);
+                    }
+                }
+                //over and under temperature
+                for (int j = 0; j < 7; j++) {
+                    cid1.addAN_ut((((register_celluv_anotut >> 1) >> j) & 1) == 1);
+                }
+                for (int j = 0; j < 7; j++) {
+                    cid1.addAN_ot((((register_celluv_anotut >> 9) >> j) & 1) == 1);
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                int register_com_open = data[offset];
+
+                //com error count
+                short error_count = (short) ((register_com_open >> 16) & 1);
+                for (int j = 0; j < 7; j++) {
+                    error_count = (short) ((error_count << 1) + (short) ((register_com_open >> 17) >> j) & 1);
+                }
+                cid1.setCOM_ERR_COUNT(error_count);
+                //cell open load
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid1.addCT_open((((register_com_open) >> j) & 1) == 1);
+                    }
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                int register_short = data[offset];
+                //cell short circuit
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid1.addCT_short((((register_short >> 16) >> j) & 1) == 1);
+                    }
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                segment.addCID(cid1);
+
+
+                CIDData cid2 = new CIDData();
+
+                //add voltage of cid2
+                for (int j = 0; j < CELL_COUNT; j++) {
+                    float value = Float.intBitsToFloat(data[offset]);
+                    segment.addVoltage_combined(value);
+                    cid2.addVoltage(value);
+                    offset++;
+                }
+                //add temp of cid2
+                for (int j = 0; j < TEMP_COUNT; j++) {
+                    float value = Float.intBitsToFloat(data[offset]);
+                    segment.addTemperature_combined(value);
+                    cid2.addTemperature(value);
+                    offset++;
+                }
+                //set stack voltage of cid2
+                cid2.setStack_voltage(Float.intBitsToFloat(data[offset]));
+                offset++;
+                //set ic temp of cid2
+                cid2.setIC_temp(Float.intBitsToFloat(data[offset]));
+                offset++;
+
+                //save register and extract data out of it
+                //--------------------------------------------------------------------------------------
+                register_fault1_fault2 = data[offset];
+                //fault1
+                for (int j = 0; j < 16; j++) {
+                    if (fault_names1[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
+                        cid2.addFault(fault_names1[j]);
+                    }
+                }
+                //fault2
+                for (int j = 0; j < 16; j++) {
+                    if (fault_names2[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
+                        cid2.addFault(fault_names2[j]);
+                    }
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                register_fault3_cellov = data[offset];
+                //eot_cid2
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        int t = j;
+                        if(t >= 4) { t -= 3;}
+                        boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                        if(!cb_state && !cbData.hasStarted(t+11)){
+                            cbData.setStart(t+11);
+                        }
+                        else if(cb_state && cbData.hasStarted(t+11)){
+                            cbData.setTime(t+11);
+                        }
+                        cid2.addEot_cb(cb_state);
+                    }
+                }
+                //cell over voltage
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid2.addCT_ov(((register_fault3_cellov >> j) & 1) == 1);
+                    }
+                }
+
+                offset++;
+                //--------------------------------------------------------------------------------------
+                register_celluv_anotut = data[offset];
+                //cell under voltage
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid2.addCT_uv((((register_celluv_anotut >> 16) >> j) & 1) == 1);
+                    }
+                }
+                //over and under temperature
+                for (int j = 0; j < 7; j++) {
+                    cid2.addAN_ut((((register_celluv_anotut >> 1) >> j) & 1) == 1);
+                }
+                for (int j = 0; j < 7; j++) {
+                    cid2.addAN_ot((((register_celluv_anotut >> 9) >> j) & 1) == 1);
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                register_com_open = data[offset];
+
+                //com error count
+                error_count = (short) ((register_com_open >> 16) & 1);
+                for (int j = 0; j < 7; j++) {
+                    error_count = (short) ((error_count << 1) + (short) ((register_com_open >> 17) >> j) & 1);
+                }
+                cid2.setCOM_ERR_COUNT(error_count);
+                //cell open load
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid2.addCT_open((((register_com_open) >> j) & 1) == 1);
+                    }
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                register_short = data[offset];
+                //cell short circuit
+                for (int j = 0; j < 14; j++) {
+                    if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
+                        cid2.addCT_short((((register_short >> 16) >> j) & 1) == 1);
+                    }
+                }
+                offset++;
+                //--------------------------------------------------------------------------------------
+                segment.addCID(cid2);
+                segments.add(segment);
+                //System.out.println("CB 0 START: " + cbData.hasStarted(0));
+            }
+            return new DataSet(segments);
+
+        }
+
+        /*System.out.println(Integer.toHexString(data[data.length-1]));
         if(checksum != data[data.length-1] )
-            System.out.println("hä");
+            System.out.println("hä");*/
+
         //generate and return new data set
-        return new DataSet(segments);
+
     }
 
 
@@ -328,6 +342,10 @@ public class DataManager {
         else if ((segID < 0 || segID > CELL_COUNT) ) return null;
         return dataSet.segmentDataArrayList.get(segID);
         //TODO: check if id is valid, get corresponding segment from dataset and return
+    }
+    public int getSegmentCount()
+    {
+        return dataSet.segmentDataArrayList.size();
     }
 
     public ArrayList<Float> getSegmentVoltage(int segID) {
@@ -389,7 +407,7 @@ public class DataManager {
         int CTO = 0;
         int CTS = 0;
         int otherfaults=0;
-        for (int segmentcount = 0; segmentcount < CELL_COUNT; segmentcount++) {
+        for (int segmentcount = 0; segmentcount < getSegmentCount(); segmentcount++) {
 
             SegmentData segment = getSegmentData(segmentcount);
             if(segment.cids.size() == 0) continue;
@@ -407,6 +425,7 @@ public class DataManager {
                     if(cid.getAn_ut().get(k)) {
                         counterrors++;
                         UT++;
+
                     }
                 }
                 // Over/Undervoltage
@@ -420,7 +439,7 @@ public class DataManager {
                     if(cid.getCt_uv().get(k)) {
                         counterrors++;
                         UV++;
-                        //System.out.println("UV at Segment "+ segmentcount +" in CID "+ cidcount +" in cell "+k + " with voltage of "+ cid.getVoltage().get(k));
+                        System.out.println("UV at Segment "+ segmentcount +" in CID "+ cidcount +" in cell "+k + " with voltage of "+ cid.getVoltage().get(k));
                     }
                 }
                 //openload
@@ -444,7 +463,7 @@ public class DataManager {
 
         }
 
-/*
+            /*
             System.out.println("Total "+ counterrors);
             System.out.println("OT "+OT);
             System.out.println("UT "+UT);
@@ -453,8 +472,8 @@ public class DataManager {
             System.out.println("CSO "+ CTO);
             System.out.println("CTS "+CTS);
              System.out.println("Other faults "+ otherfaults);
-             /*
- */
+*/
+
 
         return counterrors;
     }
@@ -469,7 +488,7 @@ public class DataManager {
     public void checkforUV()
     {
         int uv = 0;
-        for (int segmentcount = 0; segmentcount < CELL_COUNT; segmentcount++) {
+        for (int segmentcount = 0; segmentcount < getSegmentCount(); segmentcount++) {
 
             ArrayList<Float> voltagelist= getSegmentVoltage(segmentcount);
            for(int voltagecount = 0;voltagecount < voltagelist.size();voltagecount++ )
@@ -504,7 +523,7 @@ public class DataManager {
 
     public ArrayList<Errorcode>  getErrorsAsList() {
         ArrayList<Errorcode> retlist = new ArrayList<>();
-        for (int segmentcount = 0; segmentcount < CELL_COUNT; segmentcount++) {
+        for (int segmentcount = 0; segmentcount < getSegmentCount(); segmentcount++) {
             SegmentData segment = getSegmentData(segmentcount);
             if (segment.cids.size() == 0) continue;
             for (int cidcount = 0; cidcount < 2; cidcount++) {
@@ -555,5 +574,60 @@ public class DataManager {
 
         return retlist;
     }
+
+    public ArrayList<Errorcode> getErrorsAsListInSegment(int segmentcount)
+    {
+        SegmentData segment = getSegmentData(segmentcount);
+        ArrayList<Errorcode> retlist = new ArrayList<>();
+        if (segment.cids.size() == 0) return retlist;
+        for (int cidcount = 0; cidcount < 2; cidcount++) {
+            CIDData cid = segment.cids.get(cidcount);
+
+            //Over/under temperature
+            for (int k = 0; k < cid.getAn_ot().size(); k++) {
+                if (cid.getAn_ot().get(k)) {
+                    retlist.add(new Errorcode("Overtemperature", segmentcount, cidcount, k, false));
+                }
+            }
+            for (int k = 0; k < cid.getAn_ut().size(); k++) {
+                if (cid.getAn_ut().get(k)) {
+                    retlist.add(new Errorcode("Undertemperature", segmentcount, cidcount, k, false));
+                }
+            }
+            // Over/Undervoltage
+            for (int k = 0; k < cid.getCt_ov().size(); k++) {
+                if (cid.getCt_ov().get(k)) {
+                    retlist.add(new Errorcode("Overvoltage", segmentcount, cidcount, k, false));
+                }
+            }
+            for (int k = 0; k < cid.getCt_uv().size(); k++) {
+                if (cid.getCt_uv().get(k)) {
+                    retlist.add(new Errorcode("Undervoltage", segmentcount, cidcount, k, false));
+                }
+            }
+            //openload
+            for (int k = 0; k < cid.getCt_open().size(); k++) {
+                if (cid.getCt_open().get(k)) {
+                    retlist.add(new Errorcode("Openload", segmentcount, cidcount, k, false));
+                }
+            }
+            //shortcircuit
+            for (int k = 0; k < cid.getCt_short().size(); k++) {
+                if (cid.getCt_short().get(k)) {
+                    retlist.add(new Errorcode("Short Circuit", segmentcount, cidcount, k, false));
+                }
+            }
+            ArrayList<Errorcode> faulterrors = getSegmentData(segmentcount).cids.get(cidcount).getFaultsAsErrors(segmentcount, cidcount);
+            for (int i = 0; i < faulterrors.size(); i++) {
+                retlist.add(faulterrors.get(i));
+            }
+        }
+        return retlist;
+    }
+    public boolean getvalid()
+    {
+        return isvalid;
+    }
 }
+
 
