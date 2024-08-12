@@ -106,7 +106,7 @@ public class SettingsManager {
         return password;
     }
 
-    private boolean mailExist(String email){
+    public boolean mailExist(String email){
         for (int i =0; i<mail.size();i++){
             //iterates over the Arraylist and check if it is already inside the Arraylist
             if(email.equals(mail.get(i))){
