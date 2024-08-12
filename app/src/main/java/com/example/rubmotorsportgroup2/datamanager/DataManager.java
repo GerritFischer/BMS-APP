@@ -345,7 +345,10 @@ public class DataManager {
     }
     public int getSegmentCount()
     {
-        return dataSet.segmentDataArrayList.size();
+        if(dataSet.segmentDataArrayList != null){
+            return dataSet.segmentDataArrayList.size();
+        }
+        return 12;
     }
 
     public ArrayList<Float> getSegmentVoltage(int segID) {
