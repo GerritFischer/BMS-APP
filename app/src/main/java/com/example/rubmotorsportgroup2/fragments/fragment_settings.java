@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rubmotorsportgroup2.MailManager;
 import com.example.rubmotorsportgroup2.MainActivity;
 import com.example.rubmotorsportgroup2.R;
 import com.example.rubmotorsportgroup2.settingsmanager.SettingsManager;
@@ -79,6 +80,18 @@ public class fragment_settings extends Fragment{
         SettingsManager sm= MainActivity.sm;
         sm.loadSettings(getActivity());
         sm.saveSettings(getActivity());
+
+        Button mailManagerBtn= inflate.findViewById(R.id.settings_editMailBtn);
+        mailManagerBtn.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View v)
+                                              {
+                                                  Intent intent = new Intent(getActivity(), MailManager.class);
+                                                  startActivity(intent);
+                                              }
+                                          }
+
+        );
 
         SwitchCompat passwordProSwitch=inflate.findViewById(R.id.settings_password_pro_switch);
         passwordProSwitch.setChecked(sm.isPassPro());
@@ -227,7 +240,7 @@ public class fragment_settings extends Fragment{
                         Toast.makeText(getActivity(),"new Password is to short",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(getActivity(),sm.getPassword(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"wrong Password",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -273,5 +286,6 @@ public class fragment_settings extends Fragment{
 
         alertDialog.show();
     }
+
 
 }
