@@ -132,14 +132,14 @@ public class DataManager {
                 int register_fault1_fault2 = data[offset];
                 //fault1
                 for (int j = 0; j < 16; j++) {
-                    if (fault_names1[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
-                        cid1.addFault(fault_names1[j]);
+                    if (fault_names2[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
+                        cid1.addFault(fault_names2[j]);
                     }
                 }
                 //fault2
                 for (int j = 0; j < 16; j++) {
-                    if (fault_names2[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
-                        cid1.addFault(fault_names2[j]);
+                    if (fault_names1[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
+                        cid1.addFault(fault_names1[j]);
                     }
                 }
                 offset++;
@@ -150,7 +150,7 @@ public class DataManager {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
                         int t = j;
                         if(t >= 4) { t -= 3;}
-                        boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                        boolean cb_state = ((register_fault3_cellov >> j) & 1) == 1;
                         if(!cb_state && !cbData.hasStarted(t)){
                             cbData.setStart(t);
                         }
@@ -163,7 +163,7 @@ public class DataManager {
                 //cell over voltage
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid1.addCT_ov(((register_fault3_cellov >> j) & 1) == 1);
+                        cid1.addCT_ov((((register_fault3_cellov >> 16) >> j) & 1) == 1);
                     }
                 }
 
@@ -173,30 +173,31 @@ public class DataManager {
                 //cell under voltage
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid1.addCT_uv((((register_celluv_anotut >> 16) >> j) & 1) == 1);
+                        cid1.addCT_uv(((register_celluv_anotut >> j) & 1) == 1);
                     }
                 }
                 //over and under temperature
                 for (int j = 0; j < 7; j++) {
-                    cid1.addAN_ut((((register_celluv_anotut >> 1) >> j) & 1) == 1);
+                    cid1.addAN_ut((((register_celluv_anotut >> 17) >> j) & 1) == 1);
                 }
                 for (int j = 0; j < 7; j++) {
-                    cid1.addAN_ot((((register_celluv_anotut >> 9) >> j) & 1) == 1);
+                    cid1.addAN_ot((((register_celluv_anotut >> 25) >> j) & 1) == 1);
                 }
                 offset++;
                 //--------------------------------------------------------------------------------------
                 int register_com_open = data[offset];
 
                 //com error count
-                short error_count = (short) ((register_com_open >> 16) & 1);
-                for (int j = 0; j < 7; j++) {
-                    error_count = (short) ((error_count << 1) + (short) ((register_com_open >> 17) >> j) & 1);
+                short error_count = 0;
+
+                for (int j = 0; j < 8; j++) {
+                    error_count = (short) ((error_count << 1) | ((register_com_open >> 8) >> j) & 1);
                 }
                 cid1.setCOM_ERR_COUNT(error_count);
                 //cell open load
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid1.addCT_open((((register_com_open) >> j) & 1) == 1);
+                        cid1.addCT_open(((((register_com_open)>> 16) >> j) & 1) == 1);
                     }
                 }
                 offset++;
@@ -205,7 +206,7 @@ public class DataManager {
                 //cell short circuit
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid1.addCT_short((((register_short >> 16) >> j) & 1) == 1);
+                        cid1.addCT_short(((register_short >> j) & 1) == 1);
                     }
                 }
                 offset++;
@@ -241,14 +242,14 @@ public class DataManager {
                 register_fault1_fault2 = data[offset];
                 //fault1
                 for (int j = 0; j < 16; j++) {
-                    if (fault_names1[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
-                        cid2.addFault(fault_names1[j]);
+                    if (fault_names2[j] != null && (((register_fault1_fault2 >> 16) >> j) & 1) == 1) {
+                        cid2.addFault(fault_names2[j]);
                     }
                 }
                 //fault2
                 for (int j = 0; j < 16; j++) {
-                    if (fault_names2[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
-                        cid2.addFault(fault_names2[j]);
+                    if (fault_names1[j] != null && (((register_fault1_fault2) >> j) & 1) == 1) {
+                        cid2.addFault(fault_names1[j]);
                     }
                 }
                 offset++;
@@ -259,7 +260,7 @@ public class DataManager {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
                         int t = j;
                         if(t >= 4) { t -= 3;}
-                        boolean cb_state = (((register_fault3_cellov >> 16) >> j) & 1) == 1;
+                        boolean cb_state = ((register_fault3_cellov >> j) & 1) == 1;
                         if(!cb_state && !cbData.hasStarted(t+11)){
                             cbData.setStart(t+11);
                         }
@@ -272,7 +273,7 @@ public class DataManager {
                 //cell over voltage
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid2.addCT_ov(((register_fault3_cellov >> j) & 1) == 1);
+                        cid2.addCT_ov((((register_fault3_cellov >> 16) >> j) & 1) == 1);
                     }
                 }
 
@@ -282,30 +283,31 @@ public class DataManager {
                 //cell under voltage
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid2.addCT_uv((((register_celluv_anotut >> 16) >> j) & 1) == 1);
+                        cid2.addCT_uv(((register_celluv_anotut>> j) & 1) == 1);
                     }
                 }
                 //over and under temperature
                 for (int j = 0; j < 7; j++) {
-                    cid2.addAN_ut((((register_celluv_anotut >> 1) >> j) & 1) == 1);
+                    cid2.addAN_ut((((register_celluv_anotut >> 17) >> j) & 1) == 1);
                 }
                 for (int j = 0; j < 7; j++) {
-                    cid2.addAN_ot((((register_celluv_anotut >> 9) >> j) & 1) == 1);
+                    cid2.addAN_ot((((register_celluv_anotut >> 25) >> j) & 1) == 1);
                 }
                 offset++;
                 //--------------------------------------------------------------------------------------
                 register_com_open = data[offset];
 
                 //com error count
-                error_count = (short) ((register_com_open >> 16) & 1);
-                for (int j = 0; j < 7; j++) {
-                    error_count = (short) ((error_count << 1) + (short) ((register_com_open >> 17) >> j) & 1);
+                error_count = 0;
+
+                for (int j = 0; j < 8; j++) {
+                    error_count = (short) ((error_count << 1) | ((register_com_open >> 8) >> j) & 1);
                 }
                 cid2.setCOM_ERR_COUNT(error_count);
                 //cell open load
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid2.addCT_open((((register_com_open) >> j) & 1) == 1);
+                        cid2.addCT_open((((register_com_open >> 16) >> j) & 1) == 1);
                     }
                 }
                 offset++;
@@ -314,7 +316,7 @@ public class DataManager {
                 //cell short circuit
                 for (int j = 0; j < 14; j++) {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
-                        cid2.addCT_short((((register_short >> 16) >> j) & 1) == 1);
+                        cid2.addCT_short(((register_short >> j) & 1) == 1);
                     }
                 }
                 offset++;
