@@ -74,12 +74,14 @@ public class CIDData {
 
         for(int i = 0; i<faults.size();i++)
         {
-            if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") || faults.get(i).equals("CB_OPEN_FLT") || faults.get(i).equals("CB_SHORT_FLT"))
+            if(faults.get(i).equals("VPWR_LV_FLT") || faults.get(i).equals("VPWR_OV_FLT"))
                 geterrors++;
-            else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
+            else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") || faults.get(i).equals("CB_OPEN_FLT") || faults.get(i).equals("CB_SHORT_FLT"))
                 geterrors++;
-            else if(faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT"))
+            else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT"))
                 geterrors++;
+            //else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") ||faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
+            //  faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
         }
         //System.out.println(faults.size());
         return geterrors;
@@ -93,11 +95,10 @@ public class CIDData {
                 faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
             else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") || faults.get(i).equals("CB_OPEN_FLT") || faults.get(i).equals("CB_SHORT_FLT"))
                  faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
-            else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
+            else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT"))
                 faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
-            else if(faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT"))
-                faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
-
+            //else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") ||faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
+              //  faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
         }
         return faulterrors;
     }
