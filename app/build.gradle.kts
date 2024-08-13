@@ -41,6 +41,13 @@ android {
         viewBinding = true
         buildConfig = true //needed for readout of username and pw for websocket
     }
+
+    packaging{
+        resources{
+            excludes += "META-INF/NOTICE.md"
+            excludes += "META-INF/LICENSE.md"
+        }
+    }
 }
 
 dependencies {
@@ -54,4 +61,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0") //added for charts
     implementation("com.squareup.okhttp3:okhttp:4.10.0") //added for websocket
+
+    implementation("com.sun.mail:android-mail:1.6.6")  // for EmailSender
+    implementation ("com.sun.mail:android-activation:1.6.7")  // for EmailSender
 }
