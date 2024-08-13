@@ -28,7 +28,7 @@ public class MockDataSet extends DataSet{
 
     public MockDataSet(ArrayList<SegmentData> segments, CBData cb) {
         super(segments);
-        ArrayList<SegmentData> segs = new ArrayList<SegmentData>();
+        ArrayList<SegmentData> segs = new ArrayList<>();
 
         for (int i = 0; i < 12; i++){
             SegmentData sd = new SegmentData();

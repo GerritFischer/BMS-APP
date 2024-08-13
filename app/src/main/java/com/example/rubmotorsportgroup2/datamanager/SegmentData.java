@@ -3,8 +3,8 @@ package com.example.rubmotorsportgroup2.datamanager;
 import java.util.ArrayList;
 
 public class SegmentData {
-    public ArrayList<Float> voltage_combined = new ArrayList<Float>(); //22
-    public ArrayList<Float> temperature_combined = new ArrayList<Float>(); //14
+    public ArrayList<Float> voltage_combined = new ArrayList<>(); //22
+    public ArrayList<Float> temperature_combined = new ArrayList<>(); //14
 
     public ArrayList<CIDData> cids = new ArrayList<>(); //2
 
@@ -24,7 +24,7 @@ public class SegmentData {
     {
         SegmentData segment =this;
         ArrayList<Errorcode> retlist = new ArrayList<>();
-        if (segment.cids.size() == 0) return retlist;
+        if (segment.cids.isEmpty()) return retlist;
         for (int cidcount = 0; cidcount < 2; cidcount++) {
             CIDData cid = segment.cids.get(cidcount);
 
@@ -63,14 +63,8 @@ public class SegmentData {
                 }
             }
             ArrayList<Errorcode> faulterrors = this.cids.get(cidcount).getFaultsAsErrors(-1, cidcount);
-            for (int i = 0; i < faulterrors.size(); i++) {
-                retlist.add(faulterrors.get(i));
-            }
+            retlist.addAll(faulterrors);
         }
         return retlist;
     }
-
-
-    //TODO: add faults
-
 }
