@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class DataManager {
 
+    private final int CB_ACTIVE_STATE = 0;
     private final boolean USE_MOCK_DATA = false;
     private final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
@@ -135,7 +136,7 @@ public class DataManager {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
                         int t = j;
                         if(t >= 4) { t -= 3;}
-                        boolean cb_state = ((register_fault3_cellov >> j) & 1) == 1;
+                        boolean cb_state = (((register_fault3_cellov >> j) & 1) == CB_ACTIVE_STATE);
                         if(!cb_state && !cbData.hasStarted(t)){
                             cbData.setStart(t);
                         }
@@ -245,7 +246,7 @@ public class DataManager {
                     if (!(j >= 4 && j <= 6)) { //skip the disconnected terminals
                         int t = j;
                         if(t >= 4) { t -= 3;}
-                        boolean cb_state = ((register_fault3_cellov >> j) & 1) == 1;
+                        boolean cb_state = ((register_fault3_cellov >> j) & 1) == CB_ACTIVE_STATE;
                         if(!cb_state && !cbData.hasStarted(t+11)){
                             cbData.setStart(t+11);
                         }
