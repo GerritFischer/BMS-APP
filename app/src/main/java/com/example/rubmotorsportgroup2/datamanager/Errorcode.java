@@ -1,5 +1,7 @@
 package com.example.rubmotorsportgroup2.datamanager;
 
+import androidx.annotation.NonNull;
+
 public class Errorcode {
     private  String  errortype;
     private int segment;
@@ -29,19 +31,20 @@ public class Errorcode {
     {
         return cell;
     }
+    @NonNull
     @Override
     public String toString()
     {
         if(iscidfault)
-            return ""+ errortype +" found in Segment "+ segment+" in CID "+cid;
+            return errortype +" found in Segment "+ segment+" in CID "+cid;
         else
-            return ""+ errortype +" found in Segment "+ segment+" in CID "+cid+ " in Cell "+ cell;
+            return errortype +" found in Segment "+ segment+" in CID "+cid+ " in Cell "+ cell;
     }
     public String toStringIgnoringSegment()
     {
         if(iscidfault)
-            return ""+ errortype +" found in CID "+cid;
+            return errortype +" found in CID "+cid;
         else
-            return ""+ errortype +" found CID "+cid+ " in Cell "+ cell;
+            return errortype +" found CID "+cid+ " in Cell "+ cell;
     }
 }
