@@ -53,7 +53,13 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         );
     }
     public void updateDataSet(int position){
-        viewHolders.get(position).t.setText("Segment " + position);
+        try{
+            viewHolders.get(position).t.setText("Segment " + position);
+        }
+        catch(Exception e){
+            System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
+        }
+
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i = 0; i < 22; i++){
             try{
@@ -66,21 +72,29 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
         }
 
-        TextView smallstatus= viewHolders.get(position).s;
-        if(data.get(position).getErrorsAsListInSegment().size()>0)
-        {
-            smallstatus.setText("!!!");
-            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error_warning_overview, null));
+        try{
+            TextView smallstatus= viewHolders.get(position).s;
+
+            if(data.get(position).getErrorsAsListInSegment().size()>0)
+            {
+                smallstatus.setText("!!!");
+                smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error_warning_overview, null));
+            }
+            else if(data.get(position).cids.size()==0)
+            {
+                smallstatus.setText("n/a");
+                smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.no_data_background, null));
+            }
+            else {
+                smallstatus.setText("OK");
+                smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.tv_segment_status_drawable, null));
+            }
         }
-        else if(data.get(position).cids.size()==0)
-        {
-            smallstatus.setText("n/a");
-            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.no_data_background, null));
+        catch(Exception e){
+            System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
         }
-        else {
-            smallstatus.setText("OK");
-            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.tv_segment_status_drawable, null));
-        }
+
+
 
         //setting up properties of barchart
         ArrayList<Float> intervals = new ArrayList<Float>();
@@ -99,9 +113,16 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
                             );
         barDataSet.setDrawValues(false);
         BarData data = new BarData(barDataSet);
-        viewHolders.get(position).b.setData(data);
-        viewHolders.get(position).b.notifyDataSetChanged();
-        viewHolders.get(position).b.invalidate();
+        try{
+            viewHolders.get(position).b.setData(data);
+            viewHolders.get(position).b.notifyDataSetChanged();
+            viewHolders.get(position).b.invalidate();
+        }
+        catch(Exception e){
+            System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
+        }
+
+
     }
     @Override
     public void onBindViewHolder(@NonNull RVSegmentAdapter.ViewHolder holder, int position) {
