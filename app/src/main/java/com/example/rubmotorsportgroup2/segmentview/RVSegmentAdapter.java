@@ -24,7 +24,11 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.ViewHolder> {
 
@@ -53,7 +57,13 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         );
     }
     public void updateDataSet(int position){
-        viewHolders.get(position).t.setText("Segment " + position);
+        try{
+            viewHolders.get(position).t.setText("Segment " + position);
+        }
+        catch(Exception e){
+            System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
+        }
+
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i = 0; i < 22; i++){
             try{
@@ -66,21 +76,38 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
 
         }
 
-        TextView smallstatus= viewHolders.get(position).s;
-        if(data.get(position).getErrorsAsListInSegment().size()>0)
-        {
-            smallstatus.setText("!!!");
-            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error_warning_overview, null));
+        try{
+            TextView smallstatus= viewHolders.get(position).s;
+
+            if(data.get(position).getErrorsAsListInSegment().size()>0)
+            {
+                smallstatus.setText("!!!");
+                smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error_warning_overview, null));
+            }
+            else if(data.get(position).cids.size()==0)
+            {
+                smallstatus.setText("n/a");
+                smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.no_data_background, null));
+            }
+            else {
+                smallstatus.setText("OK");
+                smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.tv_segment_status_drawable, null));
+            }
+
+            TextView temp_max = viewHolders.get(position).temp_max;
+            TextView temp_min = viewHolders.get(position).temp_min;
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setMinimumFractionDigits(2);
+            temp_max.setText("Max: " + df.format(Collections.max(data.get(position).temperature_combined)));
+            temp_min.setText("Min: " + df.format(Collections.min(data.get(position).temperature_combined)));
+
+
         }
-        else if(data.get(position).cids.size()==0)
-        {
-            smallstatus.setText("n/a");
-            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.no_data_background, null));
+        catch(Exception e){
+            System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
         }
-        else {
-            smallstatus.setText("OK");
-            smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.tv_segment_status_drawable, null));
-        }
+
+
 
         //setting up properties of barchart
         ArrayList<Float> intervals = new ArrayList<Float>();
@@ -99,9 +126,17 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
                             );
         barDataSet.setDrawValues(false);
         BarData data = new BarData(barDataSet);
-        viewHolders.get(position).b.setData(data);
-        viewHolders.get(position).b.notifyDataSetChanged();
-        viewHolders.get(position).b.invalidate();
+        try{
+            viewHolders.get(position).b.setData(data);
+            viewHolders.get(position).b.notifyDataSetChanged();
+            viewHolders.get(position).b.invalidate();
+
+        }
+        catch(Exception e){
+            System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
+        }
+
+
     }
     @Override
     public void onBindViewHolder(@NonNull RVSegmentAdapter.ViewHolder holder, int position) {
@@ -145,11 +180,15 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         TextView t;
         BarChart b;
         TextView s;
+        TextView temp_max;
+        TextView temp_min;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             t = itemView.findViewById(R.id.tv_segmentID);
             b = itemView.findViewById(R.id.bc_segmentData);
             s = itemView.findViewById(R.id.tv_segmentStatus);
+            temp_max = itemView.findViewById(R.id.tv_temp_max);
+            temp_min = itemView.findViewById(R.id.tv_temp_min);
             itemView.setOnClickListener(this);
 
         }

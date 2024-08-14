@@ -5,9 +5,11 @@ import static com.example.rubmotorsportgroup2.MainActivity.dm;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.TypefaceCompat;
 
 import com.example.rubmotorsportgroup2.CustomBarDataset;
 import com.example.rubmotorsportgroup2.R;
@@ -31,6 +34,7 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class SegmentActivity extends AppCompatActivity {
@@ -49,38 +53,22 @@ public class SegmentActivity extends AppCompatActivity {
 
     private LinearLayout errorlayout;
 
-
+    private final String[] CELL_NAMES = {"A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11",
+                                         "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10", "B11"};
 
     private void updateBarCharts(){
         ArrayList<String> xAxisNames = new ArrayList<>();
-        xAxisNames.add("A01");
-        xAxisNames.add("A02");
-        xAxisNames.add("A03");
-        xAxisNames.add("A04");
-        xAxisNames.add("A05");
-        xAxisNames.add("A06");
-        xAxisNames.add("A07");
-        xAxisNames.add("A08");
-        xAxisNames.add("A09");
-        xAxisNames.add("A10");
-        xAxisNames.add("A11");
-        xAxisNames.add("B01");
-        xAxisNames.add("B02");
-        xAxisNames.add("B03");
-        xAxisNames.add("B04");
-        xAxisNames.add("B05");
-        xAxisNames.add("B06");
-        xAxisNames.add("B07");
-        xAxisNames.add("B08");
-        xAxisNames.add("B09");
-        xAxisNames.add("B10");
-        xAxisNames.add("B11");
+        xAxisNames.addAll(Arrays.asList(CELL_NAMES));
+
+
         ArrayList<BarEntry> entriesVoltage = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("#.####");
+        df.setMinimumFractionDigits(4);
         for(int i = 0; i < dm.getSegmentVoltage(pos).size(); i++){
             xAxisNames.set(i, xAxisNames.get(i) + " " + df.format(dm.getSegmentVoltage(pos).get(i)));
             entriesVoltage.add(new BarEntry((float)i, dm.getSegmentVoltage(pos).get(i), xAxisNames.get(i) + "   " + dm.getSegmentVoltage(pos).get(i)) );
         }
+
 
         ArrayList<Float> intervalsVoltage = new ArrayList<Float>();
         intervalsVoltage.add(3.1f);
@@ -105,9 +93,16 @@ public class SegmentActivity extends AppCompatActivity {
 
 
         ArrayList<BarEntry> entriesTemperature = new ArrayList<>();
-        for(int i = 1; i < dm.getSegmentTemperature(pos).size(); i++){
+        ArrayList<String> entriesTemperatureNames = new ArrayList<>();
+        for(int i = 0; i < dm.getSegmentTemperature(pos).size(); i++){
+            entriesTemperatureNames.add(" ");
+        }
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        df2.setMinimumFractionDigits(2);
+        for(int i = 0; i < dm.getSegmentTemperature(pos).size(); i++){
+            entriesTemperatureNames.set(i, df2.format(dm.getSegmentTemperature(pos).get(i)) + "°C");
             //added 25 to temp to make it positive values only
-            entriesTemperature.add(new BarEntry((float)i, dm.getSegmentTemperature(pos).get(i) + 25f));
+            entriesTemperature.add(new BarEntry((float)i, dm.getSegmentTemperature(pos).get(i) + 25f, dm.getSegmentTemperature(pos).get(i).toString()));
         }
 
         ArrayList<Float> intervalsTemperature = new ArrayList<Float>();
@@ -126,6 +121,7 @@ public class SegmentActivity extends AppCompatActivity {
         );
         barDataSetTemperature.setDrawValues(false);
         BarData dataTemperature = new BarData(barDataSetTemperature);
+        bc_temperature.getXAxis().setValueFormatter(new IndexAxisValueFormatter(entriesTemperatureNames));
         bc_temperature.setData(dataTemperature);
         bc_temperature.notifyDataSetChanged();
         bc_temperature.invalidate();
@@ -135,11 +131,11 @@ public class SegmentActivity extends AppCompatActivity {
     private void updateCellBalancing(){
         for(int i = 0; i < (dm.getCellCount() * 2); i++){
                 if (dm.getCbData().hasStarted(i)) {
-                    cbstates.get(i).setText("Balancing...");
+                    cbstates.get(i).setText(CELL_NAMES[i] + " Balancing...");
                     cbtimes.get(i).setText(formatDuration(Duration.between(dm.getCbData().getStart(i), Instant.now())));
                 }
                 else {
-                    cbstates.get(i).setText("Not balancing");
+                    cbstates.get(i).setText(CELL_NAMES[i] + " Not balancing");
                     if(dm.getCbData().getTime(i).equals(Duration.ofSeconds(0))){
                         cbtimes.get(i).setText("Not balanced yet");
                     }
@@ -191,8 +187,7 @@ public class SegmentActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
         xAxis.setDrawGridLines(false);
         xAxis.setCenterAxisLabels(false);
-        xAxis.setTypeface(Typeface.MONOSPACE);
-        xAxis.setXOffset(100);
+        xAxis.setXOffset(80);
         xAxis.setGranularityEnabled(true);
         xAxis.setLabelCount(22);
         bc_voltage.getDescription().setEnabled(false);
@@ -200,8 +195,12 @@ public class SegmentActivity extends AppCompatActivity {
         bc_voltage.setFocusableInTouchMode(false);
         bc_voltage.getAxisLeft().setAxisMaximum(4.3f);
         bc_voltage.getAxisLeft().setAxisMinimum(2.9f);
-
-
+        Typeface typeface = Typeface.create("monospace", Typeface.NORMAL);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            Log.d("Typeface", "Typeface: " + typeface.getSystemFontFamilyName());
+        }
+        xAxis.setTypeface(ResourcesCompat.getFont(getBaseContext(), R.font.roboto_mono));
+        bc_voltage.invalidate();
         bc_temperature.setDrawGridBackground(false);
         Legend l_temperature = bc_temperature.getLegend();
         l_temperature.setEnabled(false);
@@ -214,10 +213,18 @@ public class SegmentActivity extends AppCompatActivity {
         bc_temperature.getAxisRight().setDrawGridLines(false);
         bc_temperature.getAxisLeft().setEnabled(false);
         bc_temperature.getAxisRight().setEnabled(false);
-        bc_temperature.getXAxis().setEnabled(false);
+        //bc_temperature.getXAxis().setEnabled(false);
         bc_temperature.getDescription().setEnabled(false);
         bc_temperature.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.ElementColor));
         bc_temperature.setFocusableInTouchMode(false);
+        xAxis = bc_temperature.getXAxis();
+        xAxis.setTextSize(13f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        xAxis.setDrawGridLines(false);
+        xAxis.setCenterAxisLabels(false);
+        xAxis.setXOffset(50);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setLabelCount(12);
         //added 25 to temp to make it positive values only
         bc_temperature.getAxisLeft().setAxisMaximum(90f);
         bc_temperature.getAxisLeft().setAxisMinimum(0f);
