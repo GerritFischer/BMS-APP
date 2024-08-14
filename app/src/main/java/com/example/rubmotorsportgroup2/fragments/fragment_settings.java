@@ -158,21 +158,6 @@ public class fragment_settings extends Fragment{
             }
         });
 
-        SwitchCompat tabletModeSwitch=inflate.findViewById(R.id.settings_tabletModeSwitch);
-        tabletModeSwitch.setChecked(sm.isTabletMode());
-        tabletModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // if Tabletmodeswitch is changed it change the json file accordingly
-                    sm.setTabletMode(isChecked);
-                    sm.saveSettings(getActivity());
-                } else {
-                    sm.setTabletMode(isChecked);
-                    sm.saveSettings(getActivity());
-                }
-            }
-        });
 
         // Inflate the layout for this fragment
         return inflate;

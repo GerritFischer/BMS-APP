@@ -57,7 +57,6 @@ public class SettingsManager {
                 column= json.getColumns();
             }
             else{
-                Toast.makeText(context,"hey",Toast.LENGTH_SHORT).show();
                 column=2;
             }
             saveSettings(context);
