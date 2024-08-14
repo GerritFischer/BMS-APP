@@ -5,215 +5,226 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.fragment_settings">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/BackgroundColor"
-    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/settings_settingsView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:gravity="center"
-        android:text="@string/settings_settings"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:layout_marginBottom="20sp"/>
+        android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/settings_password_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/ElementColor"
-        app:cardCornerRadius="5dp"
-        android:layout_marginBottom="10sp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/BackgroundColor"
             android:orientation="vertical">
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:id="@+id/password_edit"
-              android:layout_marginBottom="10dp">
-              <TextView
-                  android:id="@+id/settings_password_protection"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="8dp"
-                  android:layout_marginTop="8dp"
-                  android:fontFamily="@font/roboto"
-                  android:text="@string/settings_password_protection"
-                  android:textSize="20sp"
-                  android:textColor="@color/white"
-                  app:layout_constraintStart_toStartOf="parent"
-                  app:layout_constraintTop_toTopOf="parent"
-                  />
-              <androidx.appcompat.widget.SwitchCompat
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/settings_password_pro_switch"
-                  android:layout_alignParentEnd="true" />
-          </RelativeLayout>
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-              <TextView
-                  android:id="@+id/settings_password"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="8dp"
-                  android:layout_marginTop="8dp"
-                  android:fontFamily="@font/roboto"
-                  android:text="@string/settings_password"
-                  android:textSize="20sp"
-                  android:textColor="@color/white"
-                  android:gravity="center"
-                  />
 
-              <Button
-                  android:id="@+id/settings_editPassBtn"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Edit"
-                  android:layout_alignParentEnd="true"/>
-
-          </RelativeLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/settings_mode_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/ElementColor"
-        app:cardCornerRadius="5dp"
-        android:layout_marginBottom="10sp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <RelativeLayout
+            <TextView
+                android:id="@+id/settings_settingsView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/settings_sentrymode">
-                <TextView
-                    android:id="@+id/settings_sentrymodeview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/settings_sentry"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                android:layout_marginBottom="20sp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:text="@string/settings_settings"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/settings_sentryModeSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settings_password_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/settings_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/mailManager_title"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <Button
-                    android:id="@+id/settings_editMailBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:layout_alignParentEnd="true"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/ElementColor"
-        app:cardCornerRadius="5dp"
-        android:layout_marginBottom="10sp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/settings_column"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto"
-                android:text="@string/settings_columns"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                />
-            <Button
-                android:id="@+id/settings_plusbutton"
-                android:layout_width="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="10sp"
+                app:cardBackgroundColor="@color/ElementColor"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/password_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/settings_password_protection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="@string/settings_password_protection"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/settings_password_pro_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/settings_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="center"
+                            android:text="@string/settings_password"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/settings_editPassBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="Edit" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settings_mode_card"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/settings_plus"
-                android:padding="10dp"
-                >
-            </Button>
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="10sp"
+                app:cardBackgroundColor="@color/ElementColor"
+                app:cardCornerRadius="5dp">
 
-            <TextView
-                android:id="@+id/settings_columsdisplay"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/settings_sentrymode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/settings_sentrymodeview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="@string/settings_sentry"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/settings_sentryModeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/settings_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="@string/mailManager_title"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/settings_editMailBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="Edit" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_toStartOf="@id/settings_plusbutton"
-                android:ems="2"
-                android:fontFamily="@font/roboto"
-                android:textAlignment="center"
-                android:textSize="20sp">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="10sp"
+                app:cardBackgroundColor="@color/ElementColor"
+                app:cardCornerRadius="5dp">
 
-            </TextView>
-            <Button
-                android:id="@+id/settings_minusbutton"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/settings_columsdisplay"
-                android:text="@string/settings_minus"
-                android:padding="10dp">
-            </Button>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/settings_column"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/settings_columns"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/settings_plusbutton"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="10dp"
+                        android:text="@string/settings_plus"></Button>
+
+                    <TextView
+                        android:id="@+id/settings_columsdisplay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_toStartOf="@id/settings_plusbutton"
+                        android:ems="2"
+                        android:fontFamily="@font/roboto"
+                        android:textAlignment="center"
+                        android:textSize="20sp">
+
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/settings_minusbutton"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/settings_columsdisplay"
+                        android:padding="10dp"
+                        android:text="@string/settings_minus"></Button>
 
 
+                </RelativeLayout>
 
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-</LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

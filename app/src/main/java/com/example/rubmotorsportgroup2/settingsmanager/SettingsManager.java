@@ -78,7 +78,6 @@ public class SettingsManager {
         json.setEmailList(mail,context);
         json.setPassPro(passwordPro,context);
         json.setColums(column,context);
-        Toast.makeText(context,""+column,Toast.LENGTH_SHORT).show();
     }
 
     public void setSentryMode(boolean isSentry){
