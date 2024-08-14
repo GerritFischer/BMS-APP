@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.rubmotorsportgroup2.databinding.ActivityMainBinding;
 import com.example.rubmotorsportgroup2.datamanager.DataManager;
+import com.example.rubmotorsportgroup2.datamanager.SentryMode;
 import com.example.rubmotorsportgroup2.fragments.fragment_overview;
 import com.example.rubmotorsportgroup2.fragments.fragment_segments;
 import com.example.rubmotorsportgroup2.fragments.fragment_settings;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isLogged;
 
-
+    private SentryMode sentryMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         dm = new DataManager();
         sm=new SettingsManager();
         sm.loadSettings(this);
-
+        sentryMode = new SentryMode();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         displayFragment(new fragment_overview());
