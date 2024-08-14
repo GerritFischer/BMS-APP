@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class SettingsManager {
     private ArrayList<String> mail;
     private boolean sentrymode;
-    private boolean tabletmode;
     private String password;
     private boolean passwordPro;
     private int column;
@@ -20,7 +19,6 @@ public class SettingsManager {
         try {
             if (json.isEmpty()) {
                 sentrymode = false;
-                tabletmode = false;
                 passwordPro = false;
                 password = "";
                 mail = new ArrayList<>();
@@ -31,13 +29,11 @@ public class SettingsManager {
             //if settings found stores the right
             if (json.hasSettings()) {
                 sentrymode = json.isSentrymode();
-                tabletmode = json.isTabletmode();
                 passwordPro = json.isPassPro();
             } else {
                 //no Settings found so default settings
                 passwordPro = false;
                 sentrymode = false;
-                tabletmode = false;
             }
             if (json.hasPassword()) {
                 //if Password is stored get password from JSON
@@ -62,7 +58,6 @@ public class SettingsManager {
             saveSettings(context);
         }catch (Exception e){
             sentrymode = false;
-            tabletmode = false;
             passwordPro = false;
             password = "";
             mail = new ArrayList<>();
@@ -80,7 +75,6 @@ public class SettingsManager {
         //save the JSON with the current settings
         json.setPassword(password,context);
         json.setSentryMode(sentrymode,context);
-        json.setTabletMode(tabletmode,context);
         json.setEmailList(mail,context);
         json.setPassPro(passwordPro,context);
         json.setColums(column,context);
@@ -92,12 +86,6 @@ public class SettingsManager {
     }
     public boolean isSentryMode(){
         return sentrymode;
-    }
-    public void setTabletMode(boolean isTablet){
-        tabletmode=isTablet;
-    }
-    public boolean isTabletMode(){
-        return tabletmode;
     }
 
     public void setPassword(String pass){

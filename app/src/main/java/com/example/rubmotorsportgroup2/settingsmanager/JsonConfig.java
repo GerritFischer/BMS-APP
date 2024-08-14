@@ -152,41 +152,11 @@ public class JsonConfig {
             return false;
         }
     }
-    public void setTabletMode(boolean isTabletmode, Context context){
-        try{
-            setSettingsObject();
-            JSONObject json = new JSONObject(readJson());
-            //get JSONObject Settings
-            JSONObject jsettings=  json.getJSONObject("Settings");
-            //stores new value inside from key Tabletmode
-            jsettings.put("Tabletmode",isTabletmode);
-            json.put("Settings",jsettings);
-            saveJson(json.toString());
-        }
-        catch(Exception e){
-            Toast.makeText(context, "Something went wrong setTabletmode", Toast.LENGTH_SHORT).show();
-        }
-    }
-    public boolean isTabletmode(){
-        try{
-            JSONObject json = new JSONObject(readJson());
-            // get JSONObject Settings
-            JSONObject jsettings=  json.getJSONObject("Settings");
-            //get Tabletmode bool
-            boolean isTablet = jsettings.getBoolean("Tabletmode");
-            return isTablet;
-        }
-        catch(Exception e){
-            Toast.makeText(context, "Something went wrong isTabletmode", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
     public boolean isPassPro(){
         try{
             JSONObject json = new JSONObject(readJson());
             // get JSONObject Settings
             JSONObject jsettings=  json.getJSONObject("Settings");
-            //get Tabletmode bool
             boolean isPassPro = jsettings.getBoolean("PasswordProtection");
             return isPassPro;
         }
@@ -201,7 +171,6 @@ public class JsonConfig {
             JSONObject json = new JSONObject(readJson());
             //get JSONObject Settings
             JSONObject jsettings=  json.getJSONObject("Settings");
-            //stores new value inside from key Tabletmode
             jsettings.put("PasswordProtection",isPassPro);
             json.put("Settings",jsettings);
             saveJson(json.toString());
