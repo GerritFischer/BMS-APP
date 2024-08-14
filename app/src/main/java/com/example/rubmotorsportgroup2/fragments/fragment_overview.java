@@ -2,18 +2,23 @@ package com.example.rubmotorsportgroup2.fragments;
 
 import static com.example.rubmotorsportgroup2.MainActivity.dm;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rubmotorsportgroup2.R;
@@ -42,7 +47,11 @@ public class fragment_overview extends Fragment {
     private boolean running = true;
     private final int tickTime = 10;
     private boolean first = true;
+    private LinearLayout innerlayout ;
     private OverviewUpdateThread overviewUpdateThread;
+    private ArrayList<TextView> errormsg = new ArrayList<>();
+    private CardView tablettlogview;
+
 
 
 
@@ -56,6 +65,7 @@ public class fragment_overview extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,11 +81,31 @@ public class fragment_overview extends Fragment {
         volttext = (TextView) view.findViewById(R.id.VoltageText);
         temptext = (TextView) view.findViewById(R.id.TemperatureText);
 
+
         voltchart.add(new BarEntry(2f,4));
         statusmessageview = (TextView) view.findViewById(R.id.StatusMessage);
 
+        innerlayout = view.findViewById(R.id.InnerScrollviewLayout);
+
+
         overviewUpdateThread = new OverviewUpdateThread();
         overviewUpdateThread.start();
+
+        errormsg.add(view.findViewById(R.id.Error1));
+
+        errormsg.add(view.findViewById(R.id.Error2));
+        errormsg.add(view.findViewById(R.id.Error3));
+        errormsg.add(view.findViewById(R.id.Error4));
+        errormsg.add(view.findViewById(R.id.Error5));
+        errormsg.add(view.findViewById(R.id.Error6));
+        errormsg.add(view.findViewById(R.id.Error7));
+        errormsg.add(view.findViewById(R.id.Error8));
+        errormsg.add(view.findViewById(R.id.Error9));
+        errormsg.add(view.findViewById(R.id.Error10));
+        errormsg.add(view.findViewById(R.id.Error11));
+        errormsg.add(view.findViewById(R.id.Error12));
+
+        tablettlogview = view.findViewById(R.id.ErrorlogviewTablet);
 
         /*ImageView refreshview = view.findViewById(R.id.RefreshDataView);
         getNewData();
@@ -251,8 +281,57 @@ public class fragment_overview extends Fragment {
                 //errormessage.setTextColor(0xffFF1100);
             }
         }
+
         catch(Exception e){
             System.out.println(e.getMessage());
+        }
+
+
+
+        if (innerlayout != null && getContext() != null)
+        {
+            innerlayout.removeAllViews();
+            TextView first = new TextView(getContext());
+            first.setText("Error Log");
+            first.setTextSize(30);
+            first.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            innerlayout.addView(first);
+
+            if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+                tablettlogview.setVisibility(View.VISIBLE);
+            else
+                tablettlogview.setVisibility(View.INVISIBLE);
+
+            for(int k = 0;k< errormsg.size();k++)
+            {
+                TextView t =  errormsg.get(k);
+                t.setVisibility(View.INVISIBLE);
+                t.setTextColor(0xfff03637);
+            }
+            ArrayList<Errorcode> eclist =  dm.getErrorsAsList();
+            if(eclist.isEmpty() )
+            {
+                TextView t =  new TextView(getContext());
+                t.setText("No Errors found.");
+                t.setTextSize(30);
+                t.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                t.setPadding(50,10,50,10);
+                t.setTextColor(0xff3dc03c);
+                innerlayout.addView(t);
+            }
+            else
+            {
+                for(int i = 0; i < eclist.size();i++)
+                {
+                    TextView t =  new TextView(getContext());
+                    t.setText(eclist.get(i).toString());
+                    t.setTextColor(0xfff03637);
+                    t.setTextSize(24);
+                    t.setPadding(50,10,50,10);
+                    innerlayout.addView(t);
+                }
+            }
+
         }
 
         if(first)
@@ -260,7 +339,6 @@ public class fragment_overview extends Fragment {
             first = false;
             getNewData();
         }
-
 
 
 

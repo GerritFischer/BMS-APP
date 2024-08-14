@@ -71,6 +71,7 @@ public class CIDData {
     public int getImportantFaultsCount()
     {
         int geterrors = 0;
+        System.out.println(faults.size());
 
         for(int i = 0; i<faults.size();i++)
         {
@@ -80,8 +81,8 @@ public class CIDData {
                 geterrors++;
             else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT"))
                 geterrors++;
-            //else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") ||faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
-            //  faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
+            else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") ||faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
+                geterrors++;
         }
         //System.out.println(faults.size());
         return geterrors;
@@ -89,16 +90,31 @@ public class CIDData {
     public ArrayList<Errorcode> getFaultsAsErrors(int seg,  int cid)
     {
         ArrayList<Errorcode> faulterrors = new ArrayList<Errorcode>();
+
         for(int i = 0; i<faults.size();i++)
         {
-            if(faults.get(i).equals("VPWR_LV_FLT") || faults.get(i).equals("VPWR_OV_FLT"))
-                faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
-            else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") || faults.get(i).equals("CB_OPEN_FLT") || faults.get(i).equals("CB_SHORT_FLT"))
+            if(faults.get(i).equals("VPWR_LV_FLT") )
+                faulterrors.add(new Errorcode("IC low Voltage("+faults.get(i)+")",seg,cid,-1,true));
+            else if ( faults.get(i).equals("VPWR_OV_FLT"))
+                faulterrors.add(new Errorcode("IC high Voltage("+faults.get(i)+")",seg,cid,-1,true));
+
+            else if( faults.get(i).equals("CB_OPEN_FLT") || faults.get(i).equals("CB_SHORT_FLT"))
                  faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
-            else if (faults.get(i).equals("IC_TSD_FLT")||faults.get(i).equals("GND_LOSS_FLT"))
+            else if (faults.get(i).equals("IC_TSD_FLT"))
+                faulterrors.add(new Errorcode("IC is Overheating("+faults.get(i)+")",seg,cid,-1,true));
+
+            else if(faults.get(i).equals("VANA_UV_FLT"))
+                faulterrors.add(new Errorcode("Analog Supply Undervoltage("+faults.get(i)+")",seg,cid,-1,true));
+
+            else if(faults.get(i).equals("VANA_OV_FLT"))
+                faulterrors.add(new Errorcode("Analog Supply Overvoltage("+faults.get(i)+")",seg,cid,-1,true));
+
+            else if(faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT"))
                 faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
-            //else if(faults.get(i).equals("FUSE_ERR_FLT") || faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT") ||faults.get(i).equals("VANA_UV_FLT")|| faults.get(i).equals("VANA_OV_FLT")||faults.get(i).equals("VCOM_UV_FLT")||faults.get(i).equals("VCOM_OV_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT"))
-              //  faulterrors.add(new Errorcode(faults.get(i),seg,cid,-1,true));
+
+            else if(faults.get(i).equals("GND_LOSS_FLT")||faults.get(i).equals("ADC1_A_FLT")||faults.get(i).equals("ADC1_B_FLT")|| faults.get(i).equals("FUSE_ERR_FLT")||faults.get(i).equals("DED_ERR_FLT") || faults.get(i).equals("OSC_ERR_FLT"))
+                faulterrors.add(new Errorcode("IC Malfunction ("+faults.get(i)+")",seg,cid,-1,true));
+
         }
         return faulterrors;
     }
