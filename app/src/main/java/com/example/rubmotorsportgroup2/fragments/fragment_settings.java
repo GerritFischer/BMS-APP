@@ -179,7 +179,6 @@ public class fragment_settings extends Fragment{
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
                 senSwitch.setChecked(false);
             }
         });
@@ -187,7 +186,6 @@ public class fragment_settings extends Fragment{
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Toast.makeText(getActivity(),"Sentry Mode setted",Toast.LENGTH_SHORT).show();
                 senSwitch.setChecked(true);
                 SettingsManager sm =MainActivity.sm;
                 sm.setSentryMode(true);
@@ -216,7 +214,6 @@ public class fragment_settings extends Fragment{
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -261,7 +258,6 @@ public class fragment_settings extends Fragment{
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Toast.makeText(getActivity(), "Canceled",Toast.LENGTH_SHORT).show();
                 passProSwitch.setChecked(false);
             }
         });

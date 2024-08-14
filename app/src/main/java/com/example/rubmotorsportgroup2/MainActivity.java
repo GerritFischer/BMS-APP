@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (itemID == R.id.menu_segments){
                 if(isLogged){
-                    displayFragment(new fragment_segments(dm));
+                    displayFragment(new fragment_segments(dm, sm));
                     return true;
                 }
                 else{

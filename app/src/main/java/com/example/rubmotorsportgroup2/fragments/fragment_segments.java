@@ -19,6 +19,7 @@ import com.example.rubmotorsportgroup2.segmentview.RVSegmentAdapter;
 import com.example.rubmotorsportgroup2.segmentview.SegmentActivity;
 import com.example.rubmotorsportgroup2.datamanager.DataManager;
 import com.example.rubmotorsportgroup2.datamanager.SegmentData;
+import com.example.rubmotorsportgroup2.settingsmanager.SettingsManager;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
     private String mParam2;
     private UpdaterX u;
     DataManager dm;
+    SettingsManager sm;
     boolean running = true;
     private RVSegmentAdapter a;
     private class UpdaterX extends Thread {
@@ -63,11 +65,12 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
             }
         }
     }
-    public fragment_segments(DataManager dm) {
+    public fragment_segments(DataManager dm, SettingsManager sm) {
         this.dm = dm;
+        this.sm = sm;
     }
     public static fragment_segments newInstance(String param1, String param2) {
-        fragment_segments fragment = new fragment_segments(null);
+        fragment_segments fragment = new fragment_segments(null, null);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -105,7 +108,7 @@ public class fragment_segments extends Fragment implements RVSegmentAdapter.Recy
         //setting up adapter and assigning it to the RecyclerView
         RecyclerView r = (RecyclerView) view.findViewById(R.id.recyclerview_segments);
         a = new RVSegmentAdapter(this.getContext(), testData, this);
-        r.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+        r.setLayoutManager(new GridLayoutManager(this.getContext(), sm.getColumn()));
         r.setHasFixedSize(true);
         r.setAdapter(a);
 
