@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         TextView confirm = view.findViewById(R.id.pop_up_confirmInput);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
         builder.setView(view);
         final AlertDialog alertDialog= builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

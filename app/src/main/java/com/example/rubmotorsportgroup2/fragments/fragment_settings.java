@@ -172,6 +172,7 @@ public class fragment_settings extends Fragment{
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
         builder.setView(view);
         final AlertDialog alertDialog= builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -207,6 +208,7 @@ public class fragment_settings extends Fragment{
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
         builder.setView(view);
         final AlertDialog alertDialog= builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -251,6 +253,7 @@ public class fragment_settings extends Fragment{
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
         builder.setView(view);
         final AlertDialog alertDialog= builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
