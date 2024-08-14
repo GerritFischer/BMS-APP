@@ -1,41 +1,41 @@
 package com.example.rubmotorsportgroup2.settingsmanager;
 
 import android.content.Context;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class SettingsManager {
     private ArrayList<String> mail;
-    private boolean darkmode;
     private boolean sentrymode;
     private boolean tabletmode;
     private String password;
     private boolean passwordPro;
+    private int column;
     public void loadSettings(Context context){
         JsonConfig json= new JsonConfig(context);
         //default Set Up if no JSON is found
         try {
             if (json.isEmpty()) {
-                darkmode = true;
                 sentrymode = false;
                 tabletmode = false;
                 passwordPro = false;
                 password = "";
                 mail = new ArrayList<>();
+                column = 2;
                 saveSettings(context);
                 return;
             }
             //if settings found stores the right
             if (json.hasSettings()) {
-                darkmode = json.isDarkmode();
                 sentrymode = json.isSentrymode();
                 tabletmode = json.isTabletmode();
                 passwordPro = json.isPassPro();
             } else {
                 //no Settings found so default settings
                 passwordPro = false;
-                darkmode = true;
                 sentrymode = false;
                 tabletmode = false;
             }
@@ -53,15 +53,22 @@ public class SettingsManager {
                 //create a List to store Email since we got none
                 mail = new ArrayList<>();
             }
+            if (json.hasColumns()){
+                column= json.getColumns();
+            }
+            else{
+                Toast.makeText(context,"hey",Toast.LENGTH_SHORT).show();
+                column=2;
+            }
             saveSettings(context);
         }catch (Exception e){
-            darkmode = true;
             sentrymode = false;
             tabletmode = false;
             passwordPro = false;
             password = "";
             mail = new ArrayList<>();
             saveSettings(context);
+            column=2;
         }
     }
 
@@ -72,12 +79,13 @@ public class SettingsManager {
             json.createJson();
         }
         //save the JSON with the current settings
-        json.setPassword(password);
-        json.setDarkmode(darkmode);
-        json.setSentryMode(sentrymode);
-        json.setTabletMode(tabletmode);
-        json.setEmailList(mail);
-        json.setPassPro(passwordPro);
+        json.setPassword(password,context);
+        json.setSentryMode(sentrymode,context);
+        json.setTabletMode(tabletmode,context);
+        json.setEmailList(mail,context);
+        json.setPassPro(passwordPro,context);
+        json.setColums(column,context);
+        Toast.makeText(context,""+column,Toast.LENGTH_SHORT).show();
     }
 
     public void setSentryMode(boolean isSentry){
@@ -85,12 +93,6 @@ public class SettingsManager {
     }
     public boolean isSentryMode(){
         return sentrymode;
-    }
-    public void setDarkMode(boolean isDark){
-        darkmode=isDark;
-    }
-    public boolean isDarkMode(){
-        return darkmode;
     }
     public void setTabletMode(boolean isTablet){
         tabletmode=isTablet;
@@ -141,5 +143,11 @@ public class SettingsManager {
     }
     public boolean isPassPro(){
         return passwordPro;
+    }
+    public void setColumn(int num, Context context ){
+        column=num;
+    }
+    public int getColumn(){
+        return column;
     }
 }

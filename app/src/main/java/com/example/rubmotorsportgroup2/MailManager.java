@@ -101,6 +101,8 @@ public class MailManager extends AppCompatActivity {
 
         ImageButton deletebtn= new ImageButton(this);
         deletebtn.setImageResource(R.drawable.baseline_delete_24);
+        int btncolor= ContextCompat.getColor(this,R.color.ErrorColor);
+        deletebtn.setBackgroundColor(btncolor);
         deletebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

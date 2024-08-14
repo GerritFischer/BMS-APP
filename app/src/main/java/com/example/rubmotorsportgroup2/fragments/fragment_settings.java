@@ -30,6 +30,7 @@ public class fragment_settings extends Fragment{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private int numberOfColumns ;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -80,16 +81,17 @@ public class fragment_settings extends Fragment{
         SettingsManager sm= MainActivity.sm;
         sm.loadSettings(getActivity());
         sm.saveSettings(getActivity());
+        numberOfColumns = sm.getColumn();
 
         Button mailManagerBtn= inflate.findViewById(R.id.settings_editMailBtn);
         mailManagerBtn.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v)
-                                              {
-                                                  Intent intent = new Intent(getActivity(), MailManager.class);
-                                                  startActivity(intent);
-                                              }
-                                          }
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(), MailManager.class);
+                startActivity(intent);
+            }
+        }
 
         );
 
@@ -109,22 +111,36 @@ public class fragment_settings extends Fragment{
             }
         });
 
+        TextView column = inflate.findViewById(R.id.settings_columsdisplay);
+        column.setText(""+numberOfColumns);
 
-        SwitchCompat darkModeSwitch=inflate.findViewById(R.id.settings_lightModeSwitch);
-        darkModeSwitch.setChecked(sm.isDarkMode());
-        darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Button plusbtn =inflate.findViewById(R.id.settings_plusbutton);
+        plusbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // if Darkmodeswitch is changed it change the json accordingly
-                if (isChecked) {
-                    sm.setDarkMode(true);
-                    sm.saveSettings(getActivity());
-                } else {
-                    sm.setDarkMode(false);
-                    sm.saveSettings(getActivity());
-                }
+            public void onClick(View v) {
+                numberOfColumns+=1;
+                column.setText(""+numberOfColumns);
+                sm.setColumn(numberOfColumns, getActivity());
+                sm.saveSettings(getActivity());
             }
         });
+
+        Button minusbtn = inflate.findViewById(R.id.settings_minusbutton);
+        minusbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!(numberOfColumns-1<=0)){
+                    numberOfColumns-=1;
+                    column.setText(""+numberOfColumns);
+                    sm.setColumn(numberOfColumns,getActivity());
+                    sm.saveSettings(getActivity());
+                }
+
+            }
+        });
+
+
+
 
         SwitchCompat sentryModeSwitch=inflate.findViewById(R.id.settings_sentryModeSwitch);
         sentryModeSwitch.setChecked(sm.isSentryMode());
@@ -161,12 +177,7 @@ public class fragment_settings extends Fragment{
         // Inflate the layout for this fragment
         return inflate;
     }
-    public void switchFrag(){
-        Fragment fragment= new fragment_overview();
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragmentView,fragment).commit();
 
-    }
     private void displayPopUp(SwitchCompat senSwitch){
         ConstraintLayout pop_up_wind=getView().findViewById(R.id.confirm_sentry_pop_up);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.confirm_sentry_pop_up,pop_up_wind,false);

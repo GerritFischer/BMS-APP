@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
         android:gravity="center"
-        android:text="Settings"
+        android:text="@string/settings_settings"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:layout_marginBottom="20sp"/>
@@ -48,7 +48,7 @@
                   android:layout_marginStart="8dp"
                   android:layout_marginTop="8dp"
                   android:fontFamily="@font/roboto"
-                  android:text="Password Protection"
+                  android:text="@string/settings_password_protection"
                   android:textSize="20sp"
                   android:textColor="@color/white"
                   app:layout_constraintStart_toStartOf="parent"
@@ -70,9 +70,10 @@
                   android:layout_marginStart="8dp"
                   android:layout_marginTop="8dp"
                   android:fontFamily="@font/roboto"
-                  android:text="Password:"
+                  android:text="@string/settings_password"
                   android:textSize="20sp"
                   android:textColor="@color/white"
+                  android:gravity="center"
                   />
 
               <Button
@@ -111,7 +112,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Sentrymode"
+                    android:text="@string/settings_sentry"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +137,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Email for Warning"
+                    android:text="@string/mailManager_title"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +171,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto"
-                android:text="Tabletmode"
+                android:text="@string/settings_tabletmode"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
@@ -197,21 +198,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/settings_lightmodeview"
+                android:id="@+id/settings_column"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto"
-                android:text="Lightmode"
+                android:text="@string/settings_columns"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 />
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_lightModeSwitch"
+            <Button
+                android:id="@+id/settings_plusbutton"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/settings_plus"
+                android:padding="10dp"
+                >
+            </Button>
+
+            <TextView
+                android:id="@+id/settings_columsdisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"/>
+                android:layout_marginTop="8dp"
+                android:layout_toStartOf="@id/settings_plusbutton"
+                android:ems="2"
+                android:fontFamily="@font/roboto"
+                android:textAlignment="center"
+                android:textSize="20sp">
+
+            </TextView>
+            <Button
+                android:id="@+id/settings_minusbutton"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/settings_columsdisplay"
+                android:text="@string/settings_minus"
+                android:padding="10dp">
+            </Button>
+
+
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

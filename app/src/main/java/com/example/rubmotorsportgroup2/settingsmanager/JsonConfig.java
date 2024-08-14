@@ -101,7 +101,7 @@ public class JsonConfig {
         }
         return true;
     }
-    public void deleteJson(){
+    public void deleteJson(Context context ){
         File file = new File(context.getFilesDir(), "credentials.json");
         if (file.exists()){
             //delete Json if File exist just for testing stuff
@@ -109,7 +109,7 @@ public class JsonConfig {
         }
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password,Context context){
         try{
             JSONObject json=new JSONObject(readJson());
             //set Password
@@ -122,38 +122,7 @@ public class JsonConfig {
     }
 
 
-    public void setDarkmode(boolean isDarkmode){
-        try{
-            setSettingsObject();
-            JSONObject json = new JSONObject(readJson());
-            //get from JSON the JSONObject Settings
-            JSONObject jsettings=  json.getJSONObject("Settings");
-            //store the new darkmode key with the value
-            jsettings.put("Darkmode",isDarkmode);
-            // put the new JSON data inside our JSONObject again
-            json.put("Settings",jsettings);
-            saveJson(json.toString());
-        }
-        catch(Exception e){
-            Toast.makeText(context, "Something went wrong setDarkmode", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public boolean isDarkmode(){
-        try{
-            JSONObject json = new JSONObject(readJson());
-            //get JSON settings object
-            JSONObject jsettings=  json.getJSONObject("Settings");
-            // get the value Darkmode and store in isDark
-            boolean isDark = jsettings.getBoolean("Darkmode");
-            return isDark;
-        }
-        catch(Exception e){
-            Toast.makeText(context, "Something went wrong isDarkmode", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-    public void setSentryMode(boolean isSentrymode){
+    public void setSentryMode(boolean isSentrymode, Context context){
         try{
             setSettingsObject();
             JSONObject json = new JSONObject(readJson());
@@ -183,7 +152,7 @@ public class JsonConfig {
             return false;
         }
     }
-    public void setTabletMode(boolean isTabletmode){
+    public void setTabletMode(boolean isTabletmode, Context context){
         try{
             setSettingsObject();
             JSONObject json = new JSONObject(readJson());
@@ -226,7 +195,7 @@ public class JsonConfig {
             return false;
         }
     }
-    public void setPassPro(boolean isPassPro){
+    public void setPassPro(boolean isPassPro, Context context){
         try{
             setSettingsObject();
             JSONObject json = new JSONObject(readJson());
@@ -298,7 +267,7 @@ public class JsonConfig {
             return new ArrayList<>();
         }
     }
-    public void setEmailList(ArrayList<String> mail){
+    public void setEmailList(ArrayList<String> mail, Context context){
         try{
             JSONObject json= new JSONObject(readJson());
             JSONArray arr = new JSONArray();
@@ -326,5 +295,39 @@ public class JsonConfig {
         catch(Exception e){
             Toast.makeText(context,"Something went wrong setSettingsObject",Toast.LENGTH_SHORT).show();
         }
+    }
+    public void setColums(int columns, Context context){
+        try{
+                JSONObject json = new JSONObject(readJson());
+                json.put("Columns",columns);
+                saveJson(json.toString());
+
+        }
+        catch (Exception e){
+            Toast.makeText(context,"Something went wrong setColumns",Toast.LENGTH_SHORT).show();
+        }
+    }
+    public boolean hasColumns(){
+        try{
+            JSONObject json= new JSONObject(readJson());
+            //check if json has none Empty password
+            return json.has("Columns");
+        }
+        catch (Exception e){
+            Toast.makeText(context,"Something went wrong hasColumns",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+    public int getColumns(){
+        String jsonOutput = readJson();
+        try{
+            JSONObject jsonObject = new JSONObject(jsonOutput);
+            int columns = jsonObject.getInt("Columns");
+            return columns;
+        }
+        catch(Exception e){
+            Toast.makeText(context,"Something went Wrong getColumns",Toast.LENGTH_SHORT).show();
+        }
+            return 0;
     }
 }
