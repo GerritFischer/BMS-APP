@@ -24,7 +24,11 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.ViewHolder> {
 
@@ -89,6 +93,15 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
                 smallstatus.setText("OK");
                 smallstatus.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.tv_segment_status_drawable, null));
             }
+
+            TextView temp_max = viewHolders.get(position).temp_max;
+            TextView temp_min = viewHolders.get(position).temp_min;
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setMinimumFractionDigits(2);
+            temp_max.setText("Max: " + df.format(Collections.max(data.get(position).temperature_combined)));
+            temp_min.setText("Min: " + df.format(Collections.min(data.get(position).temperature_combined)));
+
+
         }
         catch(Exception e){
             System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
@@ -117,6 +130,7 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
             viewHolders.get(position).b.setData(data);
             viewHolders.get(position).b.notifyDataSetChanged();
             viewHolders.get(position).b.invalidate();
+
         }
         catch(Exception e){
             System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
@@ -166,11 +180,15 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
         TextView t;
         BarChart b;
         TextView s;
+        TextView temp_max;
+        TextView temp_min;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             t = itemView.findViewById(R.id.tv_segmentID);
             b = itemView.findViewById(R.id.bc_segmentData);
             s = itemView.findViewById(R.id.tv_segmentStatus);
+            temp_max = itemView.findViewById(R.id.tv_temp_max);
+            temp_min = itemView.findViewById(R.id.tv_temp_min);
             itemView.setOnClickListener(this);
 
         }
