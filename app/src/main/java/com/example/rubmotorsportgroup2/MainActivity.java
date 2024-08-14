@@ -19,6 +19,7 @@ import com.example.rubmotorsportgroup2.datamanager.DataManager;
 import com.example.rubmotorsportgroup2.fragments.fragment_overview;
 import com.example.rubmotorsportgroup2.fragments.fragment_segments;
 import com.example.rubmotorsportgroup2.fragments.fragment_settings;
+import com.example.rubmotorsportgroup2.settingsmanager.JsonConfig;
 import com.example.rubmotorsportgroup2.settingsmanager.SettingsManager;
 
 public class MainActivity extends AppCompatActivity {

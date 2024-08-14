@@ -3,12 +3,8 @@
     <string name="menu_overview">Overview</string>
     <string name="menu_segments">Segments</string>
     <string name="menu_settings">Settings</string>
-    <string name="settings_passwordsubtitle">Password:</string>
     <string name="settings_editButton">Edit</string>
-    <string name="settings_lightMode">LightMode</string>
-    <string name="settings_sentryMode">SentryMode</string>
     <string name="editUser_enter_EMail">E-Mail</string>
-    <string name="settings_tablettitle">TabletMode</string>
     <string name="editUser_login">Login</string>
     <string name="editUser_enterpassword">Enter your Password</string>
     <string name="editUser_submit">Submit</string>
@@ -32,4 +28,12 @@
     <string name="mailManager_title">Email for Warning</string>
     <string name="settings_password_protection">Password Protection</string>
     <string name="mailManager_add">add</string>
+    <string name="settings_columns">Columns</string>
+    <string name="settings_plus">+</string>
+    <string name="settings_minus">-</string>
+    <string name="settings_settings">Settings</string>
+    <string name="settings_password">Password</string>
+    <string name="settings_sentry">Sentrymode</string>
+    <string name="settings_tabletmode">Tabletmode</string>
+
 </resources>
