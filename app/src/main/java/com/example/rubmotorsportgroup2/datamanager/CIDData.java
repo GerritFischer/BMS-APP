@@ -71,7 +71,6 @@ public class CIDData {
     public int getImportantFaultsCount()
     {
         int geterrors = 0;
-        System.out.println(faults.size());
 
         for(int i = 0; i<faults.size();i++)
         {
