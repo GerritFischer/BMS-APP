@@ -31,4 +31,5 @@ is displayed as "Password" with an edit button. By pressing this button a pop up
 two inputs. The first input is the old password. **If you set the password for the first time the old password**
 **is an empty string.** Below that is the sentry mode which can be turned on and off with a switch. Below that
 is the section "Email for Warning" there will be a list of the stored mail. You are also able to edit the list
-by removing or adding some elements. Below that
+by removing or adding some elements. Below that is the word "Column" written. In this part there are two button
+with a plus and a minus. There you can edit the number of columns for the segments.
