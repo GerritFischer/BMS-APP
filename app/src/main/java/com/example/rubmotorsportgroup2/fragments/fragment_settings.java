@@ -307,7 +307,6 @@ public class fragment_settings extends Fragment{
                 String text = messageInput.getText().toString();
                 SettingsManager sm = MainActivity.sm;
                 sm.setMessage(text);
-                Toast.makeText(getActivity(),sm.getMessage(),Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });
