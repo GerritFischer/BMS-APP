@@ -1,6 +1,7 @@
 package com.example.rubmotorsportgroup2.fragments;
 
 import static com.example.rubmotorsportgroup2.MainActivity.dm;
+import static com.example.rubmotorsportgroup2.MainActivity.sm;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -43,7 +44,7 @@ public class fragment_overview extends Fragment {
     private BarChart tempbar;
     private CardView cv_error;
     private TextView statusmessageview;
-    private TextView errormessage;
+    private TextView tv_error_message;
     private int errorcount = 0;
     private boolean running = true;
     private final int tickTime = 10;
@@ -87,7 +88,8 @@ public class fragment_overview extends Fragment {
         statusmessageview = (TextView) view.findViewById(R.id.StatusMessage);
 
         innerlayout = view.findViewById(R.id.InnerScrollviewLayout);
-        cv_error = view.findViewById(R.id.cv_error);
+        cv_error = view.findViewById(R.id.cv_error_message);
+        tv_error_message = view.findViewById(R.id.tv_error_message);
 
         overviewUpdateThread = new OverviewUpdateThread();
         overviewUpdateThread.start();
@@ -149,6 +151,7 @@ public class fragment_overview extends Fragment {
     }
     public void getNewData()//Get the data form the Data manager and formats them in the string used by the fail pass view
     {
+        tv_error_message.setText(sm.getMessage());
         voltchart=  new ArrayList<>();
         tempchart = new ArrayList<>();
         int avgcountervolt = 0;
@@ -250,7 +253,7 @@ public class fragment_overview extends Fragment {
        /* for (int i = 0; i<test.size();i++){
             System.out.println( test.get(i).toString());
         }*/
-
+        //cv_error.setVisibility(View.INVISIBLE);
         try {
 
             statusmessageview.setTextSize(48);

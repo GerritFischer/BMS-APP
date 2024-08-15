@@ -295,7 +295,6 @@ public class fragment_settings extends Fragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(false);
         builder.setView(view);
-        Toast.makeText(getActivity(),"hey",Toast.LENGTH_SHORT).show();
         final AlertDialog alertDialog= builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView messageInput = view.findViewById(R.id.messageInput);
@@ -306,6 +305,7 @@ public class fragment_settings extends Fragment{
                 String text = messageInput.getText().toString();
                 SettingsManager sm = MainActivity.sm;
                 sm.setMessage(text);
+                sm.saveSettings(getActivity());
                 alertDialog.dismiss();
             }
         });
