@@ -64,9 +64,13 @@
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/settings_password_pro_switch"
+                            style="@style/SwitchStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignParentEnd="true"
+                            android:checked="true"
+                            android:textColorHint="@color/white"
+                            app:trackTint="@color/lightgray" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -90,7 +94,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="@string/settings_editButton" />
+                            android:text="@string/settings_editButton"
+                            android:textColor="@color/white" />
 
                     </RelativeLayout>
 
@@ -134,7 +139,9 @@
                             android:id="@+id/settings_sentryModeSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignParentEnd="true"
+                            android:checked="false"
+                            app:trackTint="@color/lightgray" />
 
                     </RelativeLayout>
 
@@ -160,7 +167,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="@string/settings_editButton" />
+                            android:text="@string/settings_editButton"
+                            android:textColor="@color/white" />
                     </RelativeLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -195,7 +203,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:padding="10dp"
-                        android:text="@string/settings_plus"></Button>
+                        android:text="@string/settings_plus"
+                        android:textColor="@color/white"></Button>
 
                     <TextView
                         android:id="@+id/settings_columsdisplay"
@@ -216,7 +225,8 @@
                         android:layout_height="wrap_content"
                         android:layout_toStartOf="@id/settings_columsdisplay"
                         android:padding="10dp"
-                        android:text="@string/settings_minus"></Button>
+                        android:text="@string/settings_minus"
+                        android:textColor="@color/white"></Button>
 
 
                 </RelativeLayout>
@@ -252,7 +262,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="@string/settings_editButton" />
+                        android:text="@string/settings_editButton"
+                        android:textColor="@color/white" />
 
 
                 </RelativeLayout>
