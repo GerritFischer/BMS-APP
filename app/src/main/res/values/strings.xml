@@ -35,5 +35,8 @@
     <string name="settings_password">Password</string>
     <string name="settings_sentry">Sentrymode</string>
     <string name="settings_tabletmode">Tabletmode</string>
+    <string name="temp_max">Max: </string>
+    <string name="temp_min">Min: </string>
+    <string name="error_log">Error Log</string>
 
 </resources>

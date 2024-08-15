@@ -41,6 +41,7 @@ public class fragment_overview extends Fragment {
     private TextView volttext;
     private TextView temptext;
     private BarChart tempbar;
+    private CardView cv_error;
     private TextView statusmessageview;
     private TextView errormessage;
     private int errorcount = 0;
@@ -86,7 +87,7 @@ public class fragment_overview extends Fragment {
         statusmessageview = (TextView) view.findViewById(R.id.StatusMessage);
 
         innerlayout = view.findViewById(R.id.InnerScrollviewLayout);
-
+        cv_error = view.findViewById(R.id.cv_error);
 
         overviewUpdateThread = new OverviewUpdateThread();
         overviewUpdateThread.start();
@@ -251,30 +252,36 @@ public class fragment_overview extends Fragment {
         }*/
 
         try {
+
             statusmessageview.setTextSize(48);
             if (!dm.getvalid())
             {
+                cv_error.setVisibility(View.INVISIBLE);
                 statusmessageview.setText("No\n Data");
                 statusmessageview.setTextSize(20);
                 statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.no_data_background, null));
 
             }
             else if (errorcount == 0) {
+                cv_error.setVisibility(View.INVISIBLE);
                 statusmessageview.setText("OK");
                 statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.tv_segment_status_drawable, null));
                 //errormessage.setText("0 Errors");
                 //errormessage.setTextColor(0xff3dc03c);
             } else if (errorcount == 1) {
+                cv_error.setVisibility(View.INVISIBLE);
                 statusmessageview.setText("!");
                 statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.warning_background_overview, null));
                 //errormessage.setText("1 Error");
                 //errormessage.setTextColor(0xffFFEB3B);
             } else if (errorcount == 2) {
+                cv_error.setVisibility(View.INVISIBLE);
                 statusmessageview.setText("!!");
                 statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.double_warning_overview, null));
                 //errormessage.setText("2 Errors");
                 //errormessage.setTextColor(0xffFF7700);
             } else {
+                cv_error.setVisibility(View.VISIBLE);
                 statusmessageview.setText("!!!");
                 statusmessageview.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.error_warning_overview, null));
                 //errormessage.setText(""+errorcount+" Errors");

@@ -58,7 +58,7 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
     }
     public void updateDataSet(int position){
         try{
-            viewHolders.get(position).t.setText("Segment " + position);
+            viewHolders.get(position).t.setText(context.getString(R.string.segment)+ " " + position);
         }
         catch(Exception e){
             System.out.println("ERROR FOR SEGMENT (PROB SCREEN ROTATION) " + position);
@@ -98,8 +98,10 @@ public class RVSegmentAdapter extends RecyclerView.Adapter<RVSegmentAdapter.View
             TextView temp_min = viewHolders.get(position).temp_min;
             DecimalFormat df = new DecimalFormat("#.##");
             df.setMinimumFractionDigits(2);
-            temp_max.setText("Max: " + df.format(Collections.max(data.get(position).temperature_combined)));
-            temp_min.setText("Min: " + df.format(Collections.min(data.get(position).temperature_combined)));
+            String temp_max_text = context.getString(R.string.temp_max);
+            String temp_min_text = context.getString(R.string.temp_min);
+            temp_max.setText(temp_max_text + " " + df.format(Collections.max(data.get(position).temperature_combined)));
+            temp_min.setText(temp_min_text + " " + df.format(Collections.min(data.get(position).temperature_combined)));
 
 
         }
