@@ -299,4 +299,38 @@ public class JsonConfig {
         }
             return 0;
     }
+    public void setMessage(String message){
+        try{
+            JSONObject json = new JSONObject(readJson());
+            json.put("Message",message);
+            saveJson(json.toString());
+        }
+        catch(Exception e){
+
+        }
+    }
+    public boolean hasMessage(){
+        try{
+            JSONObject json= new JSONObject(readJson());
+            //check if json has none Empty password
+            return json.has("Message");
+        }
+        catch (Exception e){
+            return false;
+        }
+
+    }
+
+    public String  getMessage (){
+        String jsonOutput = readJson();
+        try{
+            JSONObject jsonObject = new JSONObject(jsonOutput);
+            String message = jsonObject.getString("Message");
+            return message ;
+        }
+        catch(Exception e){
+            Toast.makeText(context,"Something went Wrong getColumns",Toast.LENGTH_SHORT).show();
+        }
+        return "";
+    }
 }

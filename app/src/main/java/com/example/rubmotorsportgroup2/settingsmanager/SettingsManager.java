@@ -13,6 +13,7 @@ public class SettingsManager {
     private String password;
     private boolean passwordPro;
     private int column;
+    private String message;
     public void loadSettings(Context context){
         JsonConfig json= new JsonConfig(context);
         //default Set Up if no JSON is found
@@ -23,6 +24,7 @@ public class SettingsManager {
                 password = "";
                 mail = new ArrayList<>();
                 column = 2;
+                message ="";
                 saveSettings(context);
                 return;
             }
@@ -55,14 +57,21 @@ public class SettingsManager {
             else{
                 column=2;
             }
+            if (json.hasMessage()){
+                message= json.getMessage();
+            }
+            else{
+                message="";
+            }
             saveSettings(context);
         }catch (Exception e){
             sentrymode = false;
             passwordPro = false;
             password = "";
             mail = new ArrayList<>();
-            saveSettings(context);
             column=2;
+            message="";
+            saveSettings(context);
         }
     }
 
@@ -78,6 +87,7 @@ public class SettingsManager {
         json.setEmailList(mail,context);
         json.setPassPro(passwordPro,context);
         json.setColums(column,context);
+        json.setMessage(message);
     }
 
     public void setSentryMode(boolean isSentry){
@@ -135,5 +145,11 @@ public class SettingsManager {
     }
     public int getColumn(){
         return column;
+    }
+    public void setMessage(String mes){
+        message=mes;
+    }
+    public String getMessage(){
+        return message;
     }
 }
