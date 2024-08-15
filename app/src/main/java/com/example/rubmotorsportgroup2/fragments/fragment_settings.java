@@ -95,6 +95,14 @@ public class fragment_settings extends Fragment{
 
         );
 
+        Button messageBtn = inflate.findViewById(R.id.settings_editMessBtn);
+        messageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displaymessage();
+            }
+        });
+
         SwitchCompat passwordProSwitch=inflate.findViewById(R.id.settings_password_pro_switch);
         passwordProSwitch.setChecked(sm.isPassPro());
         passwordProSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -280,6 +288,32 @@ public class fragment_settings extends Fragment{
         });
 
         alertDialog.show();
+    }
+
+    private void displaymessage(){
+        ConstraintLayout pop_up_wind=getView().findViewById(R.id.pop_up_message);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_up_message,pop_up_wind,false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setView(view);
+        Toast.makeText(getActivity(),"hey",Toast.LENGTH_SHORT).show();
+        final AlertDialog alertDialog= builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView messageInput = view.findViewById(R.id.messageInput);
+        Button saveBtn = view.findViewById(R.id.message_button);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = messageInput.getText().toString();
+                SettingsManager sm = MainActivity.sm;
+                sm.setMessage(text);
+                Toast.makeText(getActivity(),sm.getMessage(),Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+
+
     }
 
 

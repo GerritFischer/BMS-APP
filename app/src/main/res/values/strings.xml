@@ -35,5 +35,8 @@
     <string name="settings_password">Password</string>
     <string name="settings_sentry">Sentrymode</string>
     <string name="settings_tabletmode">Tabletmode</string>
+    <string name="settings_message">Message</string>
+    <string name="message_btn">save</string>
+    <string name="message_hint">Enter the message in case of an emergency</string>
 
 </resources>
