@@ -229,7 +229,6 @@ public class fragment_settings extends Fragment{
                     if(newpass.getText().toString().length()>=4) {
                         sm.setPassword(newpass.getText().toString());
                         sm.saveSettings(getActivity());
-                        Toast.makeText(getActivity(),sm.getPassword(),Toast.LENGTH_SHORT).show();
                     }
                     else
                         Toast.makeText(getActivity(),"new Password is to short",Toast.LENGTH_SHORT).show();
