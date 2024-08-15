@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class DataManager {
 
     private final int CB_ACTIVE_STATE = 0;
-    private final boolean USE_MOCK_DATA = false;
+    private final boolean USE_MOCK_DATA = true;
     private final int CELL_COUNT = 11;
     private final int TEMP_COUNT = 7;
     private DataSet dataSet;
